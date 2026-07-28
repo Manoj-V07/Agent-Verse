@@ -1,0 +1,2131 @@
+Date,TransactionID,ProductID,ProductName,Category,Quantity,Price,Type,Amount,PaymentMode
+2025-12-14,TXN1001,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,UPI
+2025-12-14,TXN1002,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-14,TXN1003,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2025-12-14,TXN1004,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2025-12-14,TXN1005,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2025-12-14,TXN1006,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2025-12-14,TXN1007,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2025-12-14,TXN1008,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2025-12-14,TXN1009,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-14,TXN1010,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-14,TXN1011,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2025-12-14,TXN1012,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2025-12-14,TXN1013,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2025-12-14,TXN1014,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-14,TXN1015,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Card
+2025-12-14,TXN1016,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2025-12-15,TXN1017,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-15,TXN1018,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2025-12-15,TXN1019,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-15,TXN1020,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-15,TXN1021,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2025-12-15,TXN1022,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2025-12-15,TXN1023,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2025-12-15,TXN1024,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2025-12-15,TXN1025,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2025-12-15,TXN1026,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Cash
+2025-12-15,TXN1027,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2025-12-15,TXN1028,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-15,TXN1029,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2025-12-16,TXN1030,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-16,TXN1031,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2025-12-16,TXN1032,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Cash
+2025-12-16,TXN1033,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2025-12-16,TXN1034,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2025-12-16,TXN1035,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-16,TXN1036,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2025-12-16,TXN1037,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-16,TXN1038,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2025-12-16,TXN1039,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-16,TXN1040,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2025-12-17,TXN1041,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2025-12-17,TXN1042,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2025-12-17,TXN1043,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-17,TXN1044,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2025-12-17,TXN1045,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2025-12-18,TXN1046,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-18,TXN1047,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2025-12-18,TXN1048,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-18,TXN1049,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2025-12-18,TXN1050,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Card
+2025-12-19,TXN1051,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2025-12-19,TXN1052,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2025-12-19,TXN1053,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2025-12-19,TXN1054,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2025-12-19,TXN1055,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-19,TXN1056,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2025-12-19,TXN1057,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2025-12-20,TXN1058,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2025-12-20,TXN1059,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-20,TXN1060,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2025-12-20,TXN1061,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2025-12-20,TXN1062,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-20,TXN1063,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2025-12-20,TXN1064,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2025-12-20,TXN1065,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2025-12-20,TXN1066,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2025-12-20,TXN1067,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Card
+2025-12-20,TXN1068,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2025-12-21,TXN1069,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-21,TXN1070,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2025-12-21,TXN1071,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2025-12-21,TXN1072,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-21,TXN1073,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2025-12-21,TXN1074,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2025-12-21,TXN1075,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2025-12-21,TXN1076,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2025-12-21,TXN1077,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-21,TXN1078,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2025-12-21,TXN1079,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2025-12-21,TXN1080,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2025-12-21,TXN1081,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-21,TXN1082,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-21,TXN1083,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-21,TXN1084,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2025-12-21,TXN1085,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-21,TXN1086,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2025-12-21,TXN1087,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2025-12-21,TXN1088,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2025-12-21,TXN1089,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-21,TXN1090,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2025-12-21,TXN1091,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-21,TXN1092,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-21,TXN_RESTOCK_1092,P106,Restock: Britannia Marie Gold Biscuits,Restock,19,12,Expense,228,Cash
+2025-12-22,TXN1093,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-22,TXN1094,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Card
+2025-12-22,TXN1095,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2025-12-22,TXN1096,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2025-12-22,TXN1097,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2025-12-22,TXN1098,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2025-12-22,TXN1099,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2025-12-22,TXN1100,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2025-12-22,TXN1101,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2025-12-22,TXN1102,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-22,TXN1103,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-22,TXN1104,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2025-12-22,TXN1105,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2025-12-22,TXN1106,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,UPI
+2025-12-23,TXN1107,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2025-12-23,TXN1108,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2025-12-23,TXN1109,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2025-12-23,TXN1110,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2025-12-23,TXN1111,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-23,TXN1112,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2025-12-23,TXN1113,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-23,TXN_RESTOCK_1113,P105,Restock: Toor Dal Premium 1kg,Restock,49,140,Expense,6860,Cash
+2025-12-24,TXN1114,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2025-12-24,TXN1115,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2025-12-24,TXN1116,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2025-12-24,TXN1117,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2025-12-24,TXN1118,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2025-12-24,TXN1119,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2025-12-24,TXN1120,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2025-12-24,TXN1121,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2025-12-24,TXN1122,P107,Brooke Bond Red Label Tea 250g,Beverages,5,120,Sale,600,UPI
+2025-12-24,TXN1123,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2025-12-24,TXN1124,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2025-12-24,TXN1125,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2025-12-24,TXN1126,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2025-12-25,TXN1127,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-25,TXN1128,P105,Toor Dal Premium 1kg,Pulses,6,180,Sale,1080,Card
+2025-12-25,TXN1129,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2025-12-25,TXN1130,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2025-12-25,TXN1131,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-25,TXN1132,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Card
+2025-12-25,TXN1133,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2025-12-25,TXN1134,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-25,TXN1135,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2025-12-25,TXN1136,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2025-12-25,TXN1137,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-25,TXN1138,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Card
+2025-12-25,TXN1139,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2025-12-26,TXN1140,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2025-12-26,TXN1141,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2025-12-26,TXN1142,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-26,TXN1143,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2025-12-26,TXN1144,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2025-12-26,TXN1145,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Card
+2025-12-26,TXN1146,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2025-12-26,TXN1147,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2025-12-26,TXN1148,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2025-12-26,TXN1149,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2025-12-26,TXN1150,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2025-12-26,TXN1151,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2025-12-26,TXN1152,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-26,TXN1153,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2025-12-27,TXN1154,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2025-12-27,TXN1155,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2025-12-27,TXN1156,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2025-12-27,TXN1157,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2025-12-27,TXN1158,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2025-12-27,TXN1159,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2025-12-27,TXN1160,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-27,TXN1161,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-27,TXN1162,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2025-12-27,TXN1163,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Card
+2025-12-27,TXN1164,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-27,TXN1165,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2025-12-27,TXN1166,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-27,TXN1167,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-27,TXN1168,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2025-12-28,TXN1169,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2025-12-28,TXN1170,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Card
+2025-12-28,TXN1171,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-28,TXN1172,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-28,TXN1173,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2025-12-28,TXN1174,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2025-12-28,TXN1175,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2025-12-28,TXN1176,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2025-12-28,TXN1177,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2025-12-28,TXN1178,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2025-12-28,TXN1179,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-28,TXN1180,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2025-12-28,TXN1181,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Card
+2025-12-28,TXN1182,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2025-12-28,TXN1183,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2025-12-28,TXN1184,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2025-12-28,TXN1185,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2025-12-28,TXN1186,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Card
+2025-12-28,TXN1187,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2025-12-28,TXN1188,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2025-12-28,TXN1189,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-28,TXN1190,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2025-12-29,TXN1191,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2025-12-29,TXN1192,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2025-12-29,TXN1193,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-29,TXN1194,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2025-12-29,TXN1195,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-30,TXN1196,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2025-12-30,TXN1197,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2025-12-30,TXN1198,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2025-12-30,TXN1199,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2025-12-30,TXN1200,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2025-12-30,TXN1201,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2025-12-30,TXN1202,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2025-12-31,TXN1203,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2025-12-31,TXN1204,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2025-12-31,TXN1205,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2025-12-31,TXN1206,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2025-12-31,TXN1207,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2025-12-31,TXN1208,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2025-12-31,TXN1209,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-01,TXN1210,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-01-01,TXN1211,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-01,TXN1212,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-01,TXN1213,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-01,TXN1214,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-01,TXN1215,P103,Tata Salt 1kg,Condiments,5,28,Sale,140,UPI
+2026-01-01,TXN1216,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-01,TXN1217,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-01,TXN1218,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-01-01,TXN1219,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-01-01,TXN1220,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-01,TXN1221,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-01-01,TXN1222,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-01-01,TXN1223,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-01-01,TXN_RENT_012026,EXP_RENT,Shop Rent Payment,Operations,1,12000,Expense,12000,UPI
+2026-01-02,TXN1224,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-02,TXN1225,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-02,TXN1226,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-01-02,TXN1227,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-01-02,TXN1228,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-02,TXN1229,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-01-02,TXN1230,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-01-02,TXN1231,P107,Brooke Bond Red Label Tea 250g,Beverages,5,120,Sale,600,UPI
+2026-01-02,TXN1232,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-03,TXN1233,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-01-03,TXN1234,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-03,TXN1235,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-01-03,TXN1236,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-03,TXN1237,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-01-03,TXN1238,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-03,TXN1239,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-01-03,TXN1240,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-01-03,TXN1241,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-01-03,TXN1242,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-03,TXN1243,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-01-03,TXN1244,P108,Sunsilk Black Shampoo 180ml,Personal Care,5,145,Sale,725,Cash
+2026-01-03,TXN1245,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-03,TXN1246,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-03,TXN1247,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-01-03,TXN1248,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Card
+2026-01-03,TXN1249,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-03,TXN1250,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-03,TXN1251,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-03,TXN1252,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,UPI
+2026-01-03,TXN1253,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-01-03,TXN1254,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-01-04,TXN1255,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-04,TXN1256,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-04,TXN1257,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-01-04,TXN1258,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-01-04,TXN1259,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-04,TXN1260,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-01-04,TXN1261,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-04,TXN1262,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-01-04,TXN1263,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-04,TXN1264,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-04,TXN1265,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-01-04,TXN1266,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-01-04,TXN1267,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-04,TXN1268,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-04,TXN1269,P106,Britannia Marie Gold Biscuits,Snacks,6,15,Sale,90,Cash
+2026-01-04,TXN1270,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-04,TXN1271,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-04,TXN1272,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-01-05,TXN1273,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-01-05,TXN1274,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-05,TXN1275,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-01-05,TXN1276,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-01-05,TXN1277,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-05,TXN1278,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-06,TXN1279,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-06,TXN1280,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-01-06,TXN1281,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-06,TXN1282,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-01-06,TXN1283,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-07,TXN1284,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-07,TXN1285,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-07,TXN1286,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-07,TXN1287,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-01-07,TXN1288,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-07,TXN1289,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-07,TXN1290,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-08,TXN1291,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-08,TXN1292,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-01-08,TXN1293,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-01-08,TXN1294,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-08,TXN1295,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-01-08,TXN1296,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-08,TXN1297,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Card
+2026-01-08,TXN1298,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-08,TXN1299,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-01-08,TXN1300,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-08,TXN1301,P101,Premium Basmati Rice 5kg,Grains,5,450,Sale,2250,Cash
+2026-01-08,TXN1302,P106,Britannia Marie Gold Biscuits,Snacks,5,15,Sale,75,Card
+2026-01-08,TXN1303,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-09,TXN1304,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-01-09,TXN1305,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-09,TXN1306,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-09,TXN1307,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-01-09,TXN1308,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-01-10,TXN1309,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-10,TXN1310,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-10,TXN1311,P105,Toor Dal Premium 1kg,Pulses,6,180,Sale,1080,Cash
+2026-01-10,TXN1312,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-01-10,TXN1313,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-01-10,TXN1314,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-01-10,TXN1315,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-10,TXN1316,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-01-10,TXN1317,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-01-10,TXN1318,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-01-10,TXN1319,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-01-10,TXN1320,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-10,TXN1321,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-10,TXN1322,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-01-10,TXN1323,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-10,TXN1324,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-01-10,TXN1325,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-01-10,TXN1326,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-01-10,TXN1327,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-10,TXN1328,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Card
+2026-01-10,TXN1329,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-10,TXN_ELEC_012026,EXP_ELEC,Electricity Bill,Utilities,1,2528,Expense,2528,UPI
+2026-01-10,TXN_RESTOCK_1329,P106,Restock: Britannia Marie Gold Biscuits,Restock,29,12,Expense,348,Cash
+2026-01-11,TXN1330,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-01-11,TXN1331,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-01-11,TXN1332,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-11,TXN1333,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-11,TXN1334,P103,Tata Salt 1kg,Condiments,6,28,Sale,168,UPI
+2026-01-11,TXN1335,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Card
+2026-01-11,TXN1336,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-11,TXN1337,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-11,TXN1338,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-01-11,TXN1339,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-11,TXN1340,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-01-11,TXN1341,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-01-12,TXN1342,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-12,TXN1343,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-12,TXN1344,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-01-12,TXN1345,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-12,TXN1346,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-01-12,TXN1347,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-12,TXN1348,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Card
+2026-01-12,TXN1349,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-12,TXN1350,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-12,TXN1351,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-12,TXN1352,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-01-12,TXN1353,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-12,TXN1354,P102,Gold Winner Sunflower Oil 1L,Oils,6,140,Sale,840,Cash
+2026-01-12,TXN1355,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-13,TXN1356,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-13,TXN1357,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-01-13,TXN1358,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-01-13,TXN1359,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-13,TXN1360,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-13,TXN1361,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-13,TXN1362,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-01-14,TXN1363,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-01-14,TXN1364,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-01-14,TXN1365,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Cash
+2026-01-14,TXN1366,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-14,TXN1367,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-14,TXN1368,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-14,TXN1369,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-01-14,TXN1370,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-15,TXN1371,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-01-15,TXN1372,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-01-15,TXN1373,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-15,TXN1374,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-15,TXN1375,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-01-15,TXN1376,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-01-15,TXN1377,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-01-15,TXN1378,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-01-16,TXN1379,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-16,TXN1380,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-01-16,TXN1381,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-16,TXN1382,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-16,TXN1383,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-16,TXN1384,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-16,TXN1385,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-01-16,TXN1386,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-16,TXN1387,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-01-16,TXN_RESTOCK_1387,P107,Restock: Brooke Bond Red Label Tea 250g,Restock,49,95,Expense,4655,Cash
+2026-01-17,TXN1388,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-01-17,TXN1389,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-01-17,TXN1390,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-01-17,TXN1391,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-17,TXN1392,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-17,TXN1393,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-01-17,TXN1394,P108,Sunsilk Black Shampoo 180ml,Personal Care,6,145,Sale,870,Cash
+2026-01-17,TXN1395,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-17,TXN1396,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-01-17,TXN1397,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-17,TXN1398,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-01-17,TXN1399,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-01-17,TXN1400,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-01-17,TXN1401,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-01-17,TXN1402,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-01-18,TXN1403,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-18,TXN1404,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-01-18,TXN1405,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-01-18,TXN1406,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-01-18,TXN1407,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-18,TXN1408,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-18,TXN1409,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-01-18,TXN1410,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Card
+2026-01-18,TXN1411,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-18,TXN1412,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-01-18,TXN1413,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-01-18,TXN1414,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-01-18,TXN1415,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-01-19,TXN1416,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-19,TXN1417,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-19,TXN1418,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-01-19,TXN1419,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-19,TXN1420,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-01-19,TXN1421,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-01-19,TXN1422,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Card
+2026-01-20,TXN1423,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-01-20,TXN1424,P107,Brooke Bond Red Label Tea 250g,Beverages,5,120,Sale,600,Cash
+2026-01-20,TXN1425,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-01-20,TXN1426,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-01-20,TXN1427,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-20,TXN1428,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-01-20,TXN1429,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-20,TXN1430,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-01-20,TXN1431,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-20,TXN1432,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-01-21,TXN1433,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-21,TXN1434,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-21,TXN1435,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-01-21,TXN1436,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-21,TXN1437,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-21,TXN1438,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-01-21,TXN1439,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-01-21,TXN1440,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-01-21,TXN1441,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-21,TXN1442,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-01-21,TXN1443,P101,Premium Basmati Rice 5kg,Grains,5,450,Sale,2250,UPI
+2026-01-21,TXN1444,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-01-21,TXN1445,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-22,TXN1446,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-01-22,TXN1447,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-01-22,TXN1448,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-01-22,TXN1449,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-01-22,TXN1450,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-01-22,TXN1451,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-22,TXN1452,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-01-22,TXN1453,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-01-22,TXN1454,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-01-22,TXN1455,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Card
+2026-01-22,TXN1456,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-23,TXN1457,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-01-23,TXN1458,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-23,TXN1459,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-23,TXN1460,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-23,TXN1461,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-01-23,TXN1462,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-01-23,TXN1463,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-23,TXN_RESTOCK_1463,P102,Restock: Gold Winner Sunflower Oil 1L,Restock,18,110,Expense,1980,Cash
+2026-01-24,TXN1464,P107,Brooke Bond Red Label Tea 250g,Beverages,5,120,Sale,600,Card
+2026-01-24,TXN1465,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-01-24,TXN1466,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-24,TXN1467,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-01-24,TXN1468,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-01-24,TXN1469,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-01-24,TXN1470,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-24,TXN1471,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-01-24,TXN1472,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-01-24,TXN1473,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-24,TXN1474,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-01-24,TXN1475,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-01-24,TXN1476,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-01-24,TXN1477,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-24,TXN1478,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-24,TXN1479,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-01-24,TXN1480,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Card
+2026-01-24,TXN1481,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-01-25,TXN1482,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-25,TXN1483,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-01-25,TXN1484,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-01-25,TXN1485,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-01-25,TXN1486,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-25,TXN1487,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-25,TXN1488,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-01-25,TXN1489,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-01-25,TXN1490,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-01-25,TXN1491,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-01-25,TXN1492,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Card
+2026-01-25,TXN1493,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-01-25,TXN1494,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-25,TXN1495,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-01-25,TXN1496,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-25,TXN1497,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-01-26,TXN1498,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-01-26,TXN1499,P101,Premium Basmati Rice 5kg,Grains,5,450,Sale,2250,Cash
+2026-01-26,TXN1500,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Card
+2026-01-26,TXN1501,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-26,TXN1502,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-26,TXN1503,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-27,TXN1504,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-01-27,TXN1505,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-01-27,TXN1506,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-01-27,TXN1507,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-01-27,TXN1508,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,UPI
+2026-01-27,TXN1509,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-01-27,TXN1510,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-01-27,TXN1511,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-27,TXN1512,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-27,TXN1513,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-01-27,TXN1514,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-27,TXN1515,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-27,TXN1516,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-01-27,TXN1517,P103,Tata Salt 1kg,Condiments,6,28,Sale,168,UPI
+2026-01-28,TXN1518,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-01-28,TXN1519,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-28,TXN1520,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-01-28,TXN1521,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-28,TXN1522,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-01-28,TXN1523,P103,Tata Salt 1kg,Condiments,5,28,Sale,140,UPI
+2026-01-28,TXN1524,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-01-28,TXN1525,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-28,TXN1526,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-28,TXN1527,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-01-28,TXN1528,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-01-28,TXN1529,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-01-28,TXN1530,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-28,TXN_RESTOCK_1530,P108,Restock: Sunsilk Black Shampoo 180ml,Restock,26,115,Expense,2990,Cash
+2026-01-29,TXN1531,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-29,TXN1532,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-29,TXN1533,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-01-29,TXN1534,P107,Brooke Bond Red Label Tea 250g,Beverages,5,120,Sale,600,Cash
+2026-01-29,TXN1535,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-29,TXN1536,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-01-29,TXN1537,P101,Premium Basmati Rice 5kg,Grains,6,450,Sale,2700,UPI
+2026-01-29,TXN1538,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-01-29,TXN1539,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Card
+2026-01-29,TXN1540,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-01-29,TXN1541,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-29,TXN1542,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-01-29,TXN1543,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-01-29,TXN1544,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-30,TXN1545,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-01-30,TXN1546,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-30,TXN1547,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Card
+2026-01-30,TXN1548,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-01-30,TXN1549,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-01-30,TXN1550,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-01-30,TXN1551,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-01-30,TXN1552,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-30,TXN1553,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-01-30,TXN1554,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-01-30,TXN1555,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-01-30,TXN1556,P103,Tata Salt 1kg,Condiments,5,28,Sale,140,UPI
+2026-01-30,TXN1557,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-01-30,TXN_RESTOCK_1557,P106,Restock: Britannia Marie Gold Biscuits,Restock,47,12,Expense,564,Cash
+2026-01-31,TXN1558,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-01-31,TXN1559,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-01-31,TXN1560,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-01-31,TXN1561,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-01-31,TXN1562,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-01-31,TXN1563,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-01-31,TXN1564,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-01-31,TXN1565,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-01-31,TXN1566,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-01-31,TXN1567,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-02-01,TXN1568,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-02-01,TXN1569,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-02-01,TXN1570,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-01,TXN1571,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-01,TXN1572,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-02-01,TXN1573,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-02-01,TXN1574,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-02-01,TXN1575,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-02-01,TXN1576,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-02-01,TXN1577,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-02-01,TXN1578,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-02-01,TXN1579,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-02-01,TXN1580,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-01,TXN1581,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-02-01,TXN1582,P106,Britannia Marie Gold Biscuits,Snacks,5,15,Sale,75,UPI
+2026-02-01,TXN1583,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-02-01,TXN1584,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-02-01,TXN1585,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-02-01,TXN1586,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2026-02-01,TXN1587,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-01,TXN1588,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-02-01,TXN_RENT_022026,EXP_RENT,Shop Rent Payment,Operations,1,12000,Expense,12000,UPI
+2026-02-01,TXN_RESTOCK_1588,P102,Restock: Gold Winner Sunflower Oil 1L,Restock,47,110,Expense,5170,Cash
+2026-02-02,TXN1589,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-02,TXN1590,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-02-02,TXN1591,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Card
+2026-02-02,TXN1592,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-02,TXN1593,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-02,TXN1594,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-02,TXN1595,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-02,TXN1596,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-02-02,TXN1597,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-02-03,TXN1598,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Card
+2026-02-03,TXN1599,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-03,TXN1600,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-03,TXN1601,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-03,TXN1602,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-02-03,TXN1603,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-02-03,TXN1604,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-04,TXN1605,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-02-04,TXN1606,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-04,TXN1607,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-04,TXN1608,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-04,TXN1609,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-04,TXN1610,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-02-04,TXN1611,P101,Premium Basmati Rice 5kg,Grains,5,450,Sale,2250,UPI
+2026-02-04,TXN1612,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-04,TXN1613,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-02-04,TXN1614,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-02-04,TXN1615,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-02-04,TXN1616,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-02-04,TXN1617,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-04,TXN_RESTOCK_1617,P103,Restock: Tata Salt 1kg,Restock,40,20,Expense,800,Cash
+2026-02-05,TXN1618,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-05,TXN1619,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-05,TXN1620,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-02-05,TXN1621,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,Cash
+2026-02-05,TXN1622,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-02-05,TXN1623,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-05,TXN1624,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-05,TXN1625,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-02-06,TXN1626,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-06,TXN1627,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-02-06,TXN1628,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-02-06,TXN1629,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-02-06,TXN1630,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-06,TXN1631,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-02-06,TXN1632,P106,Britannia Marie Gold Biscuits,Snacks,6,15,Sale,90,UPI
+2026-02-06,TXN1633,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-02-06,TXN1634,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-02-06,TXN1635,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-02-06,TXN1636,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-06,TXN1637,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-07,TXN1638,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-02-07,TXN1639,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-07,TXN1640,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-02-07,TXN1641,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-07,TXN1642,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-07,TXN1643,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2026-02-07,TXN1644,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-02-07,TXN1645,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-02-07,TXN1646,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-02-07,TXN1647,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-02-08,TXN1648,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-08,TXN1649,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-02-08,TXN1650,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Card
+2026-02-08,TXN1651,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-08,TXN1652,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-02-08,TXN1653,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-02-08,TXN1654,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-02-08,TXN1655,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-02-08,TXN1656,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-08,TXN1657,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-02-08,TXN1658,P108,Sunsilk Black Shampoo 180ml,Personal Care,5,145,Sale,725,Cash
+2026-02-08,TXN1659,P105,Toor Dal Premium 1kg,Pulses,6,180,Sale,1080,Card
+2026-02-08,TXN1660,P103,Tata Salt 1kg,Condiments,5,28,Sale,140,UPI
+2026-02-08,TXN1661,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-02-08,TXN1662,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-09,TXN1663,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-09,TXN1664,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-02-09,TXN1665,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-02-09,TXN1666,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-09,TXN1667,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-02-09,TXN1668,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-09,TXN1669,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-09,TXN1670,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-09,TXN1671,P108,Sunsilk Black Shampoo 180ml,Personal Care,6,145,Sale,870,Cash
+2026-02-10,TXN1672,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-02-10,TXN1673,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-10,TXN1674,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-10,TXN1675,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-10,TXN1676,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-02-10,TXN_ELEC_022026,EXP_ELEC,Electricity Bill,Utilities,1,2975,Expense,2975,UPI
+2026-02-10,TXN_RESTOCK_1676,P108,Restock: Sunsilk Black Shampoo 180ml,Restock,34,115,Expense,3910,Cash
+2026-02-11,TXN1677,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-02-11,TXN1678,P102,Gold Winner Sunflower Oil 1L,Oils,5,140,Sale,700,Cash
+2026-02-11,TXN1679,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-11,TXN1680,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-11,TXN1681,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-02-11,TXN1682,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-02-11,TXN1683,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Card
+2026-02-11,TXN1684,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-02-11,TXN1685,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-11,TXN1686,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Card
+2026-02-11,TXN1687,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-11,TXN1688,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-11,TXN1689,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-02-12,TXN1690,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-12,TXN1691,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-02-12,TXN1692,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-02-12,TXN1693,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-02-12,TXN1694,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-02-12,TXN1695,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-12,TXN1696,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-13,TXN1697,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-02-13,TXN1698,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-02-13,TXN1699,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-02-13,TXN1700,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-02-13,TXN1701,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-13,TXN1702,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-02-13,TXN1703,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-02-14,TXN1704,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-02-14,TXN1705,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-14,TXN1706,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-14,TXN1707,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-02-14,TXN1708,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-02-14,TXN1709,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-02-14,TXN1710,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-02-14,TXN1711,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-14,TXN1712,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-02-14,TXN1713,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-14,TXN1714,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-14,TXN1715,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Card
+2026-02-14,TXN1716,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-02-14,TXN1717,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-02-14,TXN1718,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-14,TXN1719,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-02-15,TXN1720,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-02-15,TXN1721,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,6,280,Sale,1680,UPI
+2026-02-15,TXN1722,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-02-15,TXN1723,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-02-15,TXN1724,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-02-15,TXN1725,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-02-15,TXN1726,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-02-15,TXN1727,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-02-15,TXN1728,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-02-15,TXN1729,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-02-15,TXN1730,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-15,TXN1731,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-15,TXN1732,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-15,TXN1733,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-15,TXN1734,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-15,TXN1735,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-15,TXN1736,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-02-15,TXN1737,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-02-15,TXN1738,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-02-15,TXN1739,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-15,TXN1740,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-15,TXN1741,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-02-15,TXN1742,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,UPI
+2026-02-15,TXN1743,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-02-16,TXN1744,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-16,TXN1745,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-02-16,TXN1746,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,Cash
+2026-02-16,TXN1747,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-16,TXN1748,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-16,TXN1749,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-02-16,TXN1750,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-02-16,TXN1751,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-02-17,TXN1752,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-17,TXN1753,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-17,TXN1754,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-17,TXN1755,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-17,TXN1756,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Card
+2026-02-17,TXN1757,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-17,TXN1758,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-17,TXN1759,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-02-17,TXN1760,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-02-17,TXN1761,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-02-18,TXN1762,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-18,TXN1763,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-18,TXN1764,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-02-18,TXN1765,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Card
+2026-02-18,TXN1766,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-02-18,TXN1767,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-18,TXN1768,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-02-18,TXN1769,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-02-18,TXN1770,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-02-18,TXN1771,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-02-18,TXN1772,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-18,TXN1773,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Card
+2026-02-18,TXN1774,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-02-18,TXN1775,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-02-18,TXN_RESTOCK_1775,P106,Restock: Britannia Marie Gold Biscuits,Restock,49,12,Expense,588,Cash
+2026-02-19,TXN1776,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-02-19,TXN1777,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-19,TXN1778,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-02-19,TXN1779,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-19,TXN1780,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-02-19,TXN1781,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-19,TXN1782,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-20,TXN1783,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-02-20,TXN1784,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-20,TXN1785,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-20,TXN1786,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-02-20,TXN1787,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-20,TXN1788,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-02-20,TXN1789,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-02-20,TXN1790,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-02-20,TXN1791,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-02-20,TXN1792,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-02-20,TXN1793,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-02-20,TXN_RESTOCK_1793,P104,Restock: Aashirvaad Shudh Chakki Atta 5kg,Restock,17,220,Expense,3740,Cash
+2026-02-21,TXN1794,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-21,TXN1795,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-02-21,TXN1796,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-02-21,TXN1797,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-21,TXN1798,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-02-21,TXN1799,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-02-21,TXN1800,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-02-21,TXN1801,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-02-21,TXN1802,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-21,TXN1803,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-02-21,TXN1804,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-02-21,TXN1805,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-22,TXN1806,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-22,TXN1807,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-02-22,TXN1808,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-22,TXN1809,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Card
+2026-02-22,TXN1810,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-02-22,TXN1811,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-22,TXN1812,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-02-22,TXN1813,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-02-22,TXN1814,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-22,TXN1815,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-02-22,TXN1816,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Card
+2026-02-22,TXN1817,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-22,TXN1818,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-02-22,TXN1819,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-02-22,TXN1820,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-02-22,TXN1821,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-02-22,TXN1822,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-22,TXN1823,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-22,TXN1824,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-22,TXN1825,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-22,TXN1826,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-02-22,TXN1827,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-02-22,TXN1828,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-22,TXN1829,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-23,TXN1830,P102,Gold Winner Sunflower Oil 1L,Oils,6,140,Sale,840,UPI
+2026-02-23,TXN1831,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-23,TXN1832,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-02-23,TXN1833,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-23,TXN1834,P106,Britannia Marie Gold Biscuits,Snacks,5,15,Sale,75,UPI
+2026-02-23,TXN_RESTOCK_1834,P106,Restock: Britannia Marie Gold Biscuits,Restock,34,12,Expense,408,Cash
+2026-02-24,TXN1835,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-24,TXN1836,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-02-24,TXN1837,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-02-24,TXN1838,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-24,TXN1839,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-24,TXN1840,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-02-24,TXN1841,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-24,TXN1842,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-24,TXN1843,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-02-24,TXN1844,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-02-24,TXN1845,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-02-24,TXN1846,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-02-24,TXN1847,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-02-25,TXN1848,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-02-25,TXN1849,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-02-25,TXN1850,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-25,TXN1851,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-02-25,TXN1852,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-02-25,TXN1853,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Card
+2026-02-25,TXN1854,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-02-26,TXN1855,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-26,TXN1856,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-26,TXN1857,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-02-26,TXN1858,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-02-26,TXN1859,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-02-26,TXN1860,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-26,TXN1861,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-02-26,TXN1862,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-02-26,TXN1863,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-02-26,TXN1864,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-02-26,TXN1865,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-02-26,TXN1866,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-27,TXN1867,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-02-27,TXN1868,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-27,TXN1869,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-02-27,TXN1870,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-02-27,TXN1871,P107,Brooke Bond Red Label Tea 250g,Beverages,5,120,Sale,600,UPI
+2026-02-27,TXN1872,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-02-27,TXN1873,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-27,TXN1874,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-02-27,TXN1875,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-02-27,TXN1876,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-02-27,TXN1877,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-02-28,TXN1878,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-02-28,TXN1879,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-02-28,TXN1880,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-02-28,TXN1881,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-02-28,TXN1882,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-28,TXN1883,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-28,TXN1884,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-02-28,TXN1885,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-02-28,TXN1886,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-02-28,TXN1887,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-02-28,TXN1888,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-02-28,TXN1889,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-02-28,TXN1890,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-02-28,TXN1891,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-02-28,TXN1892,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-02-28,TXN1893,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-02-28,TXN1894,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-03-01,TXN1895,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-03-01,TXN1896,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-01,TXN1897,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-03-01,TXN1898,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-01,TXN1899,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-01,TXN1900,P101,Premium Basmati Rice 5kg,Grains,5,450,Sale,2250,UPI
+2026-03-01,TXN1901,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-01,TXN1902,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-01,TXN1903,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-01,TXN1904,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-03-01,TXN1905,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-01,TXN1906,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-03-01,TXN_RENT_032026,EXP_RENT,Shop Rent Payment,Operations,1,12000,Expense,12000,UPI
+2026-03-01,TXN_RESTOCK_1906,P104,Restock: Aashirvaad Shudh Chakki Atta 5kg,Restock,22,220,Expense,4840,Cash
+2026-03-02,TXN1907,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-02,TXN1908,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-03-02,TXN1909,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-03-02,TXN1910,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Card
+2026-03-02,TXN1911,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-03-02,TXN1912,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-02,TXN1913,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-02,TXN1914,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-02,TXN1915,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-03-02,TXN1916,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-02,TXN1917,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-02,TXN1918,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Card
+2026-03-02,TXN1919,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-03,TXN1920,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-03-03,TXN1921,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-03,TXN1922,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-03,TXN1923,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-03,TXN1924,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-03,TXN1925,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-03,TXN1926,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-03-03,TXN1927,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-04,TXN1928,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Card
+2026-03-04,TXN1929,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Card
+2026-03-04,TXN1930,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-04,TXN1931,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-03-04,TXN1932,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-04,TXN1933,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-04,TXN1934,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-04,TXN1935,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-03-04,TXN1936,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-03-04,TXN1937,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-05,TXN1938,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-03-05,TXN1939,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-03-05,TXN1940,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-03-05,TXN1941,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-03-05,TXN1942,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2026-03-05,TXN1943,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-03-05,TXN1944,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-03-06,TXN1945,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-06,TXN1946,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-06,TXN1947,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-03-06,TXN1948,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-03-06,TXN1949,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-06,TXN1950,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-03-06,TXN1951,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-06,TXN1952,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-03-07,TXN1953,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-03-07,TXN1954,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-03-07,TXN1955,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-03-07,TXN1956,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Card
+2026-03-07,TXN1957,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-03-07,TXN1958,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-07,TXN1959,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-03-07,TXN1960,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-07,TXN1961,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-07,TXN1962,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-03-07,TXN1963,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-07,TXN1964,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-07,TXN1965,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-03-07,TXN1966,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-07,TXN1967,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-03-07,TXN1968,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-08,TXN1969,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-08,TXN1970,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-03-08,TXN1971,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-08,TXN1972,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-08,TXN1973,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-03-08,TXN1974,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-03-08,TXN1975,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-03-08,TXN1976,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-03-08,TXN1977,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-03-08,TXN1978,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-03-08,TXN1979,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-03-08,TXN1980,P105,Toor Dal Premium 1kg,Pulses,6,180,Sale,1080,UPI
+2026-03-08,TXN1981,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-03-08,TXN1982,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-03-08,TXN1983,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-08,TXN1984,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-03-08,TXN1985,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-03-08,TXN1986,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-08,TXN1987,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-03-08,TXN1988,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-03-08,TXN1989,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-08,TXN1990,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-03-08,TXN1991,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-09,TXN1992,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-09,TXN1993,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-09,TXN1994,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-09,TXN1995,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-03-09,TXN1996,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Card
+2026-03-10,TXN1997,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-03-10,TXN1998,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Card
+2026-03-10,TXN1999,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-03-10,TXN2000,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-03-10,TXN2001,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-03-10,TXN2002,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-10,TXN_ELEC_032026,EXP_ELEC,Electricity Bill,Utilities,1,3452,Expense,3452,UPI
+2026-03-11,TXN2003,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-03-11,TXN2004,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-11,TXN2005,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-03-11,TXN2006,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-11,TXN2007,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-03-11,TXN_RESTOCK_2007,P103,Restock: Tata Salt 1kg,Restock,16,20,Expense,320,Cash
+2026-03-12,TXN2008,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-03-12,TXN2009,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-03-12,TXN2010,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2026-03-12,TXN2011,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,6,280,Sale,1680,Cash
+2026-03-12,TXN2012,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-03-12,TXN2013,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-12,TXN2014,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-12,TXN2015,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-03-12,TXN2016,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-12,TXN2017,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-12,TXN2018,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-12,TXN2019,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-03-13,TXN2020,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-13,TXN2021,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-03-13,TXN2022,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Card
+2026-03-13,TXN2023,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-13,TXN2024,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-13,TXN2025,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-03-13,TXN2026,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-13,TXN2027,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-03-13,TXN2028,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-14,TXN2029,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-03-14,TXN2030,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-14,TXN2031,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-14,TXN2032,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-14,TXN2033,P103,Tata Salt 1kg,Condiments,6,28,Sale,168,UPI
+2026-03-14,TXN2034,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-03-14,TXN2035,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-14,TXN2036,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-14,TXN2037,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,6,280,Sale,1680,Card
+2026-03-14,TXN2038,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-14,TXN2039,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-03-14,TXN2040,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-03-14,TXN2041,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-03-15,TXN2042,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-03-15,TXN2043,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Card
+2026-03-15,TXN2044,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-03-15,TXN2045,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-03-15,TXN2046,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Card
+2026-03-15,TXN2047,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-03-15,TXN2048,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-03-15,TXN2049,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-03-15,TXN2050,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-03-15,TXN2051,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-03-15,TXN2052,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-03-15,TXN2053,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-03-15,TXN2054,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-15,TXN2055,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-15,TXN2056,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-15,TXN2057,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-15,TXN2058,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-16,TXN2059,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-03-16,TXN2060,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-16,TXN2061,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-03-16,TXN2062,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-16,TXN2063,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-03-16,TXN2064,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-16,TXN2065,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-03-16,TXN2066,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-03-16,TXN2067,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-03-16,TXN2068,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-16,TXN2069,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Card
+2026-03-16,TXN2070,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-16,TXN2071,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-03-17,TXN2072,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-03-17,TXN2073,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-03-17,TXN2074,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-17,TXN2075,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-03-17,TXN2076,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-18,TXN2077,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-03-18,TXN2078,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-18,TXN2079,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-03-18,TXN2080,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-03-18,TXN2081,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-03-18,TXN2082,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-19,TXN2083,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-19,TXN2084,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-03-19,TXN2085,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-19,TXN2086,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-03-19,TXN2087,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-19,TXN2088,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-03-19,TXN2089,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-03-19,TXN2090,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-19,TXN2091,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-19,TXN2092,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-20,TXN2093,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-03-20,TXN2094,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-20,TXN2095,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-20,TXN2096,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-20,TXN2097,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-03-20,TXN2098,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-20,TXN2099,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-20,TXN2100,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-20,TXN2101,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,Cash
+2026-03-20,TXN2102,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Card
+2026-03-21,TXN2103,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-21,TXN2104,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Card
+2026-03-21,TXN2105,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-21,TXN2106,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-21,TXN2107,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-03-21,TXN2108,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-03-21,TXN2109,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-21,TXN2110,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-03-21,TXN2111,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-03-21,TXN2112,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-21,TXN2113,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-21,TXN2114,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-03-21,TXN2115,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-03-21,TXN2116,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-21,TXN2117,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-21,TXN2118,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-21,TXN2119,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-03-21,TXN2120,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-03-21,TXN2121,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-03-21,TXN2122,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-22,TXN2123,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-03-22,TXN2124,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,Cash
+2026-03-22,TXN2125,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-03-22,TXN2126,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-03-22,TXN2127,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-22,TXN2128,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-22,TXN2129,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-22,TXN2130,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-03-22,TXN2131,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-03-22,TXN2132,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-03-22,TXN2133,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-22,TXN2134,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-03-22,TXN2135,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,UPI
+2026-03-22,TXN2136,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-03-22,TXN2137,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-22,TXN2138,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-22,TXN2139,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-22,TXN2140,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-03-22,TXN2141,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-22,TXN2142,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-03-22,TXN2143,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-22,TXN2144,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-22,TXN2145,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-22,TXN_RESTOCK_2145,P106,Restock: Britannia Marie Gold Biscuits,Restock,42,12,Expense,504,Cash
+2026-03-23,TXN2146,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-23,TXN2147,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-03-23,TXN2148,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-23,TXN2149,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-03-23,TXN2150,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-03-23,TXN2151,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-03-23,TXN2152,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-23,TXN2153,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-03-23,TXN_RESTOCK_2153,P107,Restock: Brooke Bond Red Label Tea 250g,Restock,18,95,Expense,1710,Cash
+2026-03-24,TXN2154,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-03-24,TXN2155,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Card
+2026-03-24,TXN2156,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-03-24,TXN2157,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-03-24,TXN2158,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-24,TXN2159,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-24,TXN2160,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-24,TXN2161,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-24,TXN2162,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-24,TXN2163,P108,Sunsilk Black Shampoo 180ml,Personal Care,6,145,Sale,870,Cash
+2026-03-24,TXN2164,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-24,TXN2165,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-24,TXN2166,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-03-25,TXN2167,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-25,TXN2168,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-03-25,TXN2169,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-03-25,TXN2170,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-25,TXN2171,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-03-25,TXN2172,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-25,TXN2173,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-25,TXN2174,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-25,TXN2175,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-25,TXN2176,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-26,TXN2177,P102,Gold Winner Sunflower Oil 1L,Oils,6,140,Sale,840,Cash
+2026-03-26,TXN2178,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-03-26,TXN2179,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-03-26,TXN2180,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-03-26,TXN2181,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-26,TXN2182,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-26,TXN2183,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-03-26,TXN2184,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-03-26,TXN2185,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-03-26,TXN2186,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-03-26,TXN2187,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-26,TXN2188,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-26,TXN2189,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-26,TXN2190,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-03-27,TXN2191,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-03-27,TXN2192,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-27,TXN2193,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-27,TXN2194,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-03-27,TXN2195,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-27,TXN2196,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-27,TXN2197,P106,Britannia Marie Gold Biscuits,Snacks,6,15,Sale,90,UPI
+2026-03-27,TXN2198,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-03-27,TXN2199,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-27,TXN2200,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-03-27,TXN2201,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-27,TXN2202,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-03-27,TXN2203,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-27,TXN2204,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-28,TXN2205,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-28,TXN2206,P106,Britannia Marie Gold Biscuits,Snacks,6,15,Sale,90,Card
+2026-03-28,TXN2207,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-03-28,TXN2208,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-28,TXN2209,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-28,TXN2210,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-03-28,TXN2211,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-28,TXN2212,P106,Britannia Marie Gold Biscuits,Snacks,5,15,Sale,75,UPI
+2026-03-28,TXN2213,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-28,TXN2214,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-28,TXN2215,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-03-28,TXN2216,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-28,TXN2217,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-28,TXN2218,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-03-28,TXN2219,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-28,TXN2220,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-03-28,TXN2221,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-03-28,TXN2222,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2026-03-28,TXN2223,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-28,TXN2224,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-28,TXN2225,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-03-28,TXN2226,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-03-28,TXN2227,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-03-28,TXN2228,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-03-28,TXN_RESTOCK_2228,P104,Restock: Aashirvaad Shudh Chakki Atta 5kg,Restock,16,220,Expense,3520,Cash
+2026-03-29,TXN2229,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-03-29,TXN2230,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-29,TXN2231,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-29,TXN2232,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-03-29,TXN2233,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-03-29,TXN2234,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-03-29,TXN2235,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-03-29,TXN2236,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-03-29,TXN2237,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-03-29,TXN2238,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-03-29,TXN2239,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-29,TXN2240,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-03-29,TXN2241,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-03-29,TXN2242,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-03-29,TXN2243,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-03-29,TXN2244,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-03-29,TXN2245,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,UPI
+2026-03-29,TXN2246,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-03-29,TXN_RESTOCK_2246,P103,Restock: Tata Salt 1kg,Restock,49,20,Expense,980,Cash
+2026-03-30,TXN2247,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-03-30,TXN2248,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-30,TXN2249,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-03-30,TXN2250,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-03-30,TXN2251,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-03-30,TXN2252,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-03-30,TXN2253,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-03-30,TXN2254,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-03-30,TXN2255,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-03-31,TXN2256,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-03-31,TXN2257,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-03-31,TXN2258,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-03-31,TXN2259,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-03-31,TXN2260,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-03-31,TXN2261,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2026-03-31,TXN2262,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-03-31,TXN2263,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-03-31,TXN2264,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-31,TXN2265,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-03-31,TXN2266,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-03-31,TXN2267,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Card
+2026-04-01,TXN2268,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-04-01,TXN2269,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-01,TXN2270,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-01,TXN2271,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-04-01,TXN2272,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-04-01,TXN2273,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-04-01,TXN2274,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-04-01,TXN2275,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-04-01,TXN2276,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-01,TXN2277,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-04-01,TXN2278,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-04-01,TXN2279,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-01,TXN_RENT_042026,EXP_RENT,Shop Rent Payment,Operations,1,12000,Expense,12000,UPI
+2026-04-02,TXN2280,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-02,TXN2281,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-02,TXN2282,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Card
+2026-04-02,TXN2283,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-02,TXN2284,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-03,TXN2285,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-04-03,TXN2286,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-03,TXN2287,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-03,TXN2288,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-03,TXN2289,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-04-03,TXN2290,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-04-03,TXN_RESTOCK_2290,P106,Restock: Britannia Marie Gold Biscuits,Restock,47,12,Expense,564,Cash
+2026-04-04,TXN2291,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-04-04,TXN2292,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-04-04,TXN2293,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-04-04,TXN2294,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-04,TXN2295,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-04-04,TXN2296,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-04-04,TXN2297,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-04-04,TXN2298,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-04-04,TXN2299,P102,Gold Winner Sunflower Oil 1L,Oils,5,140,Sale,700,UPI
+2026-04-04,TXN2300,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-04-04,TXN2301,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-04-05,TXN2302,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-04-05,TXN2303,P106,Britannia Marie Gold Biscuits,Snacks,5,15,Sale,75,UPI
+2026-04-05,TXN2304,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-05,TXN2305,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-05,TXN2306,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-04-05,TXN2307,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Cash
+2026-04-05,TXN2308,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-05,TXN2309,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-04-05,TXN2310,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-05,TXN2311,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-04-05,TXN2312,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-05,TXN2313,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-06,TXN2314,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-04-06,TXN2315,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-04-06,TXN2316,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-06,TXN2317,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-06,TXN2318,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-07,TXN2319,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-04-07,TXN2320,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,UPI
+2026-04-07,TXN2321,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-07,TXN2322,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-07,TXN2323,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-07,TXN2324,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-04-07,TXN2325,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-04-08,TXN2326,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-04-08,TXN2327,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-04-08,TXN2328,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-08,TXN2329,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-04-08,TXN2330,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-04-08,TXN2331,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-08,TXN2332,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-08,TXN2333,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-08,TXN2334,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-04-08,TXN2335,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-08,TXN2336,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-09,TXN2337,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-09,TXN2338,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-09,TXN2339,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-04-09,TXN2340,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-09,TXN2341,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-04-09,TXN2342,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-04-09,TXN2343,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-09,TXN2344,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-09,TXN2345,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-09,TXN2346,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-04-09,TXN2347,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-04-09,TXN2348,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-04-10,TXN2349,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-04-10,TXN2350,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-10,TXN2351,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-10,TXN2352,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-10,TXN2353,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-10,TXN2354,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-10,TXN2355,P102,Gold Winner Sunflower Oil 1L,Oils,5,140,Sale,700,UPI
+2026-04-10,TXN2356,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,Cash
+2026-04-10,TXN2357,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-10,TXN2358,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-04-10,TXN2359,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-04-10,TXN_ELEC_042026,EXP_ELEC,Electricity Bill,Utilities,1,3095,Expense,3095,UPI
+2026-04-11,TXN2360,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-11,TXN2361,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-04-11,TXN2362,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-11,TXN2363,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-04-11,TXN2364,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-11,TXN2365,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-04-11,TXN2366,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-11,TXN2367,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-04-11,TXN2368,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-04-11,TXN2369,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-04-11,TXN2370,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-11,TXN2371,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-04-11,TXN2372,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-04-11,TXN2373,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-11,TXN2374,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-04-11,TXN2375,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-04-11,TXN2376,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-04-11,TXN2377,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-04-11,TXN2378,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Cash
+2026-04-11,TXN2379,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-11,TXN2380,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-04-11,TXN2381,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-04-11,TXN2382,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-04-12,TXN2383,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-12,TXN2384,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-04-12,TXN2385,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-12,TXN2386,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-12,TXN2387,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-04-12,TXN2388,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-12,TXN2389,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-12,TXN2390,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-04-12,TXN2391,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-12,TXN2392,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-04-12,TXN2393,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-04-12,TXN2394,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-04-12,TXN2395,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-04-12,TXN2396,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-04-12,TXN2397,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-12,TXN2398,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-04-12,TXN2399,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-12,TXN2400,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-04-12,TXN2401,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-04-12,TXN2402,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-04-12,TXN2403,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-04-12,TXN2404,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-04-12,TXN2405,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-13,TXN2406,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-04-13,TXN2407,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-13,TXN2408,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-04-13,TXN2409,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-13,TXN2410,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-13,TXN2411,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Cash
+2026-04-13,TXN2412,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-13,TXN2413,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-13,TXN2414,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-04-13,TXN2415,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-13,TXN2416,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-13,TXN2417,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-04-13,TXN2418,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-13,TXN2419,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-14,TXN2420,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-04-14,TXN2421,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-04-14,TXN2422,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-04-14,TXN2423,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-04-14,TXN2424,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-04-14,TXN2425,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-04-14,TXN_RESTOCK_2425,P103,Restock: Tata Salt 1kg,Restock,41,20,Expense,820,Cash
+2026-04-15,TXN2426,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-04-15,TXN2427,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-04-15,TXN2428,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Card
+2026-04-15,TXN2429,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-04-15,TXN2430,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-04-15,TXN2431,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-04-15,TXN2432,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-15,TXN2433,P106,Britannia Marie Gold Biscuits,Snacks,5,15,Sale,75,UPI
+2026-04-15,TXN2434,P101,Premium Basmati Rice 5kg,Grains,5,450,Sale,2250,UPI
+2026-04-15,TXN2435,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-15,TXN2436,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-04-15,TXN2437,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-04-16,TXN2438,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-16,TXN2439,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-16,TXN2440,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Card
+2026-04-16,TXN2441,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-16,TXN2442,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-04-16,TXN2443,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-04-17,TXN2444,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-17,TXN2445,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-04-17,TXN2446,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-04-17,TXN2447,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-17,TXN2448,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-04-18,TXN2449,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-18,TXN2450,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-18,TXN2451,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-18,TXN2452,P101,Premium Basmati Rice 5kg,Grains,6,450,Sale,2700,UPI
+2026-04-18,TXN2453,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-18,TXN2454,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-18,TXN2455,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-18,TXN2456,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-04-18,TXN2457,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-04-18,TXN2458,P102,Gold Winner Sunflower Oil 1L,Oils,5,140,Sale,700,UPI
+2026-04-18,TXN2459,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-04-18,TXN2460,P105,Toor Dal Premium 1kg,Pulses,6,180,Sale,1080,UPI
+2026-04-18,TXN2461,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-04-18,TXN2462,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-04-18,TXN2463,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-18,TXN2464,P102,Gold Winner Sunflower Oil 1L,Oils,5,140,Sale,700,UPI
+2026-04-18,TXN2465,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-04-18,TXN2466,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-18,TXN2467,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-04-18,TXN2468,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-04-18,TXN2469,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-19,TXN2470,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-04-19,TXN2471,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-04-19,TXN2472,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-19,TXN2473,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-19,TXN2474,P103,Tata Salt 1kg,Condiments,6,28,Sale,168,UPI
+2026-04-19,TXN2475,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-04-19,TXN2476,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-04-19,TXN2477,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-04-19,TXN2478,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-19,TXN2479,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-04-19,TXN2480,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-19,TXN2481,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-04-19,TXN2482,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-04-19,TXN2483,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-19,TXN2484,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Cash
+2026-04-19,TXN2485,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-19,TXN2486,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-04-19,TXN2487,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-19,TXN2488,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-19,TXN2489,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-19,TXN2490,P106,Britannia Marie Gold Biscuits,Snacks,5,15,Sale,75,Cash
+2026-04-19,TXN2491,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-19,TXN2492,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-04-20,TXN2493,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-04-20,TXN2494,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-20,TXN2495,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-04-20,TXN2496,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-20,TXN2497,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-04-20,TXN2498,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-04-20,TXN2499,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-20,TXN2500,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-04-20,TXN2501,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-04-20,TXN2502,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-21,TXN2503,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-21,TXN2504,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-04-21,TXN2505,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-04-21,TXN2506,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-04-21,TXN2507,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-04-21,TXN2508,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-21,TXN2509,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-21,TXN2510,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-04-21,TXN_RESTOCK_2510,P103,Restock: Tata Salt 1kg,Restock,48,20,Expense,960,Cash
+2026-04-22,TXN2511,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Card
+2026-04-22,TXN2512,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-04-22,TXN2513,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-04-22,TXN2514,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-22,TXN2515,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-04-22,TXN2516,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-04-23,TXN2517,P107,Brooke Bond Red Label Tea 250g,Beverages,6,120,Sale,720,UPI
+2026-04-23,TXN2518,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-04-23,TXN2519,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Card
+2026-04-23,TXN2520,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-23,TXN2521,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-04-23,TXN2522,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-04-23,TXN2523,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-04-23,TXN_RESTOCK_2523,P102,Restock: Gold Winner Sunflower Oil 1L,Restock,48,110,Expense,5280,Cash
+2026-04-24,TXN2524,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-04-24,TXN2525,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-24,TXN2526,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-04-24,TXN2527,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-04-24,TXN2528,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-04-24,TXN2529,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-04-24,TXN2530,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-04-24,TXN2531,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-24,TXN2532,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-24,TXN2533,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-25,TXN2534,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-04-25,TXN2535,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-04-25,TXN2536,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-25,TXN2537,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-04-25,TXN2538,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-25,TXN2539,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Card
+2026-04-25,TXN2540,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-04-25,TXN2541,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-04-25,TXN2542,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-25,TXN2543,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-04-25,TXN2544,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-25,TXN2545,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-25,TXN2546,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Cash
+2026-04-26,TXN2547,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-26,TXN2548,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-04-26,TXN2549,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-04-26,TXN2550,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-04-26,TXN2551,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-04-26,TXN2552,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-26,TXN2553,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Card
+2026-04-26,TXN2554,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-04-26,TXN2555,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-04-26,TXN2556,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-04-26,TXN2557,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-04-26,TXN2558,P108,Sunsilk Black Shampoo 180ml,Personal Care,5,145,Sale,725,Card
+2026-04-26,TXN2559,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-04-27,TXN2560,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-04-27,TXN2561,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-04-27,TXN2562,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-04-27,TXN2563,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-04-27,TXN2564,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-04-27,TXN2565,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-27,TXN2566,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-04-27,TXN2567,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-04-28,TXN2568,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-04-28,TXN2569,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-28,TXN2570,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-04-28,TXN2571,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-04-28,TXN2572,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-28,TXN2573,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-04-28,TXN2574,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-04-29,TXN2575,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-04-29,TXN2576,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-04-29,TXN2577,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-04-29,TXN2578,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-04-29,TXN2579,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-04-29,TXN2580,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-04-29,TXN2581,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-04-29,TXN2582,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-30,TXN2583,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-04-30,TXN2584,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-30,TXN2585,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-04-30,TXN2586,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-04-30,TXN2587,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-04-30,TXN2588,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-04-30,TXN2589,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-04-30,TXN2590,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-04-30,TXN2591,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-04-30,TXN2592,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-04-30,TXN2593,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-04-30,TXN2594,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-04-30,TXN2595,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Card
+2026-05-01,TXN2596,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-01,TXN2597,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-01,TXN2598,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-01,TXN2599,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-05-01,TXN2600,P107,Brooke Bond Red Label Tea 250g,Beverages,5,120,Sale,600,UPI
+2026-05-01,TXN2601,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-05-01,TXN2602,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-01,TXN2603,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-01,TXN2604,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-05-01,TXN2605,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-05-01,TXN2606,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-05-01,TXN2607,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-01,TXN_RENT_052026,EXP_RENT,Shop Rent Payment,Operations,1,12000,Expense,12000,UPI
+2026-05-02,TXN2608,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-02,TXN2609,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-02,TXN2610,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-02,TXN2611,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-02,TXN2612,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-05-02,TXN2613,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-05-02,TXN2614,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-02,TXN2615,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-05-02,TXN2616,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-05-02,TXN2617,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-02,TXN2618,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-02,TXN2619,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,Cash
+2026-05-02,TXN2620,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-02,TXN2621,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-02,TXN2622,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-03,TXN2623,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-05-03,TXN2624,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-05-03,TXN2625,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-05-03,TXN2626,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-03,TXN2627,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-05-03,TXN2628,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-03,TXN2629,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-05-03,TXN2630,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-03,TXN2631,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-03,TXN2632,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-03,TXN2633,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-05-03,TXN2634,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-05-03,TXN2635,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-05-03,TXN2636,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-03,TXN2637,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-05-03,TXN2638,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-05-03,TXN2639,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-03,TXN2640,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-05-03,TXN2641,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-04,TXN2642,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-05-04,TXN2643,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-05-04,TXN2644,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-04,TXN2645,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Cash
+2026-05-04,TXN2646,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-05-04,TXN2647,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-05-04,TXN_RESTOCK_2647,P107,Restock: Brooke Bond Red Label Tea 250g,Restock,30,95,Expense,2850,Cash
+2026-05-05,TXN2648,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-05-05,TXN2649,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-05-05,TXN2650,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-05,TXN2651,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-05-05,TXN2652,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-05,TXN2653,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-05,TXN2654,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-05-06,TXN2655,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-05-06,TXN2656,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-06,TXN2657,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-05-06,TXN2658,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-06,TXN2659,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-06,TXN2660,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-06,TXN2661,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-06,TXN2662,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-06,TXN2663,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-05-06,TXN2664,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-05-06,TXN2665,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-06,TXN2666,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-05-06,TXN2667,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-06,TXN2668,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Card
+2026-05-07,TXN2669,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-07,TXN2670,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-05-07,TXN2671,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-07,TXN2672,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-07,TXN2673,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-07,TXN2674,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-07,TXN2675,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-05-07,TXN2676,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-05-07,TXN2677,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-07,TXN2678,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-07,TXN2679,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-07,TXN2680,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2026-05-07,TXN2681,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-07,TXN2682,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-08,TXN2683,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-08,TXN2684,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-08,TXN2685,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-05-08,TXN2686,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-05-08,TXN2687,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-08,TXN2688,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-05-09,TXN2689,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-05-09,TXN2690,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Card
+2026-05-09,TXN2691,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Card
+2026-05-09,TXN2692,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-05-09,TXN2693,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-09,TXN2694,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-05-09,TXN2695,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-09,TXN2696,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-05-09,TXN2697,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-09,TXN2698,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Card
+2026-05-09,TXN2699,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-10,TXN2700,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-05-10,TXN2701,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-10,TXN2702,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-10,TXN2703,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-10,TXN2704,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-05-10,TXN2705,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-05-10,TXN2706,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-05-10,TXN2707,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-05-10,TXN2708,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Card
+2026-05-10,TXN2709,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-05-10,TXN2710,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-10,TXN2711,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-05-10,TXN_ELEC_052026,EXP_ELEC,Electricity Bill,Utilities,1,2735,Expense,2735,UPI
+2026-05-11,TXN2712,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-11,TXN2713,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-05-11,TXN2714,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-05-11,TXN2715,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-05-11,TXN2716,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-11,TXN2717,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-05-11,TXN2718,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-11,TXN2719,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-11,TXN2720,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-12,TXN2721,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-12,TXN2722,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-12,TXN2723,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-05-12,TXN2724,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-12,TXN2725,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-13,TXN2726,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-13,TXN2727,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-13,TXN2728,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-13,TXN2729,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-05-13,TXN2730,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-13,TXN2731,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Card
+2026-05-13,TXN2732,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-13,TXN2733,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-05-13,TXN2734,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-05-13,TXN2735,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-05-13,TXN2736,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-13,TXN2737,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-05-13,TXN2738,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-13,TXN_RESTOCK_2738,P105,Restock: Toor Dal Premium 1kg,Restock,45,140,Expense,6300,Cash
+2026-05-14,TXN2739,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-14,TXN2740,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-14,TXN2741,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-05-14,TXN2742,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-14,TXN2743,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-14,TXN2744,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-14,TXN2745,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-05-14,TXN2746,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Cash
+2026-05-14,TXN2747,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-15,TXN2748,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-05-15,TXN2749,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-05-15,TXN2750,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-05-15,TXN2751,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-05-15,TXN2752,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-05-15,TXN2753,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-15,TXN2754,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-15,TXN2755,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-15,TXN2756,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-15,TXN2757,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-05-15,TXN2758,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-15,TXN_RESTOCK_2758,P106,Restock: Britannia Marie Gold Biscuits,Restock,37,12,Expense,444,Cash
+2026-05-16,TXN2759,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-16,TXN2760,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-16,TXN2761,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-05-16,TXN2762,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-05-16,TXN2763,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-05-16,TXN2764,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-16,TXN2765,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-16,TXN2766,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-05-16,TXN2767,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-16,TXN2768,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-16,TXN2769,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-16,TXN2770,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-05-16,TXN2771,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-05-16,TXN2772,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-16,TXN2773,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-05-16,TXN2774,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-05-16,TXN2775,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-05-16,TXN2776,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,Cash
+2026-05-16,TXN2777,P107,Brooke Bond Red Label Tea 250g,Beverages,6,120,Sale,720,UPI
+2026-05-16,TXN2778,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-16,TXN2779,P105,Toor Dal Premium 1kg,Pulses,6,180,Sale,1080,Cash
+2026-05-16,TXN2780,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-16,TXN2781,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-05-17,TXN2782,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-05-17,TXN2783,P102,Gold Winner Sunflower Oil 1L,Oils,5,140,Sale,700,UPI
+2026-05-17,TXN2784,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-17,TXN2785,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-17,TXN2786,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-17,TXN2787,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-17,TXN2788,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-05-17,TXN2789,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-17,TXN2790,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-17,TXN2791,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-17,TXN2792,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-17,TXN2793,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-05-17,TXN2794,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Card
+2026-05-17,TXN2795,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-17,TXN2796,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-18,TXN2797,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-18,TXN2798,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-05-18,TXN2799,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-18,TXN2800,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-18,TXN2801,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-05-18,TXN2802,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-18,TXN2803,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-05-18,TXN2804,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-05-18,TXN2805,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-18,TXN2806,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-18,TXN2807,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-18,TXN2808,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Card
+2026-05-19,TXN2809,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-19,TXN2810,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-05-19,TXN2811,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-19,TXN2812,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Cash
+2026-05-19,TXN2813,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-19,TXN2814,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-19,TXN2815,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-05-19,TXN2816,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-19,TXN2817,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-19,TXN2818,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-19,TXN2819,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-19,TXN2820,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-05-20,TXN2821,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-20,TXN2822,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-20,TXN2823,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-20,TXN2824,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-20,TXN2825,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Cash
+2026-05-20,TXN2826,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-20,TXN2827,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-20,TXN2828,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-05-20,TXN2829,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Card
+2026-05-20,TXN2830,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-20,TXN2831,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-05-20,TXN2832,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-20,TXN2833,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-20,TXN2834,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-21,TXN2835,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-21,TXN2836,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-21,TXN2837,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-21,TXN2838,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-21,TXN2839,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-05-21,TXN2840,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-22,TXN2841,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-22,TXN2842,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-05-22,TXN2843,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-22,TXN2844,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-22,TXN2845,P102,Gold Winner Sunflower Oil 1L,Oils,6,140,Sale,840,Cash
+2026-05-22,TXN2846,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-05-22,TXN2847,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-22,TXN2848,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-22,TXN2849,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-22,TXN2850,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-05-23,TXN2851,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-05-23,TXN2852,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-23,TXN2853,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-23,TXN2854,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-23,TXN2855,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-05-23,TXN2856,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-23,TXN2857,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-23,TXN2858,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-23,TXN2859,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-23,TXN2860,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-05-23,TXN2861,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-05-23,TXN2862,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-23,TXN2863,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-05-23,TXN2864,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-05-23,TXN2865,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-23,TXN2866,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-23,TXN2867,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-23,TXN2868,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-05-23,TXN2869,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-05-23,TXN2870,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-23,TXN2871,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-05-23,TXN2872,P101,Premium Basmati Rice 5kg,Grains,6,450,Sale,2700,UPI
+2026-05-23,TXN2873,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-24,TXN2874,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-24,TXN2875,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-05-24,TXN2876,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-24,TXN2877,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-24,TXN2878,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-24,TXN2879,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-24,TXN2880,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-24,TXN2881,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,UPI
+2026-05-24,TXN2882,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-05-24,TXN2883,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-24,TXN2884,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Cash
+2026-05-24,TXN2885,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-05-24,TXN2886,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-05-24,TXN2887,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-05-24,TXN2888,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-24,TXN2889,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-24,TXN2890,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-05-24,TXN2891,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-24,TXN2892,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-24,TXN2893,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-05-24,TXN2894,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-05-24,TXN2895,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-25,TXN2896,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-25,TXN2897,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-05-25,TXN2898,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-05-25,TXN2899,P101,Premium Basmati Rice 5kg,Grains,5,450,Sale,2250,Cash
+2026-05-25,TXN2900,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-25,TXN2901,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-26,TXN2902,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-05-26,TXN2903,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-05-26,TXN2904,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-26,TXN2905,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-05-26,TXN2906,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-05-26,TXN2907,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-26,TXN2908,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Card
+2026-05-26,TXN2909,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-05-26,TXN2910,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-05-26,TXN2911,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-26,TXN2912,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-05-26,TXN2913,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,UPI
+2026-05-26,TXN_RESTOCK_2913,P105,Restock: Toor Dal Premium 1kg,Restock,42,140,Expense,5880,Cash
+2026-05-27,TXN2914,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Cash
+2026-05-27,TXN2915,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-27,TXN2916,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-27,TXN2917,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-27,TXN2918,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-05-27,TXN2919,P102,Gold Winner Sunflower Oil 1L,Oils,6,140,Sale,840,Cash
+2026-05-27,TXN2920,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Cash
+2026-05-28,TXN2921,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-28,TXN2922,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-28,TXN2923,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-28,TXN2924,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-28,TXN2925,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-05-28,TXN2926,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-05-28,TXN2927,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-28,TXN2928,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-05-28,TXN2929,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-05-28,TXN2930,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-05-28,TXN2931,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-05-28,TXN2932,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-28,TXN2933,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-29,TXN2934,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-05-29,TXN2935,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-05-29,TXN2936,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Card
+2026-05-29,TXN2937,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-05-29,TXN2938,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-05-30,TXN2939,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-05-30,TXN2940,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Cash
+2026-05-30,TXN2941,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-30,TXN2942,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,UPI
+2026-05-30,TXN2943,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-30,TXN2944,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-05-30,TXN2945,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Card
+2026-05-30,TXN2946,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-05-30,TXN2947,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-30,TXN2948,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Cash
+2026-05-30,TXN2949,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-05-30,TXN2950,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-05-31,TXN2951,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-31,TXN2952,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,Cash
+2026-05-31,TXN2953,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-05-31,TXN2954,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-05-31,TXN2955,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-05-31,TXN2956,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Card
+2026-05-31,TXN2957,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,UPI
+2026-05-31,TXN2958,P101,Premium Basmati Rice 5kg,Grains,6,450,Sale,2700,UPI
+2026-05-31,TXN2959,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-31,TXN2960,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-05-31,TXN2961,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-31,TXN2962,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-31,TXN2963,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-31,TXN2964,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,Card
+2026-05-31,TXN2965,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-05-31,TXN2966,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-05-31,TXN2967,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-05-31,TXN2968,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-05-31,TXN2969,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-05-31,TXN2970,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-05-31,TXN2971,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Card
+2026-05-31,TXN2972,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-05-31,TXN2973,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-06-01,TXN2974,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-06-01,TXN2975,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-06-01,TXN2976,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-06-01,TXN2977,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,UPI
+2026-06-01,TXN2978,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-06-01,TXN2979,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-06-01,TXN2980,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-06-01,TXN2981,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
+2026-06-01,TXN2982,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-06-01,TXN2983,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-06-01,TXN2984,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-06-01,TXN_RENT_062026,EXP_RENT,Shop Rent Payment,Operations,1,12000,Expense,12000,UPI
+2026-06-02,TXN2985,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-06-02,TXN2986,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Cash
+2026-06-02,TXN2987,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,Card
+2026-06-02,TXN2988,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-06-02,TXN2989,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-06-03,TXN2990,P102,Gold Winner Sunflower Oil 1L,Oils,3,140,Sale,420,UPI
+2026-06-03,TXN2991,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,Card
+2026-06-03,TXN2992,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-06-03,TXN2993,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,UPI
+2026-06-03,TXN2994,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-06-03,TXN2995,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,Card
+2026-06-04,TXN2996,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,UPI
+2026-06-04,TXN2997,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-06-04,TXN2998,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-06-04,TXN2999,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Card
+2026-06-04,TXN3000,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-06-05,TXN3001,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-06-05,TXN3002,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-06-05,TXN3003,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-06-05,TXN3004,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-06-05,TXN3005,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-06-05,TXN3006,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-06-05,TXN3007,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-06-05,TXN3008,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-06-06,TXN3009,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,Cash
+2026-06-06,TXN3010,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-06-06,TXN3011,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-06-06,TXN3012,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-06-06,TXN3013,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Card
+2026-06-06,TXN3014,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-06-06,TXN3015,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-06-06,TXN3016,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-06-06,TXN3017,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,Cash
+2026-06-06,TXN3018,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-06-06,TXN3019,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-06-07,TXN3020,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-06-07,TXN3021,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-06-07,TXN3022,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-06-07,TXN3023,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-06-07,TXN3024,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-06-07,TXN3025,P107,Brooke Bond Red Label Tea 250g,Beverages,3,120,Sale,360,UPI
+2026-06-07,TXN3026,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-06-07,TXN3027,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,UPI
+2026-06-07,TXN3028,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-06-07,TXN3029,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Cash
+2026-06-07,TXN3030,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-06-07,TXN3031,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-06-07,TXN3032,P106,Britannia Marie Gold Biscuits,Snacks,2,15,Sale,30,Card
+2026-06-07,TXN3033,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,5,280,Sale,1400,UPI
+2026-06-07,TXN3034,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Card
+2026-06-07,TXN3035,P106,Britannia Marie Gold Biscuits,Snacks,3,15,Sale,45,Cash
+2026-06-07,TXN3036,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,UPI
+2026-06-07,TXN3037,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-06-07,TXN3038,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-06-07,TXN_RESTOCK_3038,P107,Restock: Brooke Bond Red Label Tea 250g,Restock,27,95,Expense,2565,Cash
+2026-06-08,TXN3039,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-06-08,TXN3040,P107,Brooke Bond Red Label Tea 250g,Beverages,2,120,Sale,240,Cash
+2026-06-08,TXN3041,P108,Sunsilk Black Shampoo 180ml,Personal Care,5,145,Sale,725,Cash
+2026-06-08,TXN3042,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-06-08,TXN3043,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-06-08,TXN3044,P105,Toor Dal Premium 1kg,Pulses,3,180,Sale,540,UPI
+2026-06-08,TXN3045,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-06-09,TXN3046,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Cash
+2026-06-09,TXN3047,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-06-09,TXN3048,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,Cash
+2026-06-09,TXN3049,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,2,280,Sale,560,Cash
+2026-06-09,TXN3050,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-06-09,TXN3051,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-06-09,TXN3052,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-06-09,TXN3053,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-06-09,TXN3054,P101,Premium Basmati Rice 5kg,Grains,3,450,Sale,1350,Cash
+2026-06-09,TXN3055,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,UPI
+2026-06-09,TXN3056,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,Card
+2026-06-09,TXN3057,P102,Gold Winner Sunflower Oil 1L,Oils,5,140,Sale,700,UPI
+2026-06-09,TXN3058,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,3,280,Sale,840,Card
+2026-06-09,TXN3059,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-06-10,TXN3060,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-06-10,TXN3061,P108,Sunsilk Black Shampoo 180ml,Personal Care,2,145,Sale,290,UPI
+2026-06-10,TXN3062,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-06-10,TXN3063,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-06-10,TXN3064,P103,Tata Salt 1kg,Condiments,5,28,Sale,140,Cash
+2026-06-10,TXN3065,P108,Sunsilk Black Shampoo 180ml,Personal Care,1,145,Sale,145,UPI
+2026-06-10,TXN3066,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,Cash
+2026-06-10,TXN3067,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-06-10,TXN3068,P101,Premium Basmati Rice 5kg,Grains,1,450,Sale,450,UPI
+2026-06-10,TXN3069,P105,Toor Dal Premium 1kg,Pulses,2,180,Sale,360,UPI
+2026-06-10,TXN3070,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,Card
+2026-06-10,TXN3071,P101,Premium Basmati Rice 5kg,Grains,6,450,Sale,2700,UPI
+2026-06-10,TXN3072,P101,Premium Basmati Rice 5kg,Grains,2,450,Sale,900,UPI
+2026-06-10,TXN_ELEC_062026,EXP_ELEC,Electricity Bill,Utilities,1,3189,Expense,3189,UPI
+2026-06-11,TXN3073,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-06-11,TXN3074,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,Cash
+2026-06-11,TXN3075,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-06-11,TXN3076,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-06-11,TXN3077,P105,Toor Dal Premium 1kg,Pulses,5,180,Sale,900,Cash
+2026-06-12,TXN3078,P103,Tata Salt 1kg,Condiments,2,28,Sale,56,Cash
+2026-06-12,TXN3079,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,UPI
+2026-06-12,TXN3080,P103,Tata Salt 1kg,Condiments,1,28,Sale,28,UPI
+2026-06-12,TXN3081,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,Card
+2026-06-12,TXN3082,P102,Gold Winner Sunflower Oil 1L,Oils,2,140,Sale,280,UPI
+2026-06-12,TXN3083,P101,Premium Basmati Rice 5kg,Grains,6,450,Sale,2700,UPI
+2026-06-12,TXN3084,P105,Toor Dal Premium 1kg,Pulses,1,180,Sale,180,UPI
+2026-06-12,TXN3085,P104,Aashirvaad Shudh Chakki Atta 5kg,Grains,1,280,Sale,280,Cash
+2026-06-12,TXN3086,P102,Gold Winner Sunflower Oil 1L,Oils,1,140,Sale,140,Cash
+2026-06-12,TXN3087,P103,Tata Salt 1kg,Condiments,3,28,Sale,84,UPI
+2026-06-12,TXN3088,P107,Brooke Bond Red Label Tea 250g,Beverages,1,120,Sale,120,UPI
+2026-06-12,TXN3089,P108,Sunsilk Black Shampoo 180ml,Personal Care,3,145,Sale,435,UPI
+2026-06-12,TXN3090,P106,Britannia Marie Gold Biscuits,Snacks,1,15,Sale,15,Cash
