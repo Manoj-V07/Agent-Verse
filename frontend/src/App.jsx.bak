@@ -1143,7 +1143,7 @@ export default function App() {
         {/* HERO */}
         <section style={{ position:'relative', minHeight:'92vh', display:'flex', alignItems:'center', overflow:'hidden' }}>
           {/* BG IMAGE */}
-          <div style={{ position:'absolute', inset:0, backgroundImage:"url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600&q=80')", backgroundSize:'cover', backgroundPosition:'top center', filter:'brightness(0.18)' }} />
+          <div style={{ position:'absolute', inset:0, backgroundImage:"url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600&q=80')", backgroundSize:'cover', backgroundPosition:'center', filter:'brightness(0.18)' }} />
           {/* GRADIENT OVERLAY */}
           <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(99,102,241,0.55) 0%, rgba(5,150,105,0.35) 100%)' }} />
           {/* FLOATING BLOBS */}
@@ -1184,7 +1184,7 @@ export default function App() {
             {/* RIGHT DASHBOARD PREVIEW */}
             <div style={{ position:'relative' }}>
               <div style={{ borderRadius:20, overflow:'hidden', boxShadow:'0 32px 80px rgba(0,0,0,0.5)', border:'2px solid rgba(255,255,255,0.15)', transform:'perspective(1000px) rotateY(-4deg) rotateX(2deg)', transition:'transform 0.3s' }}>
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=85" alt="Dashboard" style={{ width:'100%', display:'block', objectFit:'cover', objectPosition:'top' }} />
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=85" alt="Dashboard" style={{ width:'100%', display:'block' }} />
               </div>
               {/* FLOATING BADGE 1 */}
               <div style={{ position:'absolute', top:-20, right:-20, background:'#fff', borderRadius:14, padding:'12px 16px', boxShadow:'0 8px 24px rgba(0,0,0,0.15)', display:'flex', alignItems:'center', gap:10, animation:'float 3s ease-in-out infinite' }}>
@@ -1228,7 +1228,7 @@ export default function App() {
 
         {/* TESTIMONIAL / IMAGE SECTION */}
         <section style={{ background:'linear-gradient(135deg,#6366f1 0%,#4f46e5 50%,#059669 100%)', padding:'80px 48px', position:'relative', overflow:'hidden' }}>
-          <div style={{ position:'absolute', inset:0, backgroundImage:"url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1400&q=80')", backgroundSize:'cover', backgroundPosition:'top center', opacity:0.08 }} />
+          <div style={{ position:'absolute', inset:0, backgroundImage:"url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1400&q=80')", backgroundSize:'cover', backgroundPosition:'center', opacity:0.08 }} />
           <div style={{ position:'relative', zIndex:1, maxWidth:1200, margin:'0 auto', display:'grid', gridTemplateColumns:'1fr 1fr', gap:64, alignItems:'center' }}>
             <div>
               <h2 style={{ fontSize:'2rem', fontWeight:800, color:'#fff', fontFamily:'Outfit,sans-serif', marginBottom:16 }}>Built for the heart of India's economy</h2>
@@ -1252,7 +1252,7 @@ export default function App() {
                 { img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=80', label:'Sales Analytics' },
               ].map((item,i)=>(
                 <div key={i} style={{ borderRadius:14, overflow:'hidden', boxShadow:'0 8px 24px rgba(0,0,0,0.25)', border:'2px solid rgba(255,255,255,0.15)', position:'relative' }}>
-                  <img src={item.img} alt={item.label} style={{ width:'100%', height:130, objectFit:'cover', objectPosition:'top', display:'block' }} />
+                  <img src={item.img} alt={item.label} style={{ width:'100%', height:130, objectFit:'cover', display:'block' }} />
                   <div style={{ position:'absolute', bottom:0, left:0, right:0, background:'linear-gradient(transparent,rgba(0,0,0,0.6))', padding:'8px 10px' }}>
                     <span style={{ fontSize:'0.72rem', color:'#fff', fontWeight:600 }}>{item.label}</span>
                   </div>
@@ -1304,46 +1304,40 @@ export default function App() {
       <div className="auth-fullscreen-container">
         {/* LEFT PANEL */}
         <div className="auth-split-left">
-          <div className="auth-bg-image" style={{ backgroundImage:"url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&q=85')" }} />
-          <div className="auth-bg-overlay" />
-          <div className="hero-blob" style={{ width:320, height:320, background:'rgba(255,255,255,0.1)', top:'-80px', left:'-80px' }} />
-          <div className="hero-blob" style={{ width:200, height:200, background:'rgba(255,255,255,0.08)', bottom:'60px', right:'-40px', animationDelay:'3s' }} />
-          <div className="auth-split-left-inner">
-            <div style={{ width:'100%', maxWidth:420 }}>
-              <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:28 }}>
-                <div style={{ width:48, height:48, borderRadius:12, background:'rgba(255,255,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  <Shield size={26} color="#fff" />
+          <div className="hero-blob" style={{ width:320, height:320, background:'rgba(255,255,255,0.18)', top:'-80px', left:'-80px' }} />
+          <div className="hero-blob" style={{ width:200, height:200, background:'rgba(255,255,255,0.12)', bottom:'60px', right:'-40px', animationDelay:'3s' }} />
+          <div style={{ position:'relative', zIndex:1, width:'100%', maxWidth:420 }}>
+            <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:32 }}>
+              <div style={{ width:48, height:48, borderRadius:12, background:'rgba(255,255,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <Shield size={26} color="#fff" />
+              </div>
+              <div>
+                <h1 style={{ color:'#fff', fontSize:'1.6rem', fontWeight:800, lineHeight:1 }}>AegisAI</h1>
+                <p style={{ color:'rgba(255,255,255,0.75)', fontSize:'0.78rem' }}>Business Copilot for Indian SMEs</p>
+              </div>
+            </div>
+
+            <img
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80"
+              alt="Dashboard preview"
+              style={{ width:'100%', borderRadius:16, marginBottom:28, boxShadow:'0 20px 60px rgba(0,0,0,0.3)', border:'2px solid rgba(255,255,255,0.2)' }}
+            />
+
+            <h2 style={{ color:'#fff', fontSize:'1.5rem', fontWeight:700, marginBottom:8 }}>
+              {isSignup ? 'Join 10,000+ SME merchants' : 'Welcome back, merchant'}
+            </h2>
+            <p style={{ color:'rgba(255,255,255,0.7)', fontSize:'0.88rem', marginBottom:24, lineHeight:1.6 }}>
+              {isSignup
+                ? 'Set up your intelligent business workspace in under 2 minutes.'
+                : 'Your AI copilot is ready — finances, stock, and forecasts await.'}
+            </p>
+
+            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+              {features.map((f,i) => (
+                <div key={i} className="feature-pill">
+                  {f.icon}<span>{f.text}</span>
                 </div>
-                <div>
-                  <h1 style={{ color:'#fff', fontSize:'1.6rem', fontWeight:800, lineHeight:1, fontFamily:'Outfit,sans-serif' }}>AegisAI</h1>
-                  <p style={{ color:'rgba(255,255,255,0.7)', fontSize:'0.78rem' }}>Business Copilot for Indian SMEs</p>
-                </div>
-              </div>
-
-              <div style={{ borderRadius:16, overflow:'hidden', marginBottom:28, boxShadow:'0 20px 60px rgba(0,0,0,0.35)', border:'2px solid rgba(255,255,255,0.2)' }}>
-                <img
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80"
-                  alt="Dashboard preview"
-                  style={{ width:'100%', display:'block', objectFit:'cover', objectPosition:'top', maxHeight:200 }}
-                />
-              </div>
-
-              <h2 style={{ color:'#fff', fontSize:'1.45rem', fontWeight:700, marginBottom:8, fontFamily:'Outfit,sans-serif' }}>
-                {isSignup ? 'Join 10,000+ SME merchants' : 'Welcome back, merchant'}
-              </h2>
-              <p style={{ color:'rgba(255,255,255,0.72)', fontSize:'0.875rem', marginBottom:22, lineHeight:1.65 }}>
-                {isSignup
-                  ? 'Set up your intelligent business workspace in under 2 minutes.'
-                  : 'Your AI copilot is ready — finances, stock, and forecasts await.'}
-              </p>
-
-              <div style={{ display:'flex', flexDirection:'column', gap:9 }}>
-                {features.map((f,i) => (
-                  <div key={i} className="feature-pill">
-                    {f.icon}<span>{f.text}</span>
-                  </div>
-                ))}
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -1374,27 +1368,28 @@ export default function App() {
             <form onSubmit={handleAuthSubmit} style={{ display:'flex', flexDirection:'column', gap:14 }}>
               {isSignup && (
                 <>
-                  <div className="auth-input-group">
-                    <label>Full Name</label>
-                    <div className="auth-input-wrap">
-                      <User size={16} className="input-icon" />
-                      <input type="text" placeholder="Your full name"
+                  <div className="form-group" style={{marginBottom:0}}>
+                    <label className="form-label">Full Name</label>
+                    <div style={{ position:'relative' }}>
+                      <User size={15} style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', color:'var(--color-text-dim)' }} />
+                      <input type="text" className="input-field" style={{ paddingLeft:34 }} placeholder="Your full name"
                         value={authInputs.fullName} onChange={(e) => setAuthInputs(p=>({...p,fullName:e.target.value}))} required />
                     </div>
                   </div>
-                  <div className="auth-input-group">
-                    <label>Mobile Number</label>
-                    <div className="auth-input-wrap">
-                      <Phone size={16} className="input-icon" />
-                      <input type="tel" placeholder="+919876543210"
+                  <div className="form-group" style={{marginBottom:0}}>
+                    <label className="form-label">Mobile Number</label>
+                    <div style={{ position:'relative' }}>
+                      <Phone size={15} style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', color:'var(--color-text-dim)' }} />
+                      <input type="tel" className="input-field" style={{ paddingLeft:34 }} placeholder="+919876543210"
                         value={authInputs.mobile} onChange={(e) => setAuthInputs(p=>({...p,mobile:e.target.value}))} required />
                     </div>
                   </div>
-                  <div className="auth-input-group">
-                    <label>Preferred Language</label>
-                    <div className="auth-select-wrap">
-                      <Globe size={16} className="input-icon" />
-                      <select value={authInputs.preferredLanguage} onChange={(e) => setAuthInputs(p=>({...p,preferredLanguage:e.target.value}))}>
+                  <div className="form-group" style={{marginBottom:0}}>
+                    <label className="form-label">Preferred Language</label>
+                    <div style={{ position:'relative' }}>
+                      <Globe size={15} style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', color:'var(--color-text-dim)', zIndex:1 }} />
+                      <select className="select-input" style={{ paddingLeft:34 }}
+                        value={authInputs.preferredLanguage} onChange={(e) => setAuthInputs(p=>({...p,preferredLanguage:e.target.value}))}>
                         <option value="english">English</option>
                         <option value="tamil">தமிழ் (Tamil)</option>
                       </select>
@@ -1403,36 +1398,36 @@ export default function App() {
                 </>
               )}
 
-              <div className="auth-input-group">
-                <label>Email Address</label>
-                <div className="auth-input-wrap">
-                  <Mail size={16} className="input-icon" />
-                  <input type="email" placeholder="name@company.com"
+              <div className="form-group" style={{marginBottom:0}}>
+                <label className="form-label">Email Address</label>
+                <div style={{ position:'relative' }}>
+                  <Mail size={15} style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', color:'var(--color-text-dim)' }} />
+                  <input type="email" className="input-field" style={{ paddingLeft:34 }} placeholder="name@company.com"
                     value={authInputs.email} onChange={(e) => setAuthInputs(p=>({...p,email:e.target.value}))} required />
                 </div>
               </div>
 
-              <div className="auth-input-group">
-                <label>Password</label>
-                <div className="auth-input-wrap">
-                  <Lock size={16} className="input-icon" />
-                  <input type="password" placeholder="••••••••"
+              <div className="form-group" style={{marginBottom:0}}>
+                <label className="form-label">Password</label>
+                <div style={{ position:'relative' }}>
+                  <Lock size={15} style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', color:'var(--color-text-dim)' }} />
+                  <input type="password" className="input-field" style={{ paddingLeft:34 }} placeholder="••••••••"
                     value={authInputs.password} onChange={(e) => setAuthInputs(p=>({...p,password:e.target.value}))} required />
                 </div>
               </div>
 
               {isSignup && (
-                <div className="auth-input-group">
-                  <label>Confirm Password</label>
-                  <div className="auth-input-wrap">
-                    <Lock size={16} className="input-icon" />
-                    <input type="password" placeholder="••••••••"
+                <div className="form-group" style={{marginBottom:0}}>
+                  <label className="form-label">Confirm Password</label>
+                  <div style={{ position:'relative' }}>
+                    <Lock size={15} style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', color:'var(--color-text-dim)' }} />
+                    <input type="password" className="input-field" style={{ paddingLeft:34 }} placeholder="••••••••"
                       value={authInputs.confirmPassword} onChange={(e) => setAuthInputs(p=>({...p,confirmPassword:e.target.value}))} required />
                   </div>
                 </div>
               )}
 
-              <button type="submit" className="auth-submit-btn" style={{ marginTop:4 }} disabled={authLoading}>
+              <button type="submit" className="btn btn-primary" style={{ width:'100%', padding:'11px', marginTop:4, fontSize:'0.95rem' }} disabled={authLoading}>
                 {authLoading ? (
                   <><div className="animate-spin" style={{ width:16, height:16, border:'2px solid rgba(255,255,255,0.3)', borderTopColor:'#fff', borderRadius:'50%' }} /> Verifying...</>
                 ) : (

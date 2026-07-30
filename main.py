@@ -362,7 +362,7 @@ class LoginRequest(BaseModel):
 class ChatRequest(BaseModel):
     query: str
     use_rag: bool = True
-    provider: str = "gemini"
+    provider: str = "groq"
 
 class AlertRequest(BaseModel):
     custom_recipient: Optional[str] = None

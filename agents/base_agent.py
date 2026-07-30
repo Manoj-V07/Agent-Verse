@@ -31,19 +31,19 @@ def call_groq_llm(system_instruction: str, prompt: str, temperature: float = 0.2
     res_json = response.json()
     return res_json["choices"][0]["message"]["content"]
 
-def call_llm(system_instruction: str, prompt: str, temperature: float = 0.2, provider: str = "gemini") -> str:
+def call_llm(system_instruction: str, prompt: str, temperature: float = 0.2, provider: str = "groq") -> str:
     """
-    Invokes Gemini or Groq API with a system instruction and user prompt.
-    Does NOT fall back to alternative providers or mock/offline agents on failure.
+    Invokes Groq or Gemini API with a system instruction and user prompt.
+    Falls back to Groq if Gemini fails (quota/rate limit).
     """
-    provider = (provider or "gemini").lower()
-    
-    if provider == "groq":
+    provider = (provider or "groq").lower()
+
+    if provider == "groq" or not config.get_gemini_key():
         return call_groq_llm(system_instruction, prompt, temperature)
-    else:
+
+    # Gemini path with Groq fallback
+    try:
         gemini_key = config.get_gemini_key()
-        if not gemini_key:
-            raise ValueError("Gemini API key is empty.")
         genai.configure(api_key=gemini_key)
         model = genai.GenerativeModel(
             model_name="gemini-2.5-flash",
@@ -52,6 +52,9 @@ def call_llm(system_instruction: str, prompt: str, temperature: float = 0.2, pro
         )
         response = model.generate_content(prompt)
         return response.text
+    except Exception as e:
+        print(f"Gemini failed ({e}), falling back to Groq.")
+        return call_groq_llm(system_instruction, prompt, temperature)
 
 
 def fallback_local_agent(system_instruction: str, prompt: str) -> str:

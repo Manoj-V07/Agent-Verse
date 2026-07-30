@@ -1,0 +1,19 @@
+{
+    "businessName": "EM traders",
+    "businessType": "Private Limited",
+    "state": "Tamil Nadu",
+    "district": "coimbatore",
+    "businessStartDate": "2026-07-16",
+    "annualTurnover": 1000000.0,
+    "gstStatus": "Not Registered",
+    "udyamStatus": "Not Registered",
+    "enterpriseCategory": "Micro",
+    "employeeCount": 10,
+    "businessSector": "Retail & Trading",
+    "loanRequirement": 200000.0,
+    "previousAssistance": "No",
+    "socialCategory": "General",
+    "ownerGender": "Male",
+    "area": "Urban",
+    "language": "english"
+}
