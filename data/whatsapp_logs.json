@@ -160,5 +160,17 @@
         "to": "+917010092013",
         "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
         "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 19:02:48",
+        "to": "+917010092013",
+        "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 19:34:55",
+        "to": "+917010092013",
+        "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
+        "status": "Sent via Twilio"
     }
 ]

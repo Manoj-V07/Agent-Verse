@@ -28,5 +28,11 @@
         "to": "+917010092013",
         "body": "```\n\u26a0\ufe0f **Urgent Low Stock Alert!** \u26a0\ufe0f\n\n**Maggi (P107)** is critically low.\n*   **Current Stock:** 10 units\n*   **Reorder Limit:** 12 units\n*   **Days Remaining:** ~42 days\n*   **Supplier:** Tirupur Distributors\n\nPlease restock **15 units** immediately to avoid running out!\n```",
         "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 18:31:23",
+        "to": "+917010092013",
+        "body": "```\n\u26a0\ufe0f **Urgent Low Stock Alert!** \u26a0\ufe0f\n\n**Maggi (P107)** is critically low.\n*   **Current Stock:** 10 units\n*   **Reorder Limit:** 12 units\n*   **Days Remaining:** ~42.9 days (at 0.23 units/day)\n\n**Action Needed:** Restock **15 units** from **Tirupur Distributors** ASAP to avoid running out!\n```",
+        "status": "Sent via Twilio"
     }
 ]

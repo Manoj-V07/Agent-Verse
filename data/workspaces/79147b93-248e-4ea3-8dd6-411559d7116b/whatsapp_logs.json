@@ -64,5 +64,11 @@
         "to": "+917010092013",
         "body": "\u26a0\ufe0f **URGENT Low Stock Alert!**\n\nYour stock for **Sugar (P132)** is critically low.\n*   **Current Stock:** 10 units\n*   **Reorder Limit:** 15 units\n*   **Daily Sales:** 0.4 units/day\n*   **Days Remaining:** ~25 days\n*   **Supplier:** Tirupur Distributors\n*   **Recommended Restock:** 20 units\n\nPlease reorder soon to avoid running out!",
         "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 18:47:40",
+        "to": "+917010092013",
+        "body": "Here's a draft for an urgent low stock WhatsApp alert notification for Sugar (P132):\n\n---\n\n\ud83d\udea8 **URGENT LOW STOCK ALERT!** \ud83d\udea8\n\n**Product:** Sugar (P132)\n**Current Stock:** 10 units\n**Reorder Level:** 15 units\n\nWe are critically low on Sugar! At our current sales velocity of 0.4 units/day, stock will run out in approximately **25 days**.\n\n**Action Required:** Please reorder **20 units** immediately from **Tirupur Distributors** to avoid a stockout.",
+        "status": "Sent via Twilio"
     }
 ]
