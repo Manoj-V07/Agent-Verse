@@ -2079,66 +2079,24 @@ export default function App() {
             ) : (
               <>
                 {/* 1. METRICS GRID */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '16px', marginBottom: '20px' }}>
-                  
-                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #818cf8' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span className="metric-title">Total Customers</span>
-                      <UserCheck size={16} color="#818cf8" />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', marginBottom: '20px' }}>
+                  {[
+                    { title: 'Total Customers', value: customerInsights.metrics.total_customers, sub: 'Registered members', icon: <UserCheck size={16} color="#818cf8" />, border: '#818cf8' },
+                    { title: 'Active Buyers', value: customerInsights.metrics.active_customers, sub: `Active in last ${inactiveDays}d`, icon: <Activity size={16} color="#34d399" />, border: '#34d399' },
+                    { title: 'Inactive Buyers', value: customerInsights.metrics.inactive_customers, sub: `No sales in last ${inactiveDays}d`, icon: <ShieldAlert size={16} color="#f87171" />, border: '#f87171' },
+                    { title: 'Repeat Rate', value: `${customerInsights.metrics.repeat_customer_rate}%`, sub: 'Customers with 2+ purchases', icon: <RefreshCw size={16} color="#fbbf24" />, border: '#fbbf24' },
+                    { title: 'Average Order', value: `${business?.currency || '₹'}${customerInsights.metrics.average_order_value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`, sub: 'Avg value per invoice', icon: <IndianRupee size={16} color="#60a5fa" />, border: '#60a5fa' },
+                    { title: 'Customer LTV', value: `${business?.currency || '₹'}${customerInsights.metrics.customer_lifetime_value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`, sub: 'Avg spending per account', icon: <TrendingUp size={16} color="#c084fc" />, border: '#c084fc' },
+                  ].map((card) => (
+                    <div key={card.title} className="glass-card" style={{ borderLeft: `3px solid ${card.border}`, padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '0.68rem', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{card.title}</span>
+                        {card.icon}
+                      </div>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--color-text-main)', lineHeight: 1.2 }}>{card.value}</span>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>{card.sub}</span>
                     </div>
-                    <span className="metric-value">{customerInsights.metrics.total_customers}</span>
-                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Registered members</span>
-                  </div>
-
-                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #34d399' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span className="metric-title">Active Buyers</span>
-                      <Activity size={16} color="#34d399" />
-                    </div>
-                    <span className="metric-value">{customerInsights.metrics.active_customers}</span>
-                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Active in last {inactiveDays}d</span>
-                  </div>
-
-                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #f87171' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span className="metric-title">Inactive Buyers</span>
-                      <ShieldAlert size={16} color="#f87171" />
-                    </div>
-                    <span className="metric-value">{customerInsights.metrics.inactive_customers}</span>
-                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>No sales in last {inactiveDays}d</span>
-                  </div>
-
-                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #fbbf24' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span className="metric-title">Repeat Rate</span>
-                      <Coins size={16} color="#fbbf24" />
-                    </div>
-                    <span className="metric-value">{customerInsights.metrics.repeat_customer_rate}%</span>
-                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Customers with 2+ purchases</span>
-                  </div>
-
-                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #60a5fa' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span className="metric-title">Average Order</span>
-                      <IndianRupee size={14} color="#60a5fa" />
-                    </div>
-                    <span className="metric-value" style={{ fontSize: '1.25rem', fontWeight: 'bold', marginTop: '4px', color: 'var(--color-text-light)' }}>
-                      {business?.currency || "₹"}{customerInsights.metrics.average_order_value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
-                    </span>
-                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Avg sales value per invoice</span>
-                  </div>
-
-                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #c084fc' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span className="metric-title">Customer LTV</span>
-                      <TrendingUp size={16} color="#c084fc" />
-                    </div>
-                    <span className="metric-value" style={{ fontSize: '1.25rem', fontWeight: 'bold', marginTop: '4px', color: 'var(--color-text-light)' }}>
-                      {business?.currency || "₹"}{customerInsights.metrics.customer_lifetime_value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
-                    </span>
-                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Avg total spending per account</span>
-                  </div>
-                  
+                  ))}
                 </div>
 
                 {/* 2. CHARTS GRID (Segmentation & Purchase Trends) */}
@@ -2146,7 +2104,7 @@ export default function App() {
                   
                   {/* CUSTOMER SEGMENTATION DONUT BLOCK */}
                   <div className="glass-card">
-                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px' }}>📊 Customer Cohort Segmentation</h4>
+                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: 6 }}><BarChart2 size={16} color="#818cf8" /> Customer Cohort Segmentation</h4>
                     <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
                       Merchant database distribution based on purchase frequency, lifetime sales volume, and recency index.
                     </p>
@@ -2181,7 +2139,7 @@ export default function App() {
 
                   {/* PURCHASE TRENDS (MONTHLY REVENUE & UNIQUE ACTIVE BUYERS) */}
                   <div className="glass-card">
-                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px' }}>📈 Monthly Customer Purchase Activity</h4>
+                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: 6 }}><TrendingUp size={16} color="#818cf8" /> Monthly Customer Purchase Activity</h4>
                     <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
                       Historical comparison of monthly revenue generation streams alongside active buying channels.
                     </p>
@@ -2272,7 +2230,7 @@ export default function App() {
                   
                   {/* DYNAMIC ACTIONABLE RECOMMENDATIONS */}
                   <div className="glass-card">
-                    <h4 style={{ color: '#fbbf24', fontSize: '1rem', marginBottom: '12px' }}>🎯 Recommended Retention Campaigns</h4>
+                    <h4 style={{ color: '#fbbf24', fontSize: '1rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: 6 }}><Bell size={16} color="#fbbf24" /> Recommended Retention Campaigns</h4>
                     <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
                       Automated risk analysis prompting promotional offerings to counteract customer churn.
                     </p>
@@ -2335,7 +2293,7 @@ export default function App() {
 
                   {/* FREQUENTLY BOUGHT TOGETHER */}
                   <div className="glass-card">
-                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px' }}>🤝 Commonly Bought Together Bundles</h4>
+                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: 6 }}><ShoppingCart size={16} color="#818cf8" /> Commonly Bought Together Bundles</h4>
                     <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
                       Market Basket Analysis identifying products commonly checked out during the same checkout visit.
                     </p>
@@ -2392,7 +2350,7 @@ export default function App() {
                   
                   {/* CUSTOMER DIRECTORY REGISTRY */}
                   <div className="glass-card">
-                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px' }}>👥 Company Customer Registry</h4>
+                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: 6 }}><Users size={16} color="#818cf8" /> Company Customer Registry</h4>
                     <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
                       Registered client profiles detailing total revenue generation contribution and cohort tags.
                     </p>
@@ -2460,7 +2418,7 @@ export default function App() {
 
                   {/* ADD CUSTOMER FORM WIDGET */}
                   <div className="glass-card flex-column-full" style={{ alignSelf: 'start' }}>
-                    <h4 style={{ color: '#818cf8', fontSize: '1.05rem', marginBottom: '10px' }}>➕ Register New Customer</h4>
+                    <h4 style={{ color: '#818cf8', fontSize: '1.05rem', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: 6 }}><Plus size={16} color="#818cf8" /> Register New Customer</h4>
                     <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '12px' }}>
                       Manually add a buyer account to compile purchase details and establish retention algorithms.
                     </p>
@@ -2534,7 +2492,7 @@ export default function App() {
                 <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '640px', background: 'var(--color-bg)', padding: '24px', border: '1px solid var(--color-primary)', borderRadius: '12px', maxHeight: '90vh', overflowY: 'auto' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                     <div>
-                      <h3 style={{ color: '#818cf8', fontSize: '1.3rem', fontWeight: 'bold' }}>👤 {selectedCustomer.name}</h3>
+                      <h3 style={{ color: '#818cf8', fontSize: '1.3rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 8 }}><User size={20} color="#818cf8" /> {selectedCustomer.name}</h3>
                       <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '2px' }}>
                         ID: {selectedCustomer.id} | {selectedCustomer.email} | {selectedCustomer.phone}
                       </p>
@@ -2571,7 +2529,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  <h4 style={{ fontSize: '0.92rem', color: '#818cf8', marginBottom: '10px', borderBottom: '1px solid var(--color-card-border)', paddingBottom: '4px' }}>🛍️ Preferred Products</h4>
+                  <h4 style={{ fontSize: '0.92rem', color: '#818cf8', marginBottom: '10px', borderBottom: '1px solid var(--color-card-border)', paddingBottom: '4px', display: 'flex', alignItems: 'center', gap: 6 }}><ShoppingCart size={14} color="#818cf8" /> Preferred Products</h4>
                   <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '20px' }}>
                     {selectedCustomer.pref_products && selectedCustomer.pref_products.length > 0 ? (
                       selectedCustomer.pref_products.map((p, i) => (
@@ -2584,7 +2542,7 @@ export default function App() {
                     )}
                   </div>
 
-                  <h4 style={{ fontSize: '0.92rem', color: '#818cf8', marginBottom: '10px', borderBottom: '1px solid var(--color-card-border)', paddingBottom: '4px' }}>📜 Purchase Timeline Logs</h4>
+                  <h4 style={{ fontSize: '0.92rem', color: '#818cf8', marginBottom: '10px', borderBottom: '1px solid var(--color-card-border)', paddingBottom: '4px', display: 'flex', alignItems: 'center', gap: 6 }}><FileText size={14} color="#818cf8" /> Purchase Timeline Logs</h4>
                   {selectedCustomer.purchase_history && selectedCustomer.purchase_history.length > 0 ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '180px', overflowY: 'auto', paddingRight: '4px' }}>
                       {selectedCustomer.purchase_history.map((item, idx) => (
