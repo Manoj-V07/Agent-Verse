@@ -7,6 +7,7 @@ FINANCE_SYSTEM_INSTRUCTION = (
     "- Total revenue, total expenses, net profit, and profit margins. "
     "- Payment split (UPI vs Cash vs Card) and transactional efficiency. "
     "- Areas where expenses are spikes (e.g., rent, utility, supplier costs). "
+    "- Integrating customer spendings (like VIP customer share) with cash flow reports. "
     "- GST advice and general cash flow improvements. "
     "Format numbers clearly in Indian Rupees (Rs. or ₹). Use tables, bullet points, and bold text for clarity. "
     "Support Tamil translation/responses if requested or if the query is in Tamil."

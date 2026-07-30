@@ -114,6 +114,8 @@ def fallback_local_agent(system_instruction: str, prompt: str) -> str:
             return "AGENT: ANALYTICS\nREASONING: The user is requesting a forward-looking prediction or trend analysis.\nTHOUGHTS: Routing to Analytics Agent to trigger Scikit-Learn predictions."
         elif any(k in prompt_lower for k in ["whatsapp", "alert", "message", "sms", "notify", "எச்சரிக்கை", "செய்தி"]):
             return "AGENT: COMMUNICATION\nREASONING: The user wants to write a notification template or trigger a message alert.\nTHOUGHTS: Routing to Communication Agent for messaging draft."
+        elif any(k in prompt_lower for k in ["customer", "loyalty", "repeat", "buyer", "clv", "aov", "segment", "spending", "visit", "bought together", "வாடிக்கையாளர்", "அடிக்கடி"]):
+            return "AGENT: CUSTOMER\nREASONING: The query deals with customer retention, spending, segments, or profiles.\nTHOUGHTS: Routing to Customer Insights Agent."
         else:
             return "AGENT: GENERAL\nREASONING: General customer assistance query.\nTHOUGHTS: General coordinator fallback."
 
@@ -264,6 +266,11 @@ def fallback_local_agent(system_instruction: str, prompt: str) -> str:
                 f"*Note: Compiled directly from active inventory records.*"
             )
 
+    # 5b. CUSTOMER Agent
+    elif "customer agent" in instruction_lower:
+        from agents.customer_agent import fallback_customer_agent
+        return fallback_customer_agent(prompt, None)
+
     # 6. Keyword and Language fallback
     if any(k in prompt_lower for k in ["revenue", "sales", "finance", "expense", "profit", "earn", "விற்பனை", "வருவாய்", "இலாபம்"]):
         # Finance keyword fallback
@@ -292,6 +299,10 @@ def fallback_local_agent(system_instruction: str, prompt: str) -> str:
         if is_tamil:
             return f"அடுத்த 30 நாட்களின் விற்பனை கணிப்பு: Rs. {total_sales:,.2f} ({growth}% வளர்ச்சி)."
         return f"30-day sales forecast: Rs. {total_sales:,.2f} (growth: {growth}%)."
+        
+    elif any(k in prompt_lower for k in ["customer", "loyalty", "repeat", "buyer", "clv", "aov", "segment", "spending", "visit", "bought together", "வாடிக்கையாளர்", "அடிக்கடி"]):
+        from agents.customer_agent import fallback_customer_agent
+        return fallback_customer_agent(prompt, None)
 
     # Standard Chat greetings and fallback
     if is_tamil:

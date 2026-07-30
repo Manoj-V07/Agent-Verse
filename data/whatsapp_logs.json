@@ -130,5 +130,11 @@
         "to": "+917010092013",
         "body": "```\n\u26a0\ufe0f Low Stock Alert: \nAashirvaad Shudh Chakki Atta 5kg (P104) is running low. \nCurrent Stock: **12 units**, Reorder Limit: **15 units**.\nWe will run out in **4.9 days** at a sales rate of **2.43 units/day**.\nRecommended Restock: **110 units** from **Sri Balaji Traders**.\nPlease take immediate action to avoid stockout.\n```",
         "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-29 09:31:13",
+        "to": "+919876543210",
+        "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
+        "status": "Simulated (Sandbox Mode)"
     }
 ]

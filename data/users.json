@@ -1,0 +1,22 @@
+{
+    "alice@procure.com": {
+        "full_name": "Alice Procurement",
+        "email": "alice@procure.com",
+        "mobile": "+919999999999",
+        "password_hash": "fce3120c90a8397be0feacccb9f5c84cc13f3be6079d9351c065823b5d95ff66",
+        "salt": "db557a0a8dfc56b152ac383b18607b3e",
+        "preferred_language": "english",
+        "workspace_id": "ceb0fd23-e5d1-441e-8abe-333807d59175",
+        "created_at": "2026-07-29T10:49:58.598654"
+    },
+    "bob@procure.com": {
+        "full_name": "Bob Miller",
+        "email": "bob@procure.com",
+        "mobile": "+919876543210",
+        "password_hash": "55ea2d48e10dc578c4a184b189d5f416af5983aab401b65b9478619b7de839e8",
+        "salt": "9d608025fc3fbb1bcc8a5043d8b309c8",
+        "preferred_language": "english",
+        "workspace_id": "2ce62cd9-6d2a-4496-a218-bb317fb05f8b",
+        "created_at": "2026-07-29T12:58:37.460120"
+    }
+}

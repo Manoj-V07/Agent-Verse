@@ -1,0 +1,38 @@
+Date,TransactionID,CustomerID,CustomerName,ProductID,ProductName,Category,Quantity,Price,Type,Amount,PaymentMode
+2026-04-20,TXN5009,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,Cash
+2026-04-25,TXN5022,C104,Rahul Verma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-04-25,TXN5027,C107,Amit Gupta,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,Card
+2026-04-30,TXN5016,C102,Deepika Patel,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-05-10,TXN5025,C105,Vikram Singh,P107,Maggi,Food,1,25.0,Sale,25.0,Cash
+2026-05-10,TXN5008,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-05-15,TXN5021,C104,Rahul Verma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-05-20,TXN5024,C105,Vikram Singh,P107,Maggi,Food,2,25.0,Sale,50.0,Cash
+2026-05-20,TXN5015,C102,Deepika Patel,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,Card
+2026-05-25,TXN5020,C103,Priya Nair,P107,Maggi,Food,1,25.0,Sale,25.0,UPI
+2026-05-30,TXN5007,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-06-09,TXN5014,C102,Deepika Patel,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-06-11,TXN5035,C110,Meera Krishnan,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,Card
+2026-06-14,TXN5006,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-06-17,TXN5019,C103,Priya Nair,P107,Maggi,Food,1,25.0,Sale,25.0,Card
+2026-06-21,TXN5030,C108,Sneha Reddy,P107,Maggi,Food,1,25.0,Sale,25.0,UPI
+2026-06-24,TXN5023,C105,Vikram Singh,P107,Maggi,Food,1,25.0,Sale,25.0,Cash
+2026-06-24,TXN5013,C102,Deepika Patel,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-06-25,TXN5005,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,2,420.0,Sale,840.0,UPI
+2026-07-01,TXN5034,C110,Meera Krishnan,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-07-04,TXN5031,C109,Rohan Das,P101,Premium Basmati Rice,Grains,2,420.0,Sale,840.0,Cash
+2026-07-04,TXN5004,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,2,420.0,Sale,840.0,UPI
+2026-07-05,TXN5029,C108,Sneha Reddy,P107,Maggi,Food,1,25.0,Sale,25.0,UPI
+2026-07-07,TXN5012,C102,Deepika Patel,P101,Premium Basmati Rice,Grains,2,420.0,Sale,840.0,Card
+2026-07-09,TXN5018,C103,Priya Nair,P107,Maggi,Food,2,25.0,Sale,50.0,Card
+2026-07-09,PO_RESTOCK_C1,,,P101,Restock - Premium Basmati Rice 5kg,Grains,20,350.0,Expense,7000.0,UPI
+2026-07-11,TXN5003,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,Cash
+2026-07-13,TXN5033,C110,Meera Krishnan,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-07-14,PO_RESTOCK_C2,,,P102,Restock - Gold Winner Sunflower Oil 1L,Oils,30,110.0,Expense,3300.0,Cash
+2026-07-17,TXN5011,C102,Deepika Patel,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-07-17,TXN5028,C108,Sneha Reddy,P107,Maggi,Food,1,25.0,Sale,25.0,UPI
+2026-07-19,TXN5017,C103,Priya Nair,P107,Maggi,Food,1,25.0,Sale,25.0,UPI
+2026-07-19,TXN5002,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-07-21,TXN5032,C110,Meera Krishnan,P101,Premium Basmati Rice,Grains,2,420.0,Sale,840.0,UPI
+2026-07-24,TXN5010,C102,Deepika Patel,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,UPI
+2026-07-25,TXN5026,C106,Ananya Rao,P107,Maggi,Food,2,25.0,Sale,50.0,UPI
+2026-07-26,TXN5001,C101,Aarav Sharma,P101,Premium Basmati Rice,Grains,1,420.0,Sale,420.0,Card

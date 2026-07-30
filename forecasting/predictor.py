@@ -8,21 +8,25 @@ import config
 TRANSACTIONS_PATH = os.path.join(config.DATA_DIR, 'transactions.csv')
 INVENTORY_PATH = os.path.join(config.DATA_DIR, 'inventory.csv')
 
-def load_data():
+def load_data(workspace_dir: str = None):
     """Loads transaction and inventory dataframes."""
     tx_df = pd.DataFrame()
     inv_df = pd.DataFrame()
     
-    if os.path.exists(TRANSACTIONS_PATH):
-        tx_df = pd.read_csv(TRANSACTIONS_PATH)
-        tx_df['Date'] = pd.to_datetime(tx_df['Date'])
+    tx_path = os.path.join(workspace_dir, 'transactions.csv') if workspace_dir else TRANSACTIONS_PATH
+    inv_path = os.path.join(workspace_dir, 'inventory.csv') if workspace_dir else INVENTORY_PATH
     
-    if os.path.exists(INVENTORY_PATH):
-        inv_df = pd.read_csv(INVENTORY_PATH)
+    if os.path.exists(tx_path):
+        tx_df = pd.read_csv(tx_path)
+        if not tx_df.empty and 'Date' in tx_df.columns:
+            tx_df['Date'] = pd.to_datetime(tx_df['Date'])
+    
+    if os.path.exists(inv_path):
+        inv_df = pd.read_csv(inv_path)
         
     return tx_df, inv_df
 
-def forecast_sales(product_id: str = None, days_ahead: int = 30) -> dict:
+def forecast_sales(product_id: str = None, days_ahead: int = 30, workspace_dir: str = None) -> dict:
     """
     Predicts sales for the next N days.
     If product_id is specified, forecasts only for that product.
@@ -35,10 +39,19 @@ def forecast_sales(product_id: str = None, days_ahead: int = 30) -> dict:
             "product_name": str or None
         }
     """
-    tx_df, inv_df = load_data()
+    tx_df, inv_df = load_data(workspace_dir)
     
     # Fallback to mock forecast if transactions file is empty/nonexistent
     if tx_df.empty:
+        if workspace_dir:
+            return {
+                "historical": {"dates": [], "sales": []},
+                "forecast": {"dates": [], "sales": []},
+                "growth_rate": 0.0,
+                "total_forecasted_sales": 0.0,
+                "product_name": None,
+                "is_empty": True
+            }
         return get_mock_forecast(product_id, days_ahead)
         
     # Filter by product if requested
@@ -51,6 +64,15 @@ def forecast_sales(product_id: str = None, days_ahead: int = 30) -> dict:
     # Filter sales transactions (exclude expenses)
     sales_df = tx_df[tx_df['Type'] == 'Sale']
     if sales_df.empty:
+        if workspace_dir:
+            return {
+                "historical": {"dates": [], "sales": []},
+                "forecast": {"dates": [], "sales": []},
+                "growth_rate": 0.0,
+                "total_forecasted_sales": 0.0,
+                "product_name": None,
+                "is_empty": True
+            }
         return get_mock_forecast(product_id, days_ahead)
         
     # Aggregate sales by date
@@ -130,48 +152,80 @@ def forecast_sales(product_id: str = None, days_ahead: int = 30) -> dict:
         "product_name": prod_name
     }
 
-def predict_inventory_exhaustion() -> list[dict]:
+def predict_inventory_exhaustion(workspace_dir: str = None) -> list[dict]:
     """
     Computes stock velocity (mean daily quantity sold) for each product.
     Estimates the days remaining before current stock is exhausted.
     Returns:
         list of dicts containing stock exhaustion details and restock recommendations.
     """
-    tx_df, inv_df = load_data()
+    tx_df, inv_df = load_data(workspace_dir)
     
-    if tx_df.empty or inv_df.empty:
+    # If no inventory catalog exists, return empty or mock
+    if inv_df.empty:
+        if workspace_dir:
+            return []
+        return get_mock_exhaustion_data()
+        
+    # If in guest mode and transactions are empty, return mock data
+    if not workspace_dir and tx_df.empty:
         return get_mock_exhaustion_data()
         
     # Get sales transactions
-    sales_df = tx_df[(tx_df['Type'] == 'Sale') & (tx_df['ProductID'].isin(inv_df['ProductID']))]
+    if not tx_df.empty:
+        sales_df = tx_df[(tx_df['Type'] == 'Sale') & (tx_df['ProductID'].isin(inv_df['ProductID']))]
+    else:
+        sales_df = pd.DataFrame()
     
-    # Calculate average daily sales velocity (quantity sold per day) over the last 30 days
-    cutoff_date = sales_df['Date'].max() - timedelta(days=30)
-    recent_sales = sales_df[sales_df['Date'] >= cutoff_date]
-    
-    # Group by ProductID and calculate daily sales rate
-    # Daily rate = Total Qty sold / 30
-    qty_sold = recent_sales.groupby('ProductID')['Quantity'].sum().reset_index()
-    qty_sold['DailyVelocity'] = qty_sold['Quantity'] / 30.0
+    if not sales_df.empty:
+        # Calculate average daily sales velocity (quantity sold per day) over the last 30 days
+        cutoff_date = sales_df['Date'].max() - timedelta(days=30)
+        recent_sales = sales_df[sales_df['Date'] >= cutoff_date]
+        
+        # Group by ProductID and calculate daily sales rate
+        qty_sold = recent_sales.groupby('ProductID')['Quantity'].sum().reset_index()
+        qty_sold['DailyVelocity'] = qty_sold['Quantity'] / 30.0
+    else:
+        qty_sold = pd.DataFrame(columns=['ProductID', 'DailyVelocity'])
     
     # Merge with inventory
     exhaustion_list = []
     
     for _, item in inv_df.iterrows():
         pid = item['ProductID']
-        stock = item['StockLevel']
-        reorder_lvl = item['ReorderLevel']
+        stock_raw = item['StockLevel']
+        reorder_lvl_raw = item['ReorderLevel']
         
         # Get velocity
         vel_row = qty_sold[qty_sold['ProductID'] == pid]
-        # Default daily velocity if no recent sales: average baseline of 0.5 units/day
-        velocity = float(vel_row['DailyVelocity'].values[0]) if not vel_row.empty else 0.4
+        velocity_raw = float(vel_row['DailyVelocity'].values[0]) if not vel_row.empty else 0.4
         
-        if velocity <= 0:
-            velocity = 0.1 # avoid division by zero
+        # Safe float casting and sanitization to prevent NaN/Infinity crashes
+        try:
+            stock = float(stock_raw)
+            if np.isnan(stock) or np.isinf(stock):
+                stock = 0.0
+        except Exception:
+            stock = 0.0
+            
+        try:
+            reorder_lvl = float(reorder_lvl_raw)
+            if np.isnan(reorder_lvl) or np.isinf(reorder_lvl):
+                reorder_lvl = 10.0
+        except Exception:
+            reorder_lvl = 10.0
+            
+        try:
+            velocity = float(velocity_raw)
+            if np.isnan(velocity) or np.isinf(velocity) or velocity <= 0:
+                velocity = 0.4
+        except Exception:
+            velocity = 0.4
             
         days_remaining = stock / velocity
-        
+        if np.isnan(days_remaining) or np.isinf(days_remaining):
+            days_remaining = 999.0
+            
         # Create recommendation
         status = "Safe"
         reorder_recommendation = 0
@@ -186,15 +240,15 @@ def predict_inventory_exhaustion() -> list[dict]:
             
         exhaustion_list.append({
             "ProductID": pid,
-            "ProductName": item['ProductName'],
-            "Category": item['Category'],
+            "ProductName": item['ProductName'] if pd.notna(item['ProductName']) else "Unknown Product",
+            "Category": item['Category'] if pd.notna(item['Category']) else "Grains",
             "CurrentStock": int(stock),
             "ReorderLevel": int(reorder_lvl),
             "DailyVelocity": round(velocity, 2),
             "DaysRemaining": round(days_remaining, 1),
             "Status": status,
             "ReorderRecommendation": reorder_recommendation,
-            "Supplier": item['Supplier']
+            "Supplier": item['Supplier'] if pd.notna(item['Supplier']) else "Direct Purchase"
         })
         
     # Sort so urgent warnings are at the top

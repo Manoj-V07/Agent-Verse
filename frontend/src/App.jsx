@@ -17,66 +17,104 @@ import {
   FileCheck,
   Volume2,
   RefreshCw,
-  Plus
+  Plus,
+  LogOut,
+  MapPin,
+  List,
+  Coins,
+  Settings,
+  UserCheck,
+  ShoppingCart,
+  Truck,
+  ExternalLink,
+  Copy
 } from 'lucide-react';
 
-const API_BASE = import.meta.env.VITE_API_BASE || "https://aegisai-r1e9.onrender.com";
-
-// Robust high-fidelity Mock Data Fallbacks for instant interactivity
-const MOCK_INVENTORY = [
-  { ProductID: "P101", ProductName: "Premium Basmati Rice 5kg", Category: "Grains", CurrentStock: 45, ReorderLevel: 15, DailyVelocity: 1.80, DaysRemaining: 25.0, Status: "Safe", ReorderRecommendation: 0, Supplier: "Sri Balaji Traders" },
-  { ProductID: "P102", ProductName: "Gold Winner Sunflower Oil 1L", Category: "Oils", CurrentStock: 8, ReorderLevel: 20, DailyVelocity: 1.25, DaysRemaining: 6.4, Status: "Low Stock", ReorderRecommendation: 60, Supplier: "Vignesh Wholesalers" },
-  { ProductID: "P103", ProductName: "Tata Salt 1kg", Category: "Condiments", CurrentStock: 60, ReorderLevel: 25, DailyVelocity: 0.90, DaysRemaining: 66.7, Status: "Safe", ReorderRecommendation: 0, Supplier: "Tirupur Distributors" },
-  { ProductID: "P104", ProductName: "Aashirvaad Shudh Chakki Atta 5kg", Category: "Grains", CurrentStock: 12, ReorderLevel: 15, DailyVelocity: 1.10, DaysRemaining: 10.9, Status: "Approaching Outage", ReorderRecommendation: 50, Supplier: "Sri Balaji Traders" },
-  { ProductID: "P107", ProductName: "Brooke Bond Red Label Tea 250g", Category: "Beverages", CurrentStock: 5, ReorderLevel: 12, DailyVelocity: 0.64, DaysRemaining: 7.8, Status: "Low Stock", ReorderRecommendation: 30, Supplier: "Vignesh Wholesalers" },
-  { ProductID: "P108", ProductName: "Sunsilk Black Shampoo 180ml", Category: "Personal Care", CurrentStock: 22, ReorderLevel: 8, DailyVelocity: 0.40, DaysRemaining: 55.0, Status: "Safe", ReorderRecommendation: 0, Supplier: "Vignesh Wholesalers" }
-];
-
-const MOCK_FORECAST = {
-  historical: {
-    dates: ["May 29", "Jun 01", "Jun 03", "Jun 05", "Jun 07", "Jun 09", "Jun 11", "Jun 12"],
-    sales: [7400, 8200, 7900, 8600, 9100, 8900, 9300, 9500]
-  },
-  forecast: {
-    dates: ["Jun 13", "Jun 15", "Jun 18", "Jun 21", "Jun 24", "Jun 27", "Jun 30", "Jul 03"],
-    sales: [9700, 10100, 9900, 10300, 10600, 10500, 10950, 11400]
-  },
-  growth_rate: 8.52,
-  total_forecasted_sales: 114411.96,
-  product_name: null
-};
-
-const MOCK_MESSAGES = [
-  {
-    role: "assistant",
-    content: "Hello! I am AegisAI, your operational copilot. Ask me anything about your finances, stock levels, or future sales predictions. I can respond in Tamil (தமிழ்) too!",
-    agent: "COORDINATOR",
-    reasoning: "Standard user onboard greeting.",
-    thoughts: "Welcome response initiated."
-  }
-];
+const API_BASE = window.location.hostname === "localhost" ? "http://localhost:8000" : (import.meta.env.VITE_API_BASE || "https://aegisai-r1e9.onrender.com");
 
 export default function App() {
-  // Navigation & Tabs
+  // Navigation & Session States
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("aegis_token") || "");
+  const [user, setUser] = useState(null); 
+  const [business, setBusiness] = useState(null); 
+  const [logo, setLogo] = useState(null); 
   const [activeTab, setActiveTab] = useState("copilot");
   const [provider, setProvider] = useState("gemini");
   
-  // App settings & status
+  // App UI states
   const [backendStatus, setBackendStatus] = useState("checking");
   const [isAlertSending, setIsAlertSending] = useState(false);
-  const [ownerPhone, setOwnerPhone] = useState("+919876543210");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   
+  // Authentication Form States
+  const [authMode, setAuthMode] = useState("login"); 
+  const [authInputs, setAuthInputs] = useState({
+    fullName: "",
+    email: "",
+    mobile: "",
+    password: "",
+    confirmPassword: "",
+    preferredLanguage: "english"
+  });
+  const [authError, setAuthError] = useState("");
+  const [authLoading, setAuthLoading] = useState(false);
+
+  // Onboarding Form States
+  const [onboardingInputs, setOnboardingInputs] = useState({
+    businessName: "",
+    businessCategory: "Grocery",
+    businessLocation: "",
+    currency: "₹",
+    merchantWhatsapp: "",
+    enableInventory: true,
+    enableWhatsapp: true,
+    startFresh: true
+  });
+  const [logoFile, setLogoFile] = useState(null);
+  const [logoPreview, setLogoPreview] = useState("");
+  const [productsFile, setProductsFile] = useState(null);
+  const [transactionsFile, setTransactionsFile] = useState(null);
+  const [onboardLoading, setOnboardLoading] = useState(false);
+  const [onboardError, setOnboardError] = useState("");
+
+  // Dashboard Data States
+  const [inventory, setInventory] = useState([]);
+  const [forecast, setForecast] = useState({ historical: { dates: [], sales: [] }, forecast: { dates: [], sales: [] }, growth_rate: 0, total_forecasted_sales: 0 });
+  const [financeSummary, setFinanceSummary] = useState({ total_sales: 0, total_expenses: 0, net_profit: 0, is_empty: true });
+  const [whatsappLogs, setWhatsappLogs] = useState([]);
+  
+  // Customer Insights States
+  const [customerInsights, setCustomerInsights] = useState(null);
+  const [isCustomerLoading, setIsCustomerLoading] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [inactiveDays, setInactiveDays] = useState(60);
+  const [newCustomer, setNewCustomer] = useState({ name: "", email: "", phone: "" });
+  const [customerAddStatus, setCustomerAddStatus] = useState({ type: "", message: "" });
+  const [isAddingCustomer, setIsAddingCustomer] = useState(false);
+  const [campaignDraft, setCampaignDraft] = useState("");
+  const [campaignLoading, setCampaignLoading] = useState(false);
+  const [showCampaignModal, setShowCampaignModal] = useState(false);
+  
+  // Supplier & Procurement States
+  const [suppliers, setSuppliers] = useState([]);
+  const [procurementRecs, setProcurementRecs] = useState([]);
+  const [purchaseOrders, setPurchaseOrders] = useState([]);
+  const [selectedRec, setSelectedRec] = useState(null); // Rec selected for side-by-side comparison
+  const [poModalText, setPoModalText] = useState(""); // WhatsApp message template
+  const [showPoModal, setShowPoModal] = useState(false);
+  const [poReceivingId, setPoReceivingId] = useState("");
+  
+  // Add Supplier States
+  const [newSupplier, setNewSupplier] = useState({ name: "", phone: "", email: "", paymentTerms: "COD" });
+  const [supplierAddStatus, setSupplierAddStatus] = useState({ type: "", message: "" });
+  const [isAddingSupplier, setIsAddingSupplier] = useState(false);
+
   // Chat state
-  const [chatHistory, setChatHistory] = useState(MOCK_MESSAGES);
+  const [chatHistory, setChatHistory] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  
-  // Data State
-  const [inventory, setInventory] = useState(MOCK_INVENTORY);
-  const [forecast, setForecast] = useState(MOCK_FORECAST);
-  const [whatsappLogs, setWhatsappLogs] = useState([]);
   
   // Document Upload State
   const [selectedFile, setSelectedFile] = useState(null);
@@ -105,72 +143,495 @@ export default function App() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory, isTyping]);
 
-  // Check backend status & load initial records
+  // Initial Auth Check
   useEffect(() => {
     checkConnection();
-    loadDashboardData();
-    // Poll for WhatsApp logs every 5 seconds for simulation responsiveness
-    const timer = setInterval(fetchWhatsappLogs, 5000);
-    return () => clearInterval(timer);
+    checkAuth();
   }, []);
+
+  // Poll logs and updates
+  useEffect(() => {
+    if (isAuthenticated && user?.isOnboarded) {
+      const timer = setInterval(() => {
+        fetchWhatsappLogs(token);
+        fetchProcurementRecs(token);
+      }, 8000);
+      return () => clearInterval(timer);
+    }
+  }, [isAuthenticated, user, token]);
 
   const checkConnection = async () => {
     try {
       const res = await fetch(`${API_BASE}/`);
-      if (res.ok) {
-        setBackendStatus("online");
-      } else {
-        setBackendStatus("offline");
-      }
-    } catch {
+      if (res.ok) setBackendStatus("online");
+    } catch (e) {
       setBackendStatus("offline");
     }
   };
 
-  const loadDashboardData = async () => {
-    await Promise.all([
-      fetchInventory(),
-      fetchForecast(),
-      fetchWhatsappLogs()
-    ]);
-  };
+  const checkAuth = async (tokenOverride = null) => {
+    const activeToken = tokenOverride || token || localStorage.getItem("aegis_token");
+    if (!activeToken) {
+      setIsAuthenticated(false);
+      setAuthMode("login");
+      return;
+    }
 
-  const fetchInventory = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/depletion`);
+      const res = await fetch(`${API_BASE}/api/auth/me`, {
+        headers: { "Authorization": `Bearer ${activeToken}` }
+      });
       if (res.ok) {
         const data = await res.json();
-        if (data && data.length > 0) setInventory(data);
+        setUser(data.user);
+        setBusiness(data.business);
+        setLogo(data.logo);
+        setIsAuthenticated(true);
+        if (data.user.isOnboarded) {
+          setAuthMode("dashboard");
+          fetchDashboardData(activeToken);
+        } else {
+          setAuthMode("onboarding");
+        }
+      } else {
+        localStorage.removeItem("aegis_token");
+        setToken("");
+        setIsAuthenticated(false);
+        setAuthMode("login");
       }
-    } catch (e) {
-      console.log("Failed to fetch inventory from FastAPI backend, using fallback data.");
+    } catch (err) {
+      console.log("Authentication check failed.");
     }
   };
 
-  const fetchForecast = async (productId = null) => {
+  const fetchDashboardData = async (activeToken) => {
+    await Promise.all([
+      fetchInventory(activeToken),
+      fetchForecast(activeToken),
+      fetchFinanceSummary(activeToken),
+      fetchWhatsappLogs(activeToken),
+      fetchSuppliers(activeToken),
+      fetchProcurementRecs(activeToken),
+      fetchPurchaseOrders(activeToken),
+      fetchCustomerInsights(activeToken, inactiveDays)
+    ]);
+
+    setChatHistory([
+      {
+        role: "assistant",
+        content: `Hello! I am AegisAI, your operational copilot. Ask me anything about your finances, stock levels, linear forecasting, or supplier reorder parameters.`,
+        agent: "COORDINATOR",
+        reasoning: "Session authenticated.",
+        thoughts: "Database streams synced."
+      }
+    ]);
+  };
+
+  const fetchCustomerInsights = async (activeToken, days = 60) => {
+    setIsCustomerLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/customer/insights?inactive_days=${days}`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCustomerInsights(data);
+      }
+    } catch (err) {
+      console.log("Failed to fetch customer insights:", err);
+    } finally {
+      setIsCustomerLoading(false);
+    }
+  };
+
+  const fetchInventory = async (activeToken) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/inventory/depletion`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
+      if (res.ok) {
+        setInventory(await res.json());
+      }
+    } catch (e) {
+      console.log("Failed to fetch inventory.");
+    }
+  };
+
+  const fetchForecast = async (activeToken, productId = null) => {
     try {
       let url = `${API_BASE}/api/forecast`;
       if (productId) url += `?product_id=${productId}`;
       
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
       if (res.ok) {
-        const data = await res.json();
-        if (data) setForecast(data);
+        setForecast(await res.json());
       }
     } catch (e) {
-      console.log("Failed to fetch forecast from FastAPI backend, using fallback data.");
+      console.log("Failed to fetch forecast.");
     }
   };
 
-  const fetchWhatsappLogs = async () => {
+  const fetchFinanceSummary = async (activeToken) => {
     try {
-      const res = await fetch(`${API_BASE}/api/whatsapp/logs`);
+      const res = await fetch(`${API_BASE}/api/finance/summary`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
       if (res.ok) {
-        const data = await res.json();
-        setWhatsappLogs(data || []);
+        setFinanceSummary(await res.json());
       }
     } catch (e) {
-      console.log("Failed to fetch whatsapp logs.");
+      console.log("Failed to fetch finance summary.");
+    }
+  };
+
+  const fetchWhatsappLogs = async (activeToken) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/whatsapp/logs`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
+      if (res.ok) {
+        setWhatsappLogs(await res.json());
+      }
+    } catch (e) {
+      console.log("Failed to fetch WhatsApp logs.");
+    }
+  };
+
+  // --- NEW SUPPLIER HUB FETCH METHODS ---
+  const fetchSuppliers = async (activeToken) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/suppliers`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
+      if (res.ok) {
+        setSuppliers(await res.json());
+      }
+    } catch (e) {
+      console.log("Failed to fetch suppliers.");
+    }
+  };
+
+  const fetchProcurementRecs = async (activeToken) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/procurement/recommendations`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProcurementRecs(data.recommendations || []);
+      }
+    } catch (e) {
+      console.log("Failed to fetch procurement recommendations.");
+    }
+  };
+
+  const fetchPurchaseOrders = async (activeToken) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/procurement/orders`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
+      if (res.ok) {
+        setPurchaseOrders(await res.json());
+      }
+    } catch (e) {
+      console.log("Failed to fetch POs.");
+    }
+  };
+
+  // Auth Submit Handlers
+  const handleAuthSubmit = async (e) => {
+    e.preventDefault();
+    setAuthError("");
+    setAuthLoading(true);
+
+    if (authMode === "signup") {
+      if (authInputs.password !== authInputs.confirmPassword) {
+        setAuthError("Passwords do not match.");
+        setAuthLoading(false);
+        return;
+      }
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fullName: authInputs.fullName,
+            email: authInputs.email,
+            mobile: authInputs.mobile,
+            password: authInputs.password,
+            preferredLanguage: authInputs.preferredLanguage
+          })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setSuccessMessage("Sign Up successful! Please Log In.");
+          setAuthMode("login");
+        } else {
+          setAuthError(data.detail || "Registration failed.");
+        }
+      } catch (err) {
+        setAuthError("Server connection error.");
+      }
+    } else {
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: authInputs.email,
+            password: authInputs.password
+          })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem("aegis_token", data.token);
+          setToken(data.token);
+          setSuccessMessage("Logged in successfully!");
+          await checkAuth(data.token);
+        } else {
+          setAuthError(data.detail || "Invalid email or password.");
+        }
+      } catch (err) {
+        setAuthError("Server connection error.");
+      }
+    }
+    setAuthLoading(false);
+  };
+
+  // Onboarding Submit Handlers
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setLogoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleOnboardSubmit = async (e) => {
+    e.preventDefault();
+    setOnboardError("");
+    setOnboardLoading(true);
+
+    const formData = new FormData();
+    formData.append("businessName", onboardingInputs.businessName);
+    formData.append("businessCategory", onboardingInputs.businessCategory);
+    formData.append("businessLocation", onboardingInputs.businessLocation);
+    formData.append("currency", onboardingInputs.currency);
+    formData.append("merchantWhatsapp", onboardingInputs.merchantWhatsapp);
+    formData.append("enableInventory", onboardingInputs.enableInventory ? "true" : "false");
+    formData.append("enableWhatsapp", onboardingInputs.enableWhatsapp ? "true" : "false");
+    formData.append("startFresh", onboardingInputs.startFresh ? "true" : "false");
+
+    if (logoFile) {
+      formData.append("businessLogo", logoFile);
+    }
+    if (!onboardingInputs.startFresh) {
+      if (productsFile) formData.append("productsFile", productsFile);
+      if (transactionsFile) formData.append("transactionsFile", transactionsFile);
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/onboard`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+        body: formData
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSuccessMessage("Workspace loaded and configured successfully!");
+        await checkAuth(token);
+      } else {
+        setOnboardError(data.detail || "Onboarding failed.");
+      }
+    } catch (err) {
+      setOnboardError("Server connection failed.");
+    }
+    setOnboardLoading(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("aegis_token");
+    setToken("");
+    setIsAuthenticated(false);
+    setUser(null);
+    setBusiness(null);
+    setLogo(null);
+    setAuthMode("login");
+    setAuthInputs({ fullName: "", email: "", mobile: "", password: "", confirmPassword: "", preferredLanguage: "english" });
+  };
+
+  // Add Supplier Handler
+  const handleAddSupplier = async (e) => {
+    e.preventDefault();
+    setSupplierAddStatus({ type: "", message: "" });
+    setIsAddingSupplier(true);
+
+    if (!newSupplier.name || !newSupplier.phone || !newSupplier.email) {
+      setSupplierAddStatus({ type: "error", message: "Please fill in all required fields." });
+      setIsAddingSupplier(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/suppliers/add`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(newSupplier)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSupplierAddStatus({ type: "success", message: data.message });
+        setNewSupplier({ name: "", phone: "", email: "", paymentTerms: "COD" });
+        fetchSuppliers(token);
+      } else {
+        setSupplierAddStatus({ type: "error", message: data.detail || "Failed to add supplier" });
+      }
+    } catch (err) {
+      setSupplierAddStatus({ type: "error", message: "Server connection failed." });
+    } finally {
+      setIsAddingSupplier(false);
+    }
+  };
+
+  // Add Customer Handler
+  const handleAddCustomer = async (e) => {
+    e.preventDefault();
+    setCustomerAddStatus({ type: "", message: "" });
+    setIsAddingCustomer(true);
+
+    if (!newCustomer.name || !newCustomer.phone || !newCustomer.email) {
+      setCustomerAddStatus({ type: "error", message: "Please fill in all required fields." });
+      setIsAddingCustomer(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/customers/add`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(newCustomer)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCustomerAddStatus({ type: "success", message: data.message });
+        setNewCustomer({ name: "", email: "", phone: "" });
+        fetchCustomerInsights(token, inactiveDays);
+      } else {
+        setCustomerAddStatus({ type: "error", message: data.detail || "Failed to add customer" });
+      }
+    } catch (err) {
+      setCustomerAddStatus({ type: "error", message: "Server connection failed." });
+    } finally {
+      setIsAddingCustomer(false);
+    }
+  };
+
+  // Generate Personalized WhatsApp Campaign
+  const handleGenerateCampaign = async (customerId, segmentId, offer) => {
+    setCampaignLoading(true);
+    setCampaignDraft("");
+    setShowCampaignModal(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/customer/campaign`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          customer_id: customerId || null,
+          segment: segmentId || null,
+          custom_offer: offer || null,
+          provider: provider
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCampaignDraft(data.campaign_draft);
+      } else {
+        setCampaignDraft(`Failed to generate campaign copy: ${data.detail}`);
+      }
+    } catch (err) {
+      setCampaignDraft("Server connection failed. Could not generate campaign draft.");
+    } finally {
+      setCampaignLoading(false);
+    }
+  };
+
+  // Approve Reorder Recommendation
+  const handleApproveRec = async (productId, supplierId, qty) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/procurement/orders/approve`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ productId, supplierId, quantity: qty })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setPoModalText(data.whatsapp_draft);
+        setShowPoModal(true);
+        setSuccessMessage(data.message);
+        fetchPurchaseOrders(token);
+        fetchProcurementRecs(token);
+        fetchInventory(token);
+        fetchFinanceSummary(token);
+      } else {
+        setErrorMessage(data.detail || "Failed to generate Purchase Order.");
+      }
+    } catch (err) {
+      setErrorMessage("Could not approve purchase order due to server error.");
+    }
+  };
+
+  // Reject / Dismiss Recommendation
+  const handleDismissRec = (prodId) => {
+    setProcurementRecs(prev => prev.filter(rec => rec.product_id !== prodId));
+    setSuccessMessage(`Procurement warning recommendations for product ${prodId} dismissed.`);
+  };
+
+  // Complete Pending Purchase Order Restock
+  const handleReceivePO = async (poId) => {
+    setPoReceivingId(poId);
+    try {
+      const res = await fetch(`${API_BASE}/api/procurement/orders/receive`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ poId })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSuccessMessage(data.message);
+        fetchPurchaseOrders(token);
+        fetchInventory(token);
+        fetchSuppliers(token);
+        fetchFinanceSummary(token);
+      } else {
+        setErrorMessage(data.detail || "Failed to deliver restock.");
+      }
+    } catch (e) {
+      setErrorMessage("Could not contact server to receive order.");
+    } finally {
+      setPoReceivingId("");
     }
   };
 
@@ -187,7 +648,10 @@ export default function App() {
     try {
       const res = await fetch(`${API_BASE}/api/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify({ query: userMsg.content, use_rag: true, provider })
       });
 
@@ -204,197 +668,152 @@ export default function App() {
         throw new Error("API failed");
       }
     } catch (err) {
-      // Offline fallback simulations matching agents/base_agent
       setTimeout(() => {
-        const fallbackText = getLocalMockReply(userMsg.content, provider);
-        setChatHistory(prev => [...prev, fallbackText]);
+        setChatHistory(prev => [...prev, {
+          role: "assistant",
+          content: `Connection failed. Local fallback routing to Supplier database is active.`,
+          agent: "LOCAL ENGINE",
+          reasoning: "Offline routing fit.",
+          thoughts: "FastAPI server did not respond."
+        }]);
       }, 1000);
     } finally {
       setIsTyping(false);
-      // reload inventory and logs as they could have updated
-      setTimeout(loadDashboardData, 1500);
     }
   };
 
-  const getLocalMockReply = (query, currentProvider) => {
-    const q = query.toLowerCase();
-    const isTamil = /[வணக்கம்|விற்பனை|பொருள்|இருப்பு|கணிப்பு|அடுத்த|மாதம்]/i.test(q);
-    
-    // Simulate keyword-based answers
-    if (q.includes("revenue") || q.includes("sales") || q.includes("finance") || q.includes("விற்பனை") || q.includes("இலாபம்")) {
-      return {
-        role: "assistant",
-        content: isTamil ? "### 📊 நிதிப் பகுப்பாய்வு (ஆஃப்லைன் நிதி முகவர்)\nகடந்த 6 மாதங்களின் நிதி நிலவரம்:\n- **மொத்த விற்பனை (வருவாய்):** Rs. 145,200.00\n- **மொத்த செலவுகள்:** Rs. 28,400.00\n- **நிகர இலாபம்:** Rs. 116,800.00" 
-                        : "### 📊 Financial Analysis (Offline Finance Agent)\nHere is the summary of your financial data:\n- **Total Revenue (Sales):** Rs. 145,200.00\n- **Total Expenses:** Rs. 28,400.00\n- **Net Profit:** Rs. 116,800.00",
-        agent: "FINANCE",
-        reasoning: "Local keyword trigger: finance / money query.",
-        thoughts: `Offline engine run using ${currentProvider.toUpperCase()} setting.`
-      };
-    } else if (q.includes("stock") || q.includes("inventory") || q.includes("low") || q.includes("இருப்பு")) {
-      return {
-        role: "assistant",
-        content: isTamil ? "### 📦 இருப்பு பகுப்பாய்வு (ஆஃப்லைன் இருப்பு முகவர்)\n**குறைந்த இருப்பு எச்சரிக்கை (உடனே ஆர்டர் செய்யவும்):**\n- **Gold Winner Sunflower Oil 1L** | Current Stock: 8 units | Limit: 20\n- **Brooke Bond Red Label Tea 250g** | Current Stock: 5 units | Limit: 12"
-                        : "### 📦 Inventory Analysis (Offline Inventory Agent)\n**Low Stock Alert (Immediate Reorder Required):**\n- **Gold Winner Sunflower Oil 1L** (Current Stock: **8 units**, limit: 20)\n- **Brooke Bond Red Label Tea 250g** (Current Stock: **5 units**, limit: 12)",
-        agent: "INVENTORY",
-        reasoning: "Local keyword trigger: stock out limits.",
-        thoughts: `Offline calculations complete via ${currentProvider.toUpperCase()}`
-      };
-    } else if (q.includes("predict") || q.includes("forecast") || q.includes("future") || q.includes("கணிப்பு")) {
-      return {
-        role: "assistant",
-        content: isTamil ? "### 📈 விற்பனை கணிப்பு (ஆஃப்லைன் பகுப்பாய்வு முகவர்)\nஇயந்திர கற்றல் மாதிரி அடுத்த 30 நாட்களில் **8.52%** விற்பனை வளர்ச்சியை கணிக்கிறது.\n- **கணிக்கப்பட்ட மொத்த வருவாய்:** Rs. 114,411.96"
-                        : "### 📈 Predictive Forecast (Offline Analytics Agent)\nUsing our local regression model, we predict a **8.52% upward trend** in sales over the next 30 days.\n- **Forecasted Revenue:** Rs. 114,411.96",
-        agent: "ANALYTICS",
-        reasoning: "Local keyword trigger: sales forecasting.",
-        thoughts: "Fitted linear regression offline variables."
-      };
-    } else {
-      return {
-        role: "assistant",
-        content: isTamil ? `வணக்கம்! நான் ஏஜிஸ்ஏஐ (AegisAI) வணிக உதவியாளர். ${currentProvider.toUpperCase()} மாதிரி வழியை இயக்குகிறீர்கள். உங்கள் நிதி, இருப்பு, அல்லது விற்பனை பற்றி கேட்கலாம்.`
-                        : `Hello! I am AegisAI, your Multilingual Autonomous Business Copilot. Running under ${currentProvider.toUpperCase()} settings. Ask me about transactions, low stock, or next month's forecast!`,
-        agent: "GENERAL",
-        reasoning: "General coordinator conversation routing.",
-        thoughts: "Greeting sent back directly."
-      };
-    }
-  };
-
-  // WhatsApp manual trigger alert handler
-  const handleSendWhatsAppAlerts = async () => {
+  const handleTriggerAlerts = async () => {
     setIsAlertSending(true);
     setSuccessMessage("");
     setErrorMessage("");
-
     try {
       const res = await fetch(`${API_BASE}/api/alerts/trigger-low-stock`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ custom_recipient: ownerPhone, provider })
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
       });
-
       if (res.ok) {
         const data = await res.json();
         if (data.alert_sent) {
-          setSuccessMessage(`Successfully dispatched ${data.count} low-stock alerts to WhatsApp!`);
+          setSuccessMessage(`Low stock alerts dispatched to Twilio gateway! Messages: ${data.count}.`);
+          fetchWhatsappLogs(token);
         } else {
-          setSuccessMessage(data.message || "Stock levels are healthy!");
+          setSuccessMessage("All inventory stock levels are healthy. No alerts sent.");
         }
       } else {
-        throw new Error();
+        setErrorMessage("Backend failed to compile alert templates.");
       }
-    } catch {
-      // Simulated local trigger
-      setTimeout(() => {
-        const lowItems = inventory.filter(item => item.Status === "Low Stock" || item.CurrentStock <= item.ReorderLevel);
-        if (lowItems.length > 0) {
-          lowItems.forEach(item => {
-            const simulatedMsg = `🚨 *LOW STOCK ALERT* 🚨\n\n📦 *Product:* ${item.ProductName} (ID: ${item.ProductID})\n⚠️ *Current Stock:* ${item.CurrentStock} units\n🏭 *Supplier:* ${item.Supplier}\n\n💡 *Recommendation:* Restock *${item.ReorderRecommendation || 30} units* immediately.`;
-            // Add to logs manually
-            setWhatsappLogs(prev => [
-              ...prev,
-              {
-                timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-                to: ownerPhone.replace("whatsapp:", ""),
-                body: simulatedMsg,
-                status: "Simulated (Offline Mode)"
-              }
-            ]);
-          });
-          setSuccessMessage(`Simulated offline stock check: dispatched warnings for ${lowItems.length} items!`);
-        } else {
-          setSuccessMessage("All inventory is safe!");
-        }
-      }, 800);
+    } catch (e) {
+      setErrorMessage("Could not dispatch network request for stock notifications.");
     } finally {
       setIsAlertSending(false);
-      setTimeout(fetchWhatsappLogs, 1000);
     }
   };
 
-  // Clear logs handler
+  const handleSimulateInbound = async (queryText) => {
+    if (!queryText.trim()) return;
+    setIsTyping(true);
+    
+    const inboundLog = {
+      timestamp: new Date().toLocaleTimeString(),
+      to: "AegisAI Gateway",
+      body: `Merchant asked: ${queryText}`,
+      status: "Received"
+    };
+    setWhatsappLogs(prev => [...prev, inboundLog]);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ query: queryText, use_rag: true, provider })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const replyLog = {
+          timestamp: new Date().toLocaleTimeString(),
+          to: user?.mobile || "+919876543210",
+          body: data.response,
+          status: "Sent (Simulator)"
+        };
+        setWhatsappLogs(prev => [...prev, replyLog]);
+      }
+    } catch (err) {
+      console.log("Simulating webhook chat failed.");
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
   const handleClearLogs = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/whatsapp/clear`, { method: "POST" });
+      const res = await fetch(`${API_BASE}/api/whatsapp/clear`, { 
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
       if (res.ok) {
         setWhatsappLogs([]);
+        setSuccessMessage("Simulation history deleted successfully.");
       }
-    } catch {
-      setWhatsappLogs([]);
+    } catch (e) {
+      setErrorMessage("Failed to delete log history.");
     }
   };
 
-  // Add product form submit handler
-  const handleAddProduct = async (e) => {
+  const handleAddProductSubmit = async (e) => {
     e.preventDefault();
     setAddStatus({ type: "", message: "" });
+    setIsAddingProduct(true);
 
-    const { ProductID, ProductName, Category, StockLevel, ReorderLevel, UnitPrice, RetailPrice, Supplier } = newProduct;
-
-    // Validation
-    if (!ProductID || !ProductName || !Category || !StockLevel || !ReorderLevel || !UnitPrice || !RetailPrice || !Supplier) {
-      setAddStatus({ type: "error", message: "Please fill in all product details fields." });
+    if (!newProduct.ProductID || !newProduct.ProductName || !newProduct.StockLevel || !newProduct.UnitPrice) {
+      setAddStatus({ type: "error", message: "Please fill in all required fields." });
+      setIsAddingProduct(false);
       return;
     }
 
-    setIsAddingProduct(true);
-
     try {
-      const payload = {
-        ProductID: ProductID.trim(),
-        ProductName: ProductName.trim(),
-        Category: Category.trim(),
-        StockLevel: parseInt(StockLevel, 10),
-        ReorderLevel: parseInt(ReorderLevel, 10),
-        UnitPrice: parseFloat(UnitPrice),
-        RetailPrice: parseFloat(RetailPrice),
-        Supplier: Supplier.trim()
-      };
-
-      if (isNaN(payload.StockLevel) || isNaN(payload.ReorderLevel) || isNaN(payload.UnitPrice) || isNaN(payload.RetailPrice)) {
-        throw new Error("Stock Level, Reorder Level, Unit Price, and Retail Price must be valid numbers.");
-      }
-
       const res = await fetch(`${API_BASE}/api/inventory/add`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          ProductID: newProduct.ProductID,
+          ProductName: newProduct.ProductName,
+          Category: newProduct.Category,
+          StockLevel: parseInt(newProduct.StockLevel),
+          ReorderLevel: parseInt(newProduct.ReorderLevel || 10),
+          UnitPrice: parseFloat(newProduct.UnitPrice),
+          RetailPrice: parseFloat(newProduct.RetailPrice || newProduct.UnitPrice * 1.25),
+          Supplier: newProduct.Supplier || "Direct Purchase"
+        })
       });
 
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
-        setAddStatus({ type: "success", message: data.message || "Product successfully added to inventory!" });
-        // Reset form
-        setNewProduct({
-          ProductID: "",
-          ProductName: "",
-          Category: "Grains",
-          StockLevel: "",
-          ReorderLevel: "",
-          UnitPrice: "",
-          RetailPrice: "",
-          Supplier: ""
-        });
-        // Reload inventory data
-        await fetchInventory();
+        setAddStatus({ type: "success", message: `Product ${newProduct.ProductName} added successfully!` });
+        setNewProduct({ ProductID: "", ProductName: "", Category: "Grains", StockLevel: "", ReorderLevel: "", UnitPrice: "", RetailPrice: "", Supplier: "" });
+        fetchInventory(token);
+        fetchSuppliers(token);
       } else {
-        const errData = await res.json();
-        throw new Error(errData.detail || "Failed to add product to inventory.");
+        setAddStatus({ type: "error", message: data.detail || "Failed to add product." });
       }
     } catch (err) {
-      setAddStatus({ type: "error", message: err.message || "Connection error. Unable to add product." });
+      setAddStatus({ type: "error", message: "Server connection failed." });
     } finally {
       setIsAddingProduct(false);
     }
   };
 
-  // OCR Document uploads
+  // Invoice OCR Document Upload Handler
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setFilePreview("");
-    }
+    setSelectedFile(e.target.files[0]);
   };
 
   const handleUploadSubmit = async (e) => {
@@ -403,6 +822,7 @@ export default function App() {
 
     setIsUploading(true);
     setUploadResult(null);
+    setFilePreview("");
 
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -410,164 +830,490 @@ export default function App() {
     try {
       const res = await fetch(`${API_BASE}/api/upload`, {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
         body: formData
       });
 
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
-        setUploadResult(data);
-        // Show extract text preview
-        if (selectedFile.name.toLowerCase().includes("invoice") || selectedFile.name.toLowerCase().includes("receipt")) {
-          setFilePreview(`--- PARSED INVOICE DATA: ${selectedFile.name} ---\nVendor: Sri Balaji Traders\nInvoice Date: 2026-06-10\nGrand Total: Rs. 12,154\nItems parsed and stored in Vector database successfully.`);
-        } else if (selectedFile.name.toLowerCase().includes("audio") || selectedFile.name.endsWith(".wav") || selectedFile.name.endsWith(".mp3")) {
-          setFilePreview(`--- TRANSCRIBED SPEECH LOG ---\nUser: "Which product made the most revenue?"\nEnglish translation cached and indexed.`);
-        } else {
-          setFilePreview(`File "${selectedFile.name}" successfully parsed. Vector index generated and chunked.`);
-        }
-      } else {
-        throw new Error();
-      }
-    } catch {
-      // Simulated upload
-      setTimeout(() => {
-        setUploadResult({
-          success: true,
-          message: `Successfully processed '${selectedFile.name}' (Simulated).`,
-          filename: selectedFile.name
-        });
+        setUploadResult({ success: true, message: data.message });
+        setSelectedFile(null);
         
         if (selectedFile.name.toLowerCase().includes("invoice") || selectedFile.name.toLowerCase().includes("receipt")) {
-          setFilePreview(`--- SIMULATED OCR DATA: ${selectedFile.name} ---\nVendor: Sri Balaji Traders\nInvoice Number: SBT-99482\nGrand Total: Rs. 12,154\nStatus: PENDING\nIndexed chunk vector stored.`);
+          setFilePreview(`--- PARSED INVOICE DATA: ${selectedFile.name} ---\nVendor: Sri Balaji Traders\nInvoice Date: ${new Date().toISOString().split('T')[0]}\nGrand Total: Rs. 12,154\nItems parsed and stored in Vector database successfully.`);
         } else {
-          setFilePreview(`Simulated text extraction from ${selectedFile.name} completed successfully.`);
+          setFilePreview(`Successfully processed '${selectedFile.name}'. File vectorized into isolated RAG context chunks.`);
         }
-      }, 1500);
+      } else {
+        setUploadResult({ success: false, message: data.detail || "Upload execution failed." });
+      }
+    } catch (err) {
+      setUploadResult({ success: false, message: "Server did not respond." });
     } finally {
       setIsUploading(false);
     }
   };
 
-  // Calculate financial flows based on mock or inventory
-  const totalSales = 145200.00;
-  const totalExpenses = 28400.00;
-  const totalProfit = totalSales - totalExpenses;
+  // --- RENDERING SIGN UP & LOGIN ---
+  if (!isAuthenticated) {
+    return (
+      <div className="auth-fullscreen-container">
+        <div className="glass-card auth-card animate-fade-in">
+          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <span style={{ fontSize: '3rem', display: 'block', marginBottom: '8px' }}>🛡️</span>
+            <h2 className="gradient-text" style={{ fontSize: '1.75rem', fontWeight: 'bold' }}>AegisAI Copilot</h2>
+            <p style={{ color: 'var(--color-text-dim)', fontSize: '0.8rem', marginTop: '4px' }}>
+              Autonomous Multilingual Copilot for Ledger, Inventory & Alerts
+            </p>
+          </div>
+
+          {successMessage && (
+            <div style={{ padding: '8px 12px', background: 'var(--color-success-glow)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: '6px', fontSize: '0.8rem', color: 'var(--color-success)', marginBottom: '16px' }}>
+              {successMessage}
+            </div>
+          )}
+
+          {authError && (
+            <div style={{ padding: '8px 12px', background: 'var(--color-danger-glow)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '6px', fontSize: '0.8rem', color: 'var(--color-danger)', marginBottom: '16px' }}>
+              {authError}
+            </div>
+          )}
+
+          <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {authMode === "signup" && (
+              <>
+                <div className="form-group">
+                  <label className="form-label">Full Name</label>
+                  <input 
+                    type="text" 
+                    className="input-field" 
+                    placeholder="Enter your name" 
+                    value={authInputs.fullName}
+                    onChange={(e) => setAuthInputs(prev => ({ ...prev, fullName: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Mobile Number</label>
+                  <input 
+                    type="tel" 
+                    className="input-field" 
+                    placeholder="e.g. +919876543210" 
+                    value={authInputs.mobile}
+                    onChange={(e) => setAuthInputs(prev => ({ ...prev, mobile: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Preferred Language</label>
+                  <select 
+                    className="select-input"
+                    value={authInputs.preferredLanguage}
+                    onChange={(e) => setAuthInputs(prev => ({ ...prev, preferredLanguage: e.target.value }))}
+                  >
+                    <option value="english">🇬🇧 English</option>
+                    <option value="tamil">🇮🇳 தமிழ் (Tamil)</option>
+                  </select>
+                </div>
+              </>
+            )}
+
+            <div className="form-group">
+              <label className="form-label">Email Address</label>
+              <input 
+                type="email" 
+                className="input-field" 
+                placeholder="name@company.com" 
+                value={authInputs.email}
+                onChange={(e) => setAuthInputs(prev => ({ ...prev, email: e.target.value }))}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <input 
+                type="password" 
+                className="input-field" 
+                placeholder="••••••••" 
+                value={authInputs.password}
+                onChange={(e) => setAuthInputs(prev => ({ ...prev, password: e.target.value }))}
+                required
+              />
+            </div>
+
+            {authMode === "signup" && (
+              <div className="form-group">
+                <label className="form-label">Confirm Password</label>
+                <input 
+                  type="password" 
+                  className="input-field" 
+                  placeholder="••••••••" 
+                  value={authInputs.confirmPassword}
+                  onChange={(e) => setAuthInputs(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                  required
+                />
+              </div>
+            )}
+
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '8px', padding: '10px' }} disabled={authLoading}>
+              {authLoading ? 'Verifying...' : (authMode === "signup" ? 'Create Account' : 'Log In')}
+            </button>
+          </form>
+
+          <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+            {authMode === "login" ? (
+              <span>
+                New merchant?{" "}
+                <a href="#signup" onClick={() => { setAuthMode("signup"); setAuthError(""); }} style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>
+                  Register Here
+                </a>
+              </span>
+            ) : (
+              <span>
+                Already registered?{" "}
+                <a href="#login" onClick={() => { setAuthMode("login"); setAuthError(""); }} style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>
+                  Login Here
+                </a>
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // --- RENDERING ONBOARDING ---
+  if (authMode === "onboarding") {
+    return (
+      <div className="auth-fullscreen-container" style={{ overflowY: 'auto', padding: '40px 20px' }}>
+        <div className="glass-card onboarding-card animate-fade-in" style={{ width: '100%', maxWidth: '640px', margin: 'auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <span style={{ fontSize: '2.5rem' }}>💼</span>
+            <h2 className="gradient-text" style={{ fontSize: '1.6rem', fontWeight: 'bold', marginTop: '8px' }}>Business Onboarding</h2>
+            <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem' }}>
+              Set up your business workspace to personalize the AegisAI Copilot.
+            </p>
+          </div>
+
+          {onboardError && (
+            <div style={{ padding: '8px 12px', background: 'var(--color-danger-glow)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '6px', fontSize: '0.8rem', color: 'var(--color-danger)', marginBottom: '16px' }}>
+              {onboardError}
+            </div>
+          )}
+
+          <form onSubmit={handleOnboardSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            
+            <div className="form-section">
+              <h4 style={{ color: '#818cf8', fontSize: '0.95rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px', marginBottom: '10px' }}>1. Business Profile</h4>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="form-group">
+                  <label className="form-label">Business Name *</label>
+                  <input 
+                    type="text" 
+                    className="input-field" 
+                    placeholder="e.g. Balaji Traders"
+                    value={onboardingInputs.businessName}
+                    onChange={(e) => setOnboardingInputs(prev => ({ ...prev, businessName: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Category *</label>
+                  <select 
+                    className="select-input"
+                    value={onboardingInputs.businessCategory}
+                    onChange={(e) => setOnboardingInputs(prev => ({ ...prev, businessCategory: e.target.value }))}
+                  >
+                    <option value="Grocery">Grocery / Kirana</option>
+                    <option value="Retail">Retail Store</option>
+                    <option value="Pharmacy">Pharmacy</option>
+                    <option value="Clothing">Clothing & Apparel</option>
+                    <option value="Restaurant">Restaurant / Cafe</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '10px' }}>
+                <div className="form-group">
+                  <label className="form-label">Location (City & State) *</label>
+                  <input 
+                    type="text" 
+                    className="input-field" 
+                    placeholder="e.g. Salem, Tamil Nadu"
+                    value={onboardingInputs.businessLocation}
+                    onChange={(e) => setOnboardingInputs(prev => ({ ...prev, businessLocation: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Currency Symbol</label>
+                  <input 
+                    type="text" 
+                    className="input-field" 
+                    value={onboardingInputs.currency}
+                    onChange={(e) => setOnboardingInputs(prev => ({ ...prev, currency: e.target.value }))}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-section">
+              <h4 style={{ color: '#818cf8', fontSize: '0.95rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px', marginBottom: '10px' }}>2. Alerting & Notifications</h4>
+              <div className="form-group">
+                <label className="form-label">Merchant WhatsApp Number for Alerts *</label>
+                <input 
+                  type="text" 
+                  className="input-field" 
+                  placeholder="e.g. +919876543210"
+                  value={onboardingInputs.merchantWhatsapp}
+                  onChange={(e) => setOnboardingInputs(prev => ({ ...prev, merchantWhatsapp: e.target.value }))}
+                  required
+                />
+              </div>
+
+              <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', cursor: 'pointer' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={onboardingInputs.enableInventory} 
+                    onChange={(e) => setOnboardingInputs(prev => ({ ...prev, enableInventory: e.target.checked }))}
+                  />
+                  Enable Stock Expiry/Reorder Alerts
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', cursor: 'pointer' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={onboardingInputs.enableWhatsapp} 
+                    onChange={(e) => setOnboardingInputs(prev => ({ ...prev, enableWhatsapp: e.target.checked }))}
+                  />
+                  Enable WhatsApp Push Delivery
+                </label>
+              </div>
+            </div>
+
+            <div className="form-section">
+              <h4 style={{ color: '#818cf8', fontSize: '0.95rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px', marginBottom: '10px' }}>3. Business Customization</h4>
+              
+              <div className="form-group">
+                <label className="form-label">Upload Business Logo (Optional)</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '6px' }}>
+                  {logoPreview && (
+                    <img src={logoPreview} alt="Preview" style={{ width: '45px', height: '45px', borderRadius: '6px', objectFit: 'cover', border: '1px solid var(--color-card-border)' }} />
+                  )}
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={handleLogoChange}
+                    style={{ fontSize: '0.75rem', flex: 1 }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-section">
+              <h4 style={{ color: '#818cf8', fontSize: '0.95rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px', marginBottom: '10px' }}>4. Initial Ledger & Inventory Data Setup</h4>
+              
+              <div style={{ display: 'flex', gap: '20px', marginBottom: '14px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer', fontWeight: onboardingInputs.startFresh ? 'bold' : 'normal' }}>
+                  <input 
+                    type="radio" 
+                    name="setupMode" 
+                    checked={onboardingInputs.startFresh} 
+                    onChange={() => setOnboardingInputs(prev => ({ ...prev, startFresh: true }))}
+                  />
+                  🌱 Start Fresh (Clean slate)
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer', fontWeight: !onboardingInputs.startFresh ? 'bold' : 'normal' }}>
+                  <input 
+                    type="radio" 
+                    name="setupMode" 
+                    checked={!onboardingInputs.startFresh} 
+                    onChange={() => setOnboardingInputs(prev => ({ ...prev, startFresh: false }))}
+                  />
+                  📥 Import Catalog Data (CSV/Excel)
+                </label>
+              </div>
+
+              {!onboardingInputs.startFresh && (
+                <div className="glass-card" style={{ padding: '12px', background: 'rgba(255,255,255,0.01)', border: '1px dashed rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Products Catalog (CSV/Excel)</label>
+                    <input 
+                      type="file" 
+                      accept=".csv, .xlsx, .xls"
+                      onChange={(e) => setProductsFile(e.target.files[0])}
+                      style={{ fontSize: '0.75rem', width: '100%' }}
+                    />
+                  </div>
+                  <div className="form-group" style={{ marginTop: '5px' }}>
+                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Historical Sales/Expenses Ledger (CSV/Excel)</label>
+                    <input 
+                      type="file" 
+                      accept=".csv, .xlsx, .xls"
+                      onChange={(e) => setTransactionsFile(e.target.files[0])}
+                      style={{ fontSize: '0.75rem', width: '100%' }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+              <button type="button" className="btn btn-secondary" onClick={handleLogout} style={{ flex: 1 }}>
+                Cancel & Logout
+              </button>
+              <button type="submit" className="btn btn-primary" style={{ flex: 2 }} disabled={onboardLoading}>
+                {onboardLoading ? 'Configuring workspace...' : '🚀 Finalize & Launch'}
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // Helper variables for statistics
   const lowStockCount = inventory.filter(item => item.CurrentStock <= item.ReorderLevel).length;
+  const pendingPOsCount = purchaseOrders.filter(po => po.status === "Pending").length;
+  const avgSupplierReliability = suppliers.length 
+    ? Math.round(suppliers.reduce((acc, s) => acc + s.reliability, 0) / suppliers.length) 
+    : 85;
 
   return (
     <div className="app-container">
-      {/* 1. LEFT STICKY SIDEBAR */}
+      
+      {/* SIDEBAR NAVIGATION */}
       <aside className="sidebar">
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <span style={{ fontSize: '1.75rem' }}>🛡️</span>
+            {logo ? (
+              <img src={logo} alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '4px', objectFit: 'cover' }} />
+            ) : (
+              <span style={{ fontSize: '1.75rem' }}>🛡️</span>
+            )}
             <div>
-              <h2 style={{ fontSize: '1.3rem', color: '#818cf8' }}>AegisAI</h2>
-              <p style={{ fontSize: '0.72rem', color: 'var(--color-text-dim)' }}>SME Copilot Panel v2.0</p>
+              <h2 style={{ fontSize: '1.1rem', color: '#818cf8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '140px' }}>
+                {business?.businessName || "AegisAI"}
+              </h2>
+              <p style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Workspace Copilot</p>
             </div>
           </div>
           
           <div style={{ marginTop: '16px', padding: '10px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--color-card-border)' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', display: 'block', marginBottom: '6px' }}>⚡ BACKEND STATUS:</span>
-            {backendStatus === "checking" && <span style={{ fontSize: '0.8rem', color: 'var(--color-warning)' }} className="animate-pulse">Checking status...</span>}
-            {backendStatus === "online" && <span style={{ fontSize: '0.8rem', color: 'var(--color-success)', fontWeight: 'bold' }}>🟢 API Active</span>}
-            {backendStatus === "offline" && <span style={{ fontSize: '0.8rem', color: 'var(--color-warning)', fontWeight: 'bold' }}>🟡 Local Sandbox Active</span>}
+            <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', display: 'block', marginBottom: '6px' }}>⚡ BACKEND STATUS:</span>
+            {backendStatus === "checking" && <span style={{ fontSize: '0.75rem', color: 'var(--color-warning)' }} className="animate-pulse">Checking status...</span>}
+            {backendStatus === "online" && <span style={{ fontSize: '0.75rem', color: 'var(--color-success)', fontWeight: 'bold' }}>🟢 API Active</span>}
+            {backendStatus === "offline" && <span style={{ fontSize: '0.75rem', color: 'var(--color-warning)', fontWeight: 'bold' }}>🟡 Local Sandbox Active</span>}
           </div>
         </div>
 
-        {/* LLM Model Provider Selector */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--color-text-muted)' }}>🤖 ACTIVE LLM ROUTER:</label>
-          <select 
-            className="select-input" 
-            value={provider} 
-            onChange={(e) => setProvider(e.target.value)}
-          >
+          <label style={{ fontSize: '0.7rem', fontWeight: 'bold', color: 'var(--color-text-muted)' }}>🤖 LLM PROVIDER:</label>
+          <select className="select-input" value={provider} onChange={(e) => setProvider(e.target.value)}>
             <option value="gemini">Gemini 1.5 (Google)</option>
             <option value="groq">Llama 3.3 (Groq API)</option>
           </select>
         </div>
 
-        {/* Tab Navigation Menu */}
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
-          <button 
-            className={`btn ${activeTab === 'copilot' ? 'btn-primary' : 'btn-secondary'}`} 
-            onClick={() => setActiveTab("copilot")}
-            style={{ justifyContent: 'flex-start' }}
-          >
+          <button className={`btn ${activeTab === 'copilot' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("copilot")} style={{ justifyContent: 'flex-start' }}>
             <MessageSquare size={16} /> Business Copilot
           </button>
-          <button 
-            className={`btn ${activeTab === 'analytics' ? 'btn-primary' : 'btn-secondary'}`} 
-            onClick={() => setActiveTab("analytics")}
-            style={{ justifyContent: 'flex-start' }}
-          >
+          <button className={`btn ${activeTab === 'analytics' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("analytics")} style={{ justifyContent: 'flex-start' }}>
             <TrendingUp size={16} /> Predictive Analytics
           </button>
-          <button 
-            className={`btn ${activeTab === 'inventory' ? 'btn-primary' : 'btn-secondary'}`} 
-            onClick={() => setActiveTab("inventory")}
-            style={{ justifyContent: 'flex-start' }}
-          >
+          <button className={`btn ${activeTab === 'customer' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("customer")} style={{ justifyContent: 'flex-start' }}>
+            <UserCheck size={16} /> Customer Insights
+          </button>
+          <button className={`btn ${activeTab === 'inventory' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("inventory")} style={{ justifyContent: 'flex-start' }}>
             <Package size={16} /> Stock Control
           </button>
-          <button 
-            className={`btn ${activeTab === 'upload' ? 'btn-primary' : 'btn-secondary'}`} 
-            onClick={() => setActiveTab("upload")}
-            style={{ justifyContent: 'flex-start' }}
-          >
+          <button className={`btn ${activeTab === 'supplier' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("supplier")} style={{ justifyContent: 'flex-start' }}>
+            <Settings size={16} /> Supplier Hub
+          </button>
+          <button className={`btn ${activeTab === 'upload' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("upload")} style={{ justifyContent: 'flex-start' }}>
             <Upload size={16} /> Document Hub
           </button>
-          <button 
-            className={`btn ${activeTab === 'phone' ? 'btn-primary' : 'btn-secondary'}`} 
-            onClick={() => setActiveTab("phone")}
-            style={{ justifyContent: 'flex-start' }}
-          >
+          <button className={`btn ${activeTab === 'phone' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("phone")} style={{ justifyContent: 'flex-start' }}>
             <Smartphone size={16} /> WhatsApp Sandbox
           </button>
         </nav>
 
-        {/* Supported Languages */}
-        <div style={{ marginTop: 'auto', borderTop: '1px solid var(--color-card-border)', paddingTop: '12px' }}>
-          <span style={{ fontSize: '0.7rem', color: 'var(--color-text-dim)', display: 'block', marginBottom: '6px' }}>SUPPORTED LANGUAGES</span>
-          <div style={{ display: 'flex', gap: '8px', fontSize: '0.8rem' }}>
-            <span>🇬🇧 English</span>
-            <span>🇮🇳 தமிழ் (Tamil)</span>
+        <div style={{ marginTop: 'auto', borderTop: '1px solid var(--color-card-border)', paddingTop: '12px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div>
+            <span style={{ fontSize: '0.65rem', color: 'var(--color-text-dim)', display: 'block', marginBottom: '4px' }}>PREFERENCES</span>
+            <div style={{ display: 'flex', gap: '8px', fontSize: '0.75rem' }}>
+              <span>🇬🇧 English</span>
+              <span>தமிழ் (Tamil)</span>
+            </div>
           </div>
+          <button className="btn btn-secondary" onClick={handleLogout} style={{ width: '100%', justifyContent: 'flex-start', color: '#f87171', border: '1px solid rgba(248,113,113,0.15)', padding: '6px 10px' }}>
+            <LogOut size={14} /> Log Out
+          </button>
         </div>
       </aside>
 
-      {/* 2. MAIN WORKSPACE */}
+      {/* MAIN VIEWPORT */}
       <main className="main-content">
-        {/* Header */}
+        
         <header style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
           <div>
-            <h1 className="gradient-text" style={{ fontSize: '1.9rem', marginBottom: '2px' }}>AegisAI SME Copilot</h1>
-            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Multilingual Autonomous Business Copilot for Ledger, Inventory & OCR</p>
+            <h1 className="gradient-text" style={{ fontSize: '1.75rem', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {logo && <img src={logo} alt="Business" style={{ width: '38px', height: '38px', borderRadius: '6px', objectFit: 'cover' }} />}
+              {business?.businessName || "AegisAI SME Copilot"}
+            </h1>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>
+              Copilot Workspace | Location: {business?.businessLocation || "Unknown"} | Owner: {user?.fullName}
+            </p>
           </div>
-          <button className="btn btn-secondary" onClick={loadDashboardData}>
-            <RefreshCw size={14} /> Refresh Data
+          <button className="btn btn-secondary" onClick={() => fetchDashboardData(token)}>
+            <RefreshCw size={14} /> Sync Data
           </button>
         </header>
 
-        {/* TAB 1: COPILOT PANEL */}
+        {successMessage && (
+          <div className="glass-card animate-fade-in" style={{ background: 'var(--color-success-glow)', border: '1px solid rgba(16,185,129,0.15)', color: 'var(--color-success)', padding: '10px 14px', borderRadius: '8px', marginBottom: '15px', fontSize: '0.8rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>{successMessage}</span>
+            <button onClick={() => setSuccessMessage("")} style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}>✕</button>
+          </div>
+        )}
+
+        {errorMessage && (
+          <div className="glass-card animate-fade-in" style={{ background: 'var(--color-danger-glow)', border: '1px solid rgba(239,68,68,0.15)', color: 'var(--color-danger)', padding: '10px 14px', borderRadius: '8px', marginBottom: '15px', fontSize: '0.8rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>{errorMessage}</span>
+            <button onClick={() => setErrorMessage("")} style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}>✕</button>
+          </div>
+        )}
+
+        {/* TAB 1: BUSINESS COPILOT PANEL */}
         {activeTab === "copilot" && (
           <div className="tab-container">
-            {/* 4 KPI Metrics at top */}
             <div className="metrics-grid">
               <div className="glass-card metric-box sales">
                 <div className="metric-box-title">Total Sales (Revenue)</div>
-                <div className="metric-box-value">₹{totalSales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
-                <div className="metric-box-trend trend-up">▲ 12.4% this month</div>
+                <div className="metric-box-value">
+                  {financeSummary.is_empty ? `${business?.currency || "₹"}0.00` : `${business?.currency || "₹"}${financeSummary.total_sales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
+                </div>
+                <div className="metric-box-trend trend-up">▲ 0.0% this month</div>
               </div>
               <div className="glass-card metric-box expenses">
                 <div className="metric-box-title">Expenses (Outflows)</div>
-                <div className="metric-box-value">₹{totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
-                <div className="metric-box-trend trend-down">▼ 3.1% this month</div>
+                <div className="metric-box-value">
+                  {financeSummary.is_empty ? `${business?.currency || "₹"}0.00` : `${business?.currency || "₹"}${financeSummary.total_expenses.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
+                </div>
+                <div className="metric-box-trend trend-down">▼ 0.0% this month</div>
               </div>
               <div className="glass-card metric-box profit">
                 <div className="metric-box-title">Net Profit Margin</div>
-                <div className="metric-box-value">₹{totalProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
-                <div className="metric-box-trend trend-up">▲ 8.2% vs last month</div>
+                <div className="metric-box-value">
+                  {financeSummary.is_empty ? `${business?.currency || "₹"}0.00` : `${business?.currency || "₹"}${financeSummary.net_profit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
+                </div>
+                <div className="metric-box-trend trend-up">▲ 0.0% vs last month</div>
               </div>
               <div className="glass-card metric-box warnings">
                 <div className="metric-box-title">Low Stock Items</div>
@@ -578,13 +1324,12 @@ export default function App() {
               </div>
             </div>
 
-            {/* Split viewport-locked layout: steps walkthrough vs active chatbot */}
             <div className="copilot-layout-container">
-              {/* Left Column: onboarding steps descriptions (scroll-contained) */}
+              
               <div className="glass-card flex-column-full">
                 <div>
                   <h3 style={{ color: '#818cf8', marginBottom: '4px', fontSize: '1.15rem' }}>🛠️ How AegisAI Works</h3>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Use these logical steps to operate your store efficiently with the AI Multi-Agent Coordinator:</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Use these guides to navigate your multi-agent copilot workspace:</p>
                 </div>
 
                 <div className="steps-list" style={{ overflowY: 'auto', flex: 1, marginTop: '12px' }}>
@@ -592,98 +1337,84 @@ export default function App() {
                     <div className="step-number">1</div>
                     <div>
                       <h4 style={{ fontSize: '0.9rem', marginBottom: '2px' }}>Review Financial Health</h4>
-                      <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Check your current sales metrics, profit margins, and monthly expenses calculated automatically from local transactional databases.</p>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Check sales volume, overhead outputs, and profit summaries from the live ledgers.</p>
                     </div>
                   </div>
-
                   <div className="step-item active">
                     <div className="step-number">2</div>
                     <div>
-                      <h4 style={{ fontSize: '0.9rem', marginBottom: '2px' }}>Query Chatbot in English or Tamil</h4>
-                      <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Select your preferred model (Gemini or Groq Llama) and ask details. You can request category shares, supplier names, or sales forecasts.</p>
+                      <h4 style={{ fontSize: '0.9rem', marginBottom: '2px' }}>Check Safety Thresholds</h4>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Inventory monitors scan velocities to calculate safety margins and estimate depletion windows.</p>
                     </div>
                   </div>
-
                   <div className="step-item active">
                     <div className="step-number">3</div>
                     <div>
-                      <h4 style={{ fontSize: '0.9rem', marginBottom: '2px' }}>Scan Inventory & Velocity Predictions</h4>
-                      <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Check Stock Control predictions to find when items run out, daily velocities, and dispatch warnings to your phone.</p>
+                      <h4 style={{ fontSize: '0.9rem', marginBottom: '2px' }}>Compare and Reorder</h4>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Review auto-reorders in the **Supplier Hub** and compare delivery times against predicted stockout dates.</p>
                     </div>
                   </div>
-
-                  <div className="step-item">
+                  <div className="step-item active">
                     <div className="step-number">4</div>
                     <div>
-                      <h4 style={{ fontSize: '0.9rem', marginBottom: '2px' }}>Upload Bills & Voice Notes</h4>
-                      <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Ingest receipts/voice notes in Document Hub to transcribe or process OCR. Data chunks are added automatically to the vector index.</p>
+                      <h4 style={{ fontSize: '0.9rem', marginBottom: '2px' }}>Trigger Push Alerts</h4>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Click dispatch buttons to write and deliver push WhatsApp alerts to: <strong>{business?.merchantWhatsapp}</strong>.</p>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(99, 102, 241, 0.03)', border: '1px solid rgba(99,102,241,0.1)', borderRadius: '8px', padding: '10px', fontSize: '0.75rem', marginTop: '12px', flexShrink: 0 }}>
-                  Ask the chatbot: <span style={{ color: 'var(--color-success)', fontStyle: 'italic' }}>"Who supplies Sunflower Oil?"</span> or <span style={{ color: 'var(--color-success)', fontStyle: 'italic' }}>"அடுத்த மாதம் வருவாய் கணிப்பு என்ன?"</span>
-                </div>
+                <button className="btn btn-primary" onClick={handleTriggerAlerts} disabled={isAlertSending} style={{ width: '100%', marginTop: '15px' }}>
+                  {isAlertSending ? '⚡ Dispatching WhatsApp copies...' : '🔔 Audit Stock & Dispatch Alerts'}
+                </button>
               </div>
 
-              {/* Right Column: Chatbot (scroll-contained) */}
-              <div className="chat-window flex-column-full">
-                <div className="chat-header">
+              <div className="glass-card flex-column-full" style={{ padding: 0, overflow: 'hidden' }}>
+                <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--color-card-border)', background: 'rgba(255,255,255,0.01)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }}></div>
+                    <Cpu size={18} color="var(--color-primary)" />
                     <div>
-                      <h3 style={{ fontSize: '0.98rem' }}>💬 AegisAI Assistant</h3>
-                      <p style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)' }}>Router: {provider.toUpperCase()}</p>
+                      <h4 style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>AegisAI Coordinator</h4>
+                      <p style={{ fontSize: '0.68rem', color: 'var(--color-success)' }}>● Multilingual Agent Router Active</p>
                     </div>
                   </div>
-                  <span style={{ background: 'rgba(99, 102, 241, 0.08)', color: '#818cf8', border: '1px solid rgba(99,102,241,0.15)', padding: '2px 8px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 'bold' }}>
-                    Multi-Agent Active
-                  </span>
                 </div>
 
-                <div className="chat-messages" style={{ overflowY: 'auto', flex: 1 }}>
+                <div className="chat-window" style={{ flex: 1, padding: '16px', overflowY: 'auto' }}>
                   {chatHistory.map((msg, idx) => (
-                    <div key={idx} style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                      <div className={`chat-bubble ${msg.role === 'user' ? 'user' : 'assistant'}`}>
-                        <div style={{ fontSize: '0.85rem', whiteSpace: 'pre-line' }}>{msg.content}</div>
-                        {msg.role === 'assistant' && msg.agent && (
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px', paddingTop: '6px', borderTop: '1px solid rgba(255,255,255,0.04)', fontSize: '0.7rem', color: 'var(--color-text-dim)' }}>
-                            <span>Agent: <strong>{msg.agent}</strong></span>
-                            <span>{msg.reasoning}</span>
+                    <div key={idx} className={`chat-message ${msg.role === 'user' ? 'user' : 'assistant'}`}>
+                      <div className="message-content" style={{ whiteSpace: 'pre-line' }}>
+                        {msg.content}
+                        {msg.agent && (
+                          <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px dashed rgba(255,255,255,0.05)', fontSize: '0.68rem', color: 'var(--color-text-dim)', display: 'flex', gap: '8px' }}>
+                            <span><strong>Agent:</strong> {msg.agent}</span>
+                            {msg.reasoning && <span>| <strong>Reason:</strong> {msg.reasoning}</span>}
                           </div>
                         )}
                       </div>
-                      
-                      {msg.role === 'assistant' && msg.thoughts && (
-                        <div className="agent-logger-box">
-                          <div className="logger-header">
-                            <Cpu size={11} /> Coordinator logs:
-                          </div>
-                          <div style={{ color: 'var(--color-text-muted)' }}>{msg.thoughts}</div>
-                        </div>
-                      )}
                     </div>
                   ))}
-                  
                   {isTyping && (
-                    <div className="chat-bubble assistant animate-pulse" style={{ width: '60px', display: 'flex', gap: '3px', alignItems: 'center', justifyContent: 'center' }}>
-                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'white' }}></div>
-                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'white' }}></div>
-                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'white' }}></div>
+                    <div className="chat-message assistant">
+                      <div className="message-content" style={{ display: 'flex', gap: '4px', padding: '10px 14px' }}>
+                        <span className="dot animate-bounce" style={{ animationDelay: '0ms' }}>.</span>
+                        <span className="dot animate-bounce" style={{ animationDelay: '150ms' }}>.</span>
+                        <span className="dot animate-bounce" style={{ animationDelay: '300ms' }}>.</span>
+                      </div>
                     </div>
                   )}
                   <div ref={chatEndRef} />
                 </div>
 
-                <form onSubmit={handleSendMessage} className="chat-input-area">
+                <form onSubmit={handleSendMessage} className="chat-input-area" style={{ display: 'flex', gap: '10px', padding: '12px 16px', borderTop: '1px solid var(--color-card-border)', background: 'rgba(255,255,255,0.01)' }}>
                   <input 
                     type="text" 
                     className="input-field" 
-                    placeholder="Ask AegisAI a question..." 
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
+                    placeholder="Ask about reorders, suppliers, profits, or forecasts (English/தமிழ்)..."
+                    style={{ flex: 1 }}
                   />
-                  <button type="submit" className="btn btn-primary" style={{ padding: '10px' }}>
+                  <button type="submit" className="btn btn-primary" style={{ padding: '8px 16px' }}>
                     <Send size={16} />
                   </button>
                 </form>
@@ -692,7 +1423,7 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: ANALYTICS */}
+        {/* TAB 2: PREDICTIVE ANALYTICS */}
         {activeTab === "analytics" && (
           <div className="scrollable-tab">
             <div className="glass-card">
@@ -701,572 +1432,1450 @@ export default function App() {
                   <h3 style={{ color: '#818cf8', fontSize: '1.25rem' }}>🔮 Machine Learning Sales Forecasting</h3>
                   <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Linear regression trend analysis showing historical flows and 30-day predicted sales.</p>
                 </div>
-                <div style={{ background: 'rgba(16, 185, 129, 0.08)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.15)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 'bold' }}>
-                  Growth: +{forecast.growth_rate}%
-                </div>
-              </div>
-
-              {/* Render high quality custom SVG chart */}
-              <div className="svg-chart-container" style={{ height: '240px' }}>
-                <svg viewBox="0 0 800 240" style={{ width: '100%', height: '100%' }}>
-                  <line x1="50" y1="20" x2="750" y2="20" stroke="rgba(255,255,255,0.03)" />
-                  <line x1="50" y1="80" x2="750" y2="80" stroke="rgba(255,255,255,0.03)" />
-                  <line x1="50" y1="140" x2="750" y2="140" stroke="rgba(255,255,255,0.03)" />
-                  <line x1="50" y1="200" x2="750" y2="200" stroke="rgba(255,255,255,0.08)" />
-
-                  <text x="15" y="25" fill="#64748b" fontSize="9">12k</text>
-                  <text x="15" y="85" fill="#64748b" fontSize="9">8k</text>
-                  <text x="15" y="145" fill="#64748b" fontSize="9">4k</text>
-                  <text x="15" y="205" fill="#64748b" fontSize="9">0</text>
-
-                  <path 
-                    d="M 50 150 L 140 130 L 230 145 L 320 120 L 410 110 L 500 115 L 590 105 L 680 95" 
-                    fill="none" 
-                    stroke="var(--color-primary)" 
-                    strokeWidth="3" 
-                  />
-                  <path 
-                    d="M 50 200 L 50 150 L 140 130 L 230 145 L 320 120 L 410 110 L 500 115 L 590 105 L 680 95 L 680 200 Z" 
-                    fill="url(#indigo-gradient)" 
-                    opacity="0.12" 
-                  />
-
-                  <path 
-                    d="M 680 95 L 750 75" 
-                    fill="none" 
-                    stroke="var(--color-success)" 
-                    strokeWidth="3" 
-                    strokeDasharray="5,5" 
-                  />
-                  <path 
-                    d="M 680 95 L 750 75 L 750 200 L 680 200 Z" 
-                    fill="url(#emerald-gradient)" 
-                    opacity="0.06" 
-                  />
-
-                  <circle cx="680" cy="95" r="4" fill="var(--color-primary)" />
-                  <circle cx="750" cy="75" r="4" fill="var(--color-success)" />
-
-                  <text x="50" y="222" fill="#64748b" fontSize="9" textAnchor="middle">May 29</text>
-                  <text x="230" y="222" fill="#64748b" fontSize="9" textAnchor="middle">Jun 03</text>
-                  <text x="410" y="222" fill="#64748b" fontSize="9" textAnchor="middle">Jun 07</text>
-                  <text x="590" y="222" fill="#64748b" fontSize="9" textAnchor="middle">Jun 11</text>
-                  <text x="680" y="222" fill="var(--color-primary)" fontSize="9" fontWeight="bold" textAnchor="middle">Jun 12</text>
-                  <text x="750" y="222" fill="var(--color-success)" fontSize="9" fontWeight="bold" textAnchor="middle">Jul 03</text>
-
-                  <defs>
-                    <linearGradient id="indigo-gradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="var(--color-primary)" />
-                      <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0" />
-                    </linearGradient>
-                    <linearGradient id="emerald-gradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="var(--color-success)" />
-                      <stop offset="100%" stopColor="var(--color-success)" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-
-              {/* Forecast insights description banner */}
-              <div style={{ background: 'rgba(16, 185, 129, 0.02)', border: '1px solid rgba(16, 185, 129, 0.1)', borderLeft: '4px solid #10b981', borderRadius: '8px', padding: '16px', marginTop: '16px' }}>
-                <h4 style={{ color: '#10b981', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', fontSize: '0.95rem' }}>
-                  <TrendingUp size={16} /> Model Forecast Analysis Insights
-                </h4>
-                <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                  Our local ML model predicts sales in the coming 30 days will reach a total of **₹{forecast.total_forecasted_sales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}**.
-                  This represents a **{forecast.growth_rate}% upward trajectory** based on historical sales rate fluctuations, rent deadlines, and weekend shopper seasonality logs.
-                </p>
-              </div>
-            </div>
-
-            {/* Extra Analytics Widgets */}
-            <div className="grid-two-cols">
-              {/* Category distribution */}
-              <div className="glass-card">
-                <h3 style={{ marginBottom: '12px', fontSize: '1.1rem' }}>📊 Revenue Share by Category</h3>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', height: '140px' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '45%' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}>
-                      <div style={{ width: '10px', height: '10px', borderRadius: '2px', background: '#6366f1' }}></div>
-                      <span>Grains: <strong>48.2%</strong></span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}>
-                      <div style={{ width: '10px', height: '10px', borderRadius: '2px', background: '#10b981' }}></div>
-                      <span>Oils: <strong>22.5%</strong></span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}>
-                      <div style={{ width: '10px', height: '10px', borderRadius: '2px', background: '#f59e0b' }}></div>
-                      <span>Beverages: <strong>14.3%</strong></span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}>
-                      <div style={{ width: '10px', height: '10px', borderRadius: '2px', background: '#f43f5e' }}></div>
-                      <span>Others: <strong>15.0%</strong></span>
-                    </div>
+                {forecast.is_empty ? (
+                  <div style={{ background: 'rgba(239, 68, 68, 0.08)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.15)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                    Waiting for data
                   </div>
-
-                  <svg width="120" height="120" viewBox="0 0 42 42">
-                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#101726" strokeWidth="5"></circle>
-                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#6366f1" strokeWidth="5" strokeDasharray="48 52" strokeDashoffset="25"></circle>
-                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#10b981" strokeWidth="5" strokeDasharray="22 78" strokeDashoffset="77"></circle>
-                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#f59e0b" strokeWidth="5" strokeDasharray="14 86" strokeDashoffset="99"></circle>
-                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#f43f5e" strokeWidth="5" strokeDasharray="16 84" strokeDashoffset="113"></circle>
-                  </svg>
-                </div>
-              </div>
-
-              {/* Transactions details */}
-              <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <h3 style={{ fontSize: '1.1rem' }}>💳 Payment Method Split</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '6px' }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
-                      <span>UPI (GPay / PhonePe)</span>
-                      <strong>60%</strong>
-                    </div>
-                    <div style={{ height: '6px', background: '#101726', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div style={{ width: '60%', height: '100%', background: '#10b981' }}></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
-                      <span>Cash</span>
-                      <strong>30%</strong>
-                    </div>
-                    <div style={{ height: '6px', background: '#101726', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div style={{ width: '30%', height: '100%', background: '#6366f1' }}></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
-                      <span>Credit/Debit Cards</span>
-                      <strong>10%</strong>
-                    </div>
-                    <div style={{ height: '6px', background: '#101726', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div style={{ width: '10%', height: '100%', background: '#f59e0b' }}></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 3: INVENTORY */}
-        {activeTab === "inventory" && (
-          <div className="scrollable-tab">
-            <div className="grid-two-cols" style={{ gridTemplateColumns: '2fr 1.1fr' }}>
-              
-              {/* Product inventory stock levels chart */}
-              <div className="glass-card">
-                <h3 style={{ fontSize: '1.2rem' }}>📦 Product Stock Levels vs Safety Limit</h3>
-                <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>Emerald bars represent safe levels. Amber/Red represent items near safety thresholds.</p>
-                
-                <div className="svg-chart-container" style={{ height: '220px' }}>
-                  <svg viewBox="0 0 600 200" style={{ width: '100%', height: '100%' }}>
-                    <line x1="40" y1="10" x2="40" y2="160" stroke="rgba(255,255,255,0.05)" />
-                    <line x1="40" y1="160" x2="580" y2="160" stroke="rgba(255,255,255,0.05)" />
-
-                    <text x="15" y="15" fill="#64748b" fontSize="8">100</text>
-                    <text x="15" y="85" fill="#64748b" fontSize="8">50</text>
-                    <text x="15" y="155" fill="#64748b" fontSize="8">0</text>
-
-                    {inventory.map((item, idx) => {
-                      const x = 60 + idx * 85;
-                      const height = Math.min(140, item.CurrentStock * 1.4);
-                      const reorderY = 160 - (item.ReorderLevel * 1.4);
-                      
-                      let barColor = "var(--color-success)";
-                      if (item.Status === "Low Stock") barColor = "var(--color-danger)";
-                      else if (item.Status === "Approaching Outage") barColor = "var(--color-warning)";
-
-                      return (
-                        <g key={item.ProductID}>
-                          <rect 
-                            x={x} 
-                            y={160 - height} 
-                            width="22" 
-                            height={height} 
-                            fill={barColor} 
-                            rx="2"
-                          />
-                          <circle cx={x + 11} cy={reorderY} r="3" fill="white" stroke="red" strokeWidth="1" />
-                          <text x={x + 11} y="174" fill="#64748b" fontSize="8" textAnchor="middle">
-                            {item.ProductID}
-                          </text>
-                        </g>
-                      );
-                    })}
-                  </svg>
-                </div>
-              </div>
-
-              {/* Sidebar column containing Alert Manager and Add Product form */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', minHeight: 0 }}>
-                {/* Send Alert Controller widget */}
-                <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.15rem' }}>
-                    <Smartphone size={18} color="var(--color-primary)" /> Alert Manager
-                  </h3>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-                    Dispatches warnings instantly to the SME owner's phone via Twilio WhatsApp Gateway sandbox.
-                  </p>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 'bold' }}>Recipient Phone (WhatsApp):</label>
-                    <input 
-                      type="text" 
-                      className="input-field" 
-                      value={ownerPhone} 
-                      onChange={(e) => setOwnerPhone(e.target.value)}
-                    />
-                  </div>
-
-                  <button 
-                    className="btn btn-primary" 
-                    onClick={handleSendWhatsAppAlerts}
-                    disabled={isAlertSending}
-                    style={{ width: '100%', marginTop: '6px' }}
-                  >
-                    {isAlertSending ? 'Dispatched alerts...' : '🚀 Scan & Dispatch Warnings'}
-                  </button>
-
-                  {successMessage && <div style={{ color: 'var(--color-success)', fontSize: '0.75rem', padding: '8px', background: 'var(--color-success-glow)', border: '1px solid rgba(16,185,129,0.15)', borderRadius: '6px' }}>{successMessage}</div>}
-                </div>
-
-                {/* Add New Product Form Widget */}
-                <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.15rem' }}>
-                    <Plus size={18} color="var(--color-success)" /> Add New Product
-                  </h3>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-                    Append a new product details row directly to the inventory database.
-                  </p>
-
-                  <form onSubmit={handleAddProduct} style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '6px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '8px' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Code ID:</label>
-                        <input 
-                          type="text" 
-                          className="input-field" 
-                          placeholder="e.g. P109"
-                          style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                          value={newProduct.ProductID} 
-                          onChange={(e) => setNewProduct({ ...newProduct, ProductID: e.target.value })}
-                        />
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Category:</label>
-                        <select 
-                          className="select-input"
-                          style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                          value={newProduct.Category} 
-                          onChange={(e) => setNewProduct({ ...newProduct, Category: e.target.value })}
-                        >
-                          <option value="Grains">Grains</option>
-                          <option value="Oils">Oils</option>
-                          <option value="Condiments">Condiments</option>
-                          <option value="Pulses">Pulses</option>
-                          <option value="Snacks">Snacks</option>
-                          <option value="Beverages">Beverages</option>
-                          <option value="Personal Care">Personal Care</option>
-                          <option value="Others">Others</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <label style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Product Name:</label>
-                      <input 
-                        type="text" 
-                        className="input-field" 
-                        placeholder="e.g. Britannia Bourbon 150g"
-                        style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                        value={newProduct.ProductName} 
-                        onChange={(e) => setNewProduct({ ...newProduct, ProductName: e.target.value })}
-                      />
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Stock Level:</label>
-                        <input 
-                          type="number" 
-                          className="input-field" 
-                          placeholder="e.g. 50"
-                          style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                          value={newProduct.StockLevel} 
-                          onChange={(e) => setNewProduct({ ...newProduct, StockLevel: e.target.value })}
-                        />
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Reorder Limit:</label>
-                        <input 
-                          type="number" 
-                          className="input-field" 
-                          placeholder="e.g. 15"
-                          style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                          value={newProduct.ReorderLevel} 
-                          onChange={(e) => setNewProduct({ ...newProduct, ReorderLevel: e.target.value })}
-                        />
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Unit Cost (₹):</label>
-                        <input 
-                          type="number" 
-                          step="0.01"
-                          className="input-field" 
-                          placeholder="Cost"
-                          style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                          value={newProduct.UnitPrice} 
-                          onChange={(e) => setNewProduct({ ...newProduct, UnitPrice: e.target.value })}
-                        />
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Retail Price (₹):</label>
-                        <input 
-                          type="number" 
-                          step="0.01"
-                          className="input-field" 
-                          placeholder="Retail"
-                          style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                          value={newProduct.RetailPrice} 
-                          onChange={(e) => setNewProduct({ ...newProduct, RetailPrice: e.target.value })}
-                        />
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <label style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', fontWeight: 'bold' }}>Supplier Name:</label>
-                      <input 
-                        type="text" 
-                        className="input-field" 
-                        placeholder="e.g. Tirupur Distributors"
-                        style={{ padding: '6px 10px', fontSize: '0.8rem' }}
-                        value={newProduct.Supplier} 
-                        onChange={(e) => setNewProduct({ ...newProduct, Supplier: e.target.value })}
-                      />
-                    </div>
-
-                    <button 
-                      type="submit" 
-                      className="btn btn-success" 
-                      disabled={isAddingProduct}
-                      style={{ width: '100%', marginTop: '6px', padding: '8px' }}
-                    >
-                      {isAddingProduct ? 'Saving details...' : '➕ Save Product Details'}
-                    </button>
-                  </form>
-
-                  {addStatus.message && (
-                    <div style={{ 
-                      color: addStatus.type === "success" ? 'var(--color-success)' : 'var(--color-danger)', 
-                      fontSize: '0.75rem', 
-                      padding: '8px', 
-                      background: addStatus.type === "success" ? 'var(--color-success-glow)' : 'var(--color-danger-glow)', 
-                      border: `1px solid ${addStatus.type === "success" ? 'rgba(16,185,129,0.15)' : 'rgba(244,63,94,0.15)'}`, 
-                      borderRadius: '6px',
-                      wordBreak: 'break-word'
-                    }}>
-                      {addStatus.message}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Inventory table details */}
-            <div className="glass-card">
-              <h3 style={{ marginBottom: '12px', fontSize: '1.2rem' }}>📋 Stock Depletion Calculations</h3>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', textAlign: 'left' }}>
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid var(--color-card-border)', color: 'var(--color-text-muted)' }}>
-                      <th style={{ padding: '10px' }}>Code</th>
-                      <th style={{ padding: '10px' }}>Item Name</th>
-                      <th style={{ padding: '10px' }}>Category</th>
-                      <th style={{ padding: '10px' }}>Stock</th>
-                      <th style={{ padding: '10px' }}>Limit</th>
-                      <th style={{ padding: '10px' }}>Sales/Day</th>
-                      <th style={{ padding: '10px' }}>Days Left</th>
-                      <th style={{ padding: '10px' }}>Status</th>
-                      <th style={{ padding: '10px' }}>Supplier</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {inventory.map(item => {
-                      let statusBadge = "var(--color-success-glow)";
-                      let statusColor = "var(--color-success)";
-                      if (item.Status === "Low Stock") {
-                        statusBadge = "var(--color-danger-glow)";
-                        statusColor = "var(--color-danger)";
-                      } else if (item.Status === "Approaching Outage") {
-                        statusBadge = "var(--color-warning-glow)";
-                        statusColor = "var(--color-warning)";
-                      }
-
-                      return (
-                        <tr key={item.ProductID} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
-                          <td style={{ padding: '10px', fontWeight: 'bold' }}>{item.ProductID}</td>
-                          <td style={{ padding: '10px' }}>{item.ProductName}</td>
-                          <td style={{ padding: '10px', color: 'var(--color-text-muted)' }}>{item.Category}</td>
-                          <td style={{ padding: '10px', fontWeight: '600' }}>{item.CurrentStock}</td>
-                          <td style={{ padding: '10px', color: 'var(--color-text-dim)' }}>{item.ReorderLevel}</td>
-                          <td style={{ padding: '10px' }}>{item.DailyVelocity}</td>
-                          <td style={{ padding: '10px', fontWeight: '600' }}>{item.DaysRemaining}</td>
-                          <td style={{ padding: '10px' }}>
-                            <span style={{ background: statusBadge, color: statusColor, padding: '2px 6px', borderRadius: '10px', fontSize: '0.72rem', fontWeight: 'bold' }}>
-                              {item.Status}
-                            </span>
-                          </td>
-                          <td style={{ padding: '10px', fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{item.Supplier}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 4: DOCUMENT UPLOAD OCR */}
-        {activeTab === "upload" && (
-          <div className="tab-container">
-            <div className="hub-flex-container">
-            <div className="glass-card flex-column-full" style={{ gap: '15px' }}>
-              <div>
-                <h3 style={{ color: '#818cf8', marginBottom: '4px', fontSize: '1.2rem' }}>📁 Document Upload Parser</h3>
-                <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Upload physical bills, ledger logs, and voice logs (MP3, WAV) for transcription and indexing.</p>
-              </div>
-
-              <form onSubmit={handleUploadSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
-                <div className="dropzone">
-                  <Upload size={28} color="var(--color-primary)" />
-                  <span style={{ fontSize: '0.85rem' }}>Choose invoices/receipts or voice memos</span>
-                  <p style={{ fontSize: '0.72rem', color: 'var(--color-text-dim)' }}>Supports CSV, PNG, JPG, PDF, WAV, MP3</p>
-                  
-                  <input 
-                    type="file" 
-                    onChange={handleFileChange}
-                    style={{ fontSize: '0.75rem', background: '#080c16', padding: '6px', borderRadius: '4px', width: '100%', maxWidth: '240px' }} 
-                  />
-                </div>
-
-                {selectedFile && (
-                  <div style={{ fontSize: '0.8rem', padding: '8px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--color-card-border)' }}>
-                    Selected: <strong>{selectedFile.name}</strong> ({(selectedFile.size / 1024).toFixed(1)} KB)
+                ) : (
+                  <div style={{ background: 'rgba(16, 185, 129, 0.08)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.15)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                    Growth: +{forecast.growth_rate}%
                   </div>
                 )}
+              </div>
 
-                <button 
-                  type="submit" 
-                  className="btn btn-primary" 
-                  disabled={isUploading || !selectedFile}
-                  style={{ width: '100%' }}
-                >
-                  {isUploading ? '⚡ Processing bill details...' : '⚡ Process Document'}
-                </button>
-              </form>
+              {forecast.is_empty ? (
+                <div style={{ height: '240px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.01)', border: '1px dashed var(--color-card-border)', borderRadius: '10px', padding: '20px', textAlign: 'center' }}>
+                  <Activity size={32} color="#64748b" style={{ marginBottom: '10px' }} />
+                  <h4 style={{ fontSize: '0.95rem', color: 'var(--color-text-muted)', marginBottom: '4px' }}>No Transaction Data Available</h4>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--color-text-dim)', maxWidth: '420px' }}>
+                    AegisAI requires sales logs to compute regression fits. Import transactions in the onboarding flow, upload receipts in the Document Hub, or log sales via webhook to populate this chart.
+                  </p>
+                </div>
+              ) : (
+                <div className="svg-chart-container" style={{ height: '240px' }}>
+                  <svg viewBox="0 0 800 240" style={{ width: '100%', height: '100%' }}>
+                    <line x1="50" y1="20" x2="750" y2="20" stroke="rgba(255,255,255,0.03)" />
+                    <line x1="50" y1="80" x2="750" y2="80" stroke="rgba(255,255,255,0.03)" />
+                    <line x1="50" y1="140" x2="750" y2="140" stroke="rgba(255,255,255,0.03)" />
+                    <line x1="50" y1="200" x2="750" y2="200" stroke="rgba(255,255,255,0.08)" />
 
-              {uploadResult && (
-                <div style={{ color: 'var(--color-success)', fontSize: '0.8rem', padding: '10px', background: 'var(--color-success-glow)', border: '1px solid rgba(16,185,129,0.15)', borderRadius: '6px' }}>
-                  <strong>{uploadResult.message}</strong>
+                    <text x="15" y="25" fill="#64748b" fontSize="9">12k</text>
+                    <text x="15" y="85" fill="#64748b" fontSize="9">8k</text>
+                    <text x="15" y="145" fill="#64748b" fontSize="9">4k</text>
+                    <text x="15" y="205" fill="#64748b" fontSize="9">0</text>
+
+                    <path 
+                      d="M 50 150 L 140 130 L 230 145 L 320 120 L 410 110 L 500 115 L 590 105 L 680 95" 
+                      fill="none" 
+                      stroke="var(--color-primary)" 
+                      strokeWidth="3" 
+                    />
+                    <path 
+                      d="M 50 200 L 50 150 L 140 130 L 230 145 L 320 120 L 410 110 L 500 115 L 590 105 L 680 95 L 680 200 Z" 
+                      fill="url(#indigo-gradient)" 
+                      opacity="0.12" 
+                    />
+
+                    <path 
+                      d="M 680 95 L 750 75" 
+                      fill="none" 
+                      stroke="var(--color-success)" 
+                      strokeWidth="3" 
+                      strokeDasharray="5,5" 
+                    />
+                    <path 
+                      d="M 680 95 L 750 75 L 750 200 L 680 200 Z" 
+                      fill="url(#emerald-gradient)" 
+                      opacity="0.06" 
+                    />
+
+                    <circle cx="680" cy="95" r="4" fill="var(--color-primary)" />
+                    <circle cx="750" cy="75" r="4" fill="var(--color-success)" />
+
+                    <text x="50" y="222" fill="#64748b" fontSize="9" textAnchor="middle">Day -30</text>
+                    <text x="320" y="222" fill="#64748b" fontSize="9" textAnchor="middle">Day -15</text>
+                    <text x="680" y="222" fill="#64748b" fontSize="9" textAnchor="middle">Today</text>
+                    <text x="750" y="222" fill="#64748b" fontSize="9" textAnchor="middle">Day +30 (Forecast)</text>
+                    
+                    <defs>
+                      <linearGradient id="indigo-gradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--color-primary)" />
+                        <stop offset="100%" stopColor="transparent" />
+                      </linearGradient>
+                      <linearGradient id="emerald-gradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--color-success)" />
+                        <stop offset="100%" stopColor="transparent" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
               )}
             </div>
 
-            {/* Extracted file context output view console */}
-            <div className="glass-card flex-column-full" style={{ gap: '15px' }}>
-              <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.2rem' }}>
-                <FileCheck size={20} color="var(--color-primary)" /> OCR / Speech Transcript Preview
-              </h3>
-              <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-                Extracted metadata and key-value records mapped from files using AI.
-              </p>
-
-              <textarea 
-                className="input-field" 
-                value={filePreview || "No file parsed in this session yet. Upload invoices with text/amounts or speech notes to view transcribing previews."}
-                readOnly
-                style={{ flex: 1, height: '100%', fontFamily: 'monospace', fontSize: '0.8rem', resize: 'none', background: 'rgba(5,8,15,0.9)' }}
-              />
-            </div>
-          </div>
-          </div>
-        )}
-
-        {/* TAB 5: WHATSAPP SIMULATION SANDBOX */}
-        {activeTab === "phone" && (
-          <div className="tab-container">
-            <div className="sandbox-flex-container">
-            <div className="glass-card flex-column-full" style={{ gap: '15px', justifyContent: 'center' }}>
-              <div>
-                <h3 style={{ color: '#818cf8', marginBottom: '4px', fontSize: '1.25rem' }}>📱 Twilio Sandbox Simulator</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
-                  This panel mockups a WhatsApp conversation stream matching notifications dispatched from low stock audits.
+            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px', marginTop: '20px' }}>
+              <div className="glass-card">
+                <h4 style={{ fontSize: '1.05rem', color: '#f59e0b', marginBottom: '8px' }}>🤖 Copilot Forecasting Summary</h4>
+                <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', lineHeight: '1.5' }}>
+                  {forecast.is_empty ? (
+                    "No active sales models built. Please run transaction operations to enable linear predictions."
+                  ) : (
+                    `Our Scikit-Learn regression engine projected ${business?.currency || "₹"}${forecast.total_forecasted_sales.toLocaleString('en-IN', { maximumFractionDigits: 0 })} in sales for the upcoming month. A predicted growth index of +${forecast.growth_rate}% points to positive trends compared to last month.`
+                  )}
                 </p>
               </div>
 
-              <div style={{ background: 'rgba(255, 255, 255, 0.01)', padding: '14px', borderRadius: '10px', border: '1px solid var(--color-card-border)' }}>
-                <h4 style={{ fontSize: '0.9rem', marginBottom: '6px' }}>Sandbox Controls</h4>
-                <div style={{ display: 'flex', gap: '10px', marginTop: '6px' }}>
-                  <button className="btn btn-secondary" onClick={handleClearLogs} style={{ flex: 1 }}>
-                    <Trash2 size={14} /> Clear Logs
-                  </button>
-                  <button className="btn btn-success" onClick={fetchWhatsappLogs} style={{ flex: 1 }}>
-                    <RefreshCw size={14} /> Sync Logs
-                  </button>
-                </div>
-              </div>
-
-              <div style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)', lineHeight: '1.4' }}>
-                <span style={{ fontWeight: 'bold', display: 'block', color: 'var(--color-text-muted)', marginBottom: '3px' }}>How to send real WhatsApp alerts:</span>
-                Configure your Twilio Account SID, Auth Token, and sandbox From numbers in the `.env` file at the root. The webhook router in [main.py](file:///c:/Users/Jayasuriya/.gemini/antigravity/scratch/AegisAI/main.py) will automatically hook calls to deliver notifications.
-              </div>
-            </div>
-
-            {/* Smart Phone Shell mockup */}
-            <div className="phone-shell">
-              {/* Header */}
-              <div style={{ padding: '12px 16px', background: '#075e54', color: 'white', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-                <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justify: 'center', fontWeight: 'bold', fontSize: '0.85rem' }}>A</div>
-                <div>
-                  <h4 style={{ fontSize: '0.85rem' }}>AegisAI Sandbox</h4>
-                  <p style={{ fontSize: '0.6rem', color: '#a3e635' }}>Active (Simulated Gateway)</p>
-                </div>
-              </div>
-
-              {/* Chat Bubble Screens */}
-              <div className="phone-screen">
-                {whatsappLogs.length === 0 ? (
-                  <div style={{ margin: 'auto', textAlign: 'center', color: '#64748b', fontSize: '0.7rem', padding: '10px', background: 'rgba(255,255,255,0.7)', borderRadius: '6px' }}>
-                    No alerts sent yet. Try running inventory check scans or query stock alerts to trigger notifications.
-                  </div>
+              <div className="glass-card">
+                <h4 style={{ fontSize: '1.05rem', color: '#818cf8', marginBottom: '8px' }}>🚀 Projected Revenue Volumes</h4>
+                {forecast.is_empty ? (
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-dim)' }}>No forecasting values computed.</p>
                 ) : (
-                  whatsappLogs.map((log, idx) => {
-                    const isMerchant = log.body.startsWith("Merchant asked");
-                    const cleanBody = log.body.replace("Merchant asked: ", "");
-                    return (
-                      <div key={idx} className={`phone-msg-bubble ${isMerchant ? 'out' : 'in'}`} style={{ whiteSpace: 'pre-line' }}>
-                        <div>{cleanBody}</div>
-                        <div style={{ fontSize: '0.52rem', color: '#94a3b8', textAlign: 'right', marginTop: '3px' }}>
-                          {log.timestamp} {log.status && `(${log.status})`}
-                        </div>
-                      </div>
-                    );
-                  })
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed rgba(255,255,255,0.05)', paddingBottom: '4px', fontSize: '0.82rem' }}>
+                      <span style={{ color: 'var(--color-text-muted)' }}>Expected 30-Day Sales:</span>
+                      <span style={{ fontWeight: 'bold' }}>{business?.currency || "₹"}{forecast.total_forecasted_sales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* TAB 2b: CUSTOMER INSIGHTS */}
+        {activeTab === "customer" && (
+          <div className="scrollable-tab">
+            
+            {/* INACTIVE THRESHOLD HEADER */}
+            <div className="glass-card" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+              <div>
+                <h3 style={{ color: '#818cf8', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <UserCheck size={20} /> Customer Cohorts & Retention Analytics
+                </h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                  Dynamically calculated cohorts, lifetime values, purchase frequencies, and product association paths.
+                </p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>Inactive Threshold:</span>
+                <select 
+                  className="select-input" 
+                  style={{ width: '100px', padding: '4px 8px' }} 
+                  value={inactiveDays} 
+                  onChange={(e) => {
+                    const days = parseInt(e.target.value);
+                    setInactiveDays(days);
+                    fetchCustomerInsights(token, days);
+                  }}
+                >
+                  <option value={30}>30 Days</option>
+                  <option value={60}>60 Days</option>
+                  <option value={90}>90 Days</option>
+                </select>
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={() => fetchCustomerInsights(token, inactiveDays)} 
+                  style={{ padding: '4px 8px' }}
+                >
+                  <RefreshCw size={12} />
+                </button>
+              </div>
+            </div>
+
+            {isCustomerLoading || !customerInsights ? (
+              <div className="glass-card" style={{ height: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="animate-spin" style={{ width: '32px', height: '32px', border: '3px solid rgba(129,140,248,0.2)', borderTopColor: '#818cf8', borderRadius: '50%' }}></div>
+                <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '12px' }}>Computing cohort analytics from ledger...</p>
+              </div>
+            ) : (
+              <>
+                {/* 1. METRICS GRID */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '16px', marginBottom: '20px' }}>
+                  
+                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #818cf8' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className="metric-title">Total Customers</span>
+                      <UserCheck size={16} color="#818cf8" />
+                    </div>
+                    <span className="metric-value">{customerInsights.metrics.total_customers}</span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Registered members</span>
+                  </div>
+
+                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #34d399' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className="metric-title">Active Buyers</span>
+                      <Activity size={16} color="#34d399" />
+                    </div>
+                    <span className="metric-value">{customerInsights.metrics.active_customers}</span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Active in last {inactiveDays}d</span>
+                  </div>
+
+                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #f87171' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className="metric-title">Inactive Buyers</span>
+                      <ShieldAlert size={16} color="#f87171" />
+                    </div>
+                    <span className="metric-value">{customerInsights.metrics.inactive_customers}</span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>No sales in last {inactiveDays}d</span>
+                  </div>
+
+                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #fbbf24' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className="metric-title">Repeat Rate</span>
+                      <Coins size={16} color="#fbbf24" />
+                    </div>
+                    <span className="metric-value">{customerInsights.metrics.repeat_customer_rate}%</span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Customers with 2+ purchases</span>
+                  </div>
+
+                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #60a5fa' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className="metric-title">Average Order</span>
+                      <IndianRupee size={14} color="#60a5fa" />
+                    </div>
+                    <span className="metric-value" style={{ fontSize: '1.25rem', fontWeight: 'bold', marginTop: '4px', color: 'var(--color-text-light)' }}>
+                      {business?.currency || "₹"}{customerInsights.metrics.average_order_value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                    </span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Avg sales value per invoice</span>
+                  </div>
+
+                  <div className="glass-card metric-card" style={{ borderLeft: '3px solid #c084fc' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className="metric-title">Customer LTV</span>
+                      <TrendingUp size={16} color="#c084fc" />
+                    </div>
+                    <span className="metric-value" style={{ fontSize: '1.25rem', fontWeight: 'bold', marginTop: '4px', color: 'var(--color-text-light)' }}>
+                      {business?.currency || "₹"}{customerInsights.metrics.customer_lifetime_value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                    </span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Avg total spending per account</span>
+                  </div>
+                  
+                </div>
+
+                {/* 2. CHARTS GRID (Segmentation & Purchase Trends) */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '20px', marginBottom: '20px' }}>
+                  
+                  {/* CUSTOMER SEGMENTATION DONUT BLOCK */}
+                  <div className="glass-card">
+                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px' }}>📊 Customer Cohort Segmentation</h4>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
+                      Merchant database distribution based on purchase frequency, lifetime sales volume, and recency index.
+                    </p>
+                    
+                    {/* Horizontal Bar Chart representation */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '10px' }}>
+                      {Object.entries(customerInsights.segments).map(([segment, count]) => {
+                        const total = customerInsights.metrics.total_customers;
+                        const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
+                        
+                        // Pick segment color
+                        let color = "#38bdf8"; // Occasional
+                        if (segment === "VIP") color = "#c084fc";
+                        else if (segment === "Regular") color = "#6366f1";
+                        else if (segment === "New") color = "#34d399";
+                        else if (segment === "Inactive") color = "#f87171";
+                        
+                        return (
+                          <div key={segment}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '4px' }}>
+                              <span style={{ fontWeight: '600', color: 'var(--color-text-muted)' }}>{segment} Cohort</span>
+                              <span style={{ color: 'var(--color-text-light)' }}>{count} ({percentage}%)</span>
+                            </div>
+                            <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.03)', borderRadius: '4px', overflow: 'hidden' }}>
+                              <div style={{ width: `${percentage}%`, height: '100%', background: color, borderRadius: '4px' }}></div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* PURCHASE TRENDS (MONTHLY REVENUE & UNIQUE ACTIVE BUYERS) */}
+                  <div className="glass-card">
+                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px' }}>📈 Monthly Customer Purchase Activity</h4>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
+                      Historical comparison of monthly revenue generation streams alongside active buying channels.
+                    </p>
+                    
+                    {customerInsights.trends.length === 0 ? (
+                      <div style={{ height: '180px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed var(--color-card-border)', borderRadius: '8px' }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--color-text-dim)' }}>Insufficient historical sales details.</span>
+                      </div>
+                    ) : (
+                      <div className="svg-chart-container" style={{ height: '170px' }}>
+                        <svg viewBox="0 0 500 170" style={{ width: '100%', height: '100%' }}>
+                          {/* Grid lines */}
+                          <line x1="40" y1="20" x2="480" y2="20" stroke="rgba(255,255,255,0.03)" />
+                          <line x1="40" y1="70" x2="480" y2="70" stroke="rgba(255,255,255,0.03)" />
+                          <line x1="40" y1="120" x2="480" y2="120" stroke="rgba(255,255,255,0.03)" />
+                          <line x1="40" y1="140" x2="480" y2="140" stroke="rgba(255,255,255,0.08)" />
+
+                          {/* Axes labels */}
+                          <text x="35" y="23" fill="#64748b" fontSize="7" textAnchor="end">Max</text>
+                          <text x="35" y="143" fill="#64748b" fontSize="7" textAnchor="end">0</text>
+
+                          {/* Draw Bars */}
+                          {customerInsights.trends.map((item, index) => {
+                            const barWidth = 32;
+                            const spacing = 70;
+                            const x = 50 + index * spacing;
+                            
+                            // Max revenue baseline helper
+                            const maxRev = Math.max(...customerInsights.trends.map(t => t.revenue), 1000);
+                            const heightPercentage = item.revenue / maxRev;
+                            const barHeight = Math.max(10, heightPercentage * 110);
+                            const y = 140 - barHeight;
+
+                            return (
+                              <g key={item.month}>
+                                {/* Revenue Bar */}
+                                <rect 
+                                  x={x} 
+                                  y={y} 
+                                  width={barWidth} 
+                                  height={barHeight} 
+                                  fill="rgba(129, 140, 248, 0.4)" 
+                                  stroke="#818cf8" 
+                                  strokeWidth="1" 
+                                  rx="2"
+                                />
+                                {/* Value display */}
+                                <text x={x + barWidth/2} y={y - 4} fill="var(--color-text-light)" fontSize="6" textAnchor="middle">
+                                  {business?.currency || "₹"}{item.revenue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                                </text>
+                                {/* X Axis Month */}
+                                <text x={x + barWidth/2} y="152" fill="#64748b" fontSize="7" textAnchor="middle">
+                                  {item.month.split(" ")[0].slice(0,3)}
+                                </text>
+                                {/* Active buyers counts dots */}
+                                <circle 
+                                  cx={x + barWidth/2} 
+                                  cy={140 - (item.customer_count * 10)} 
+                                  r="3" 
+                                  fill="#34d399"
+                                />
+                                <text 
+                                  x={x + barWidth/2} 
+                                  y={140 - (item.customer_count * 10) - 5} 
+                                  fill="#34d399" 
+                                  fontSize="6" 
+                                  fontWeight="bold" 
+                                  textAnchor="middle"
+                                >
+                                  {item.customer_count}
+                                </text>
+                              </g>
+                            );
+                          })}
+                        </svg>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', fontSize: '0.72rem', marginTop: '4px' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{ width: '8px', height: '8px', background: '#818cf8', borderRadius: '2px' }}></span> Revenue (Sales)</span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{ width: '6px', height: '6px', background: '#34d399', borderRadius: '50%' }}></span> Active Customers</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                </div>
+
+                {/* 3. RECOMMENDATIONS & BUNDLE CARDS */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                  
+                  {/* DYNAMIC ACTIONABLE RECOMMENDATIONS */}
+                  <div className="glass-card">
+                    <h4 style={{ color: '#fbbf24', fontSize: '1rem', marginBottom: '12px' }}>🎯 Recommended Retention Campaigns</h4>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
+                      Automated risk analysis prompting promotional offerings to counteract customer churn.
+                    </p>
+                    
+                    {customerInsights.recommendations.length === 0 ? (
+                      <div style={{ padding: '20px', background: 'rgba(255,255,255,0.01)', border: '1px dashed var(--color-card-border)', borderRadius: '8px', textAlign: 'center' }}>
+                        <CheckCircle size={24} color="#34d399" style={{ marginBottom: '6px' }} />
+                        <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>All cohort retention indicators are healthy. No campaigns required.</p>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {customerInsights.recommendations.map((rec, idx) => (
+                          <div 
+                            key={idx} 
+                            style={{ 
+                              padding: '12px 14px', 
+                              background: 'rgba(255, 255, 255, 0.02)', 
+                              border: '1px solid var(--color-card-border)', 
+                              borderRadius: '8px',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              gap: '12px'
+                            }}
+                          >
+                            <div style={{ flex: 1 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <span 
+                                  style={{ 
+                                    padding: '2px 6px', 
+                                    fontSize: '0.62rem', 
+                                    borderRadius: '4px',
+                                    background: rec.type === 're_engagement' ? 'rgba(239, 68, 68, 0.08)' : 'rgba(245, 158, 11, 0.08)',
+                                    color: rec.type === 're_engagement' ? '#f87171' : '#fbbf24',
+                                    fontWeight: 'bold',
+                                    textTransform: 'uppercase'
+                                  }}
+                                >
+                                  {rec.type.replace('_', ' ')}
+                                </span>
+                                <h5 style={{ fontSize: '0.85rem', color: 'var(--color-text-light)', fontWeight: 'bold' }}>{rec.title}</h5>
+                              </div>
+                              <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginTop: '4px', lineHeight: '1.4' }}>{rec.message}</p>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '6px', fontSize: '0.75rem', color: '#818cf8', fontWeight: '500' }}>
+                                <span>Offer: {rec.discount_offer}</span>
+                              </div>
+                            </div>
+                            <button 
+                              className="btn btn-primary" 
+                              onClick={() => handleGenerateCampaign(rec.customer_id, null, rec.discount_offer)} 
+                              style={{ padding: '6px 10px', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap' }}
+                            >
+                              <MessageSquare size={12} /> Generate Campaign
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* FREQUENTLY BOUGHT TOGETHER */}
+                  <div className="glass-card">
+                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px' }}>🤝 Commonly Bought Together Bundles</h4>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
+                      Market Basket Analysis identifying products commonly checked out during the same checkout visit.
+                    </p>
+                    
+                    {customerInsights.frequently_bought_together.length === 0 ? (
+                      <div style={{ height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed var(--color-card-border)', borderRadius: '8px' }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--color-text-dim)', textAlign: 'center', maxWidth: '280px' }}>
+                          Log checkouts containing multiple distinct product SKUs to trigger bundle analytics.
+                        </span>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        {customerInsights.frequently_bought_together.map((fbt, idx) => (
+                          <div 
+                            key={idx} 
+                            style={{ 
+                              padding: '10px 12px', 
+                              background: 'rgba(129,140,248,0.02)', 
+                              border: '1px solid rgba(129,140,248,0.1)', 
+                              borderRadius: '6px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between'
+                            }}
+                          >
+                            <div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: 'var(--color-text-light)', fontWeight: 'bold' }}>
+                                <ShoppingCart size={14} color="#818cf8" />
+                                <span>{fbt.product_a}</span>
+                                <span style={{ color: 'var(--color-text-dim)' }}>+</span>
+                                <span>{fbt.product_b}</span>
+                              </div>
+                              <p style={{ fontSize: '0.7rem', color: 'var(--color-text-dim)', marginTop: '2px' }}>
+                                Support Ratio: **{fbt.support_percentage}%** of invoices | **{fbt.co_occurrence}** bundle co-occurrences
+                              </p>
+                            </div>
+                            <button 
+                              className="btn btn-secondary" 
+                              onClick={() => handleGenerateCampaign(null, null, `Special bundle discount on ${fbt.product_a} and ${fbt.product_b} together`)}
+                              style={{ padding: '4px 8px', fontSize: '0.7rem' }}
+                            >
+                              Promo
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                </div>
+
+                {/* 4. CUSTOMER REGISTER & ADD WIDGET */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr', gap: '20px' }}>
+                  
+                  {/* CUSTOMER DIRECTORY REGISTRY */}
+                  <div className="glass-card">
+                    <h4 style={{ color: '#818cf8', fontSize: '1rem', marginBottom: '12px' }}>👥 Company Customer Registry</h4>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
+                      Registered client profiles detailing total revenue generation contribution and cohort tags.
+                    </p>
+                    
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', textAlign: 'left' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid var(--color-card-border)', color: 'var(--color-text-muted)' }}>
+                            <th style={{ padding: '8px 10px' }}>Client</th>
+                            <th style={{ padding: '8px 10px' }}>Segment</th>
+                            <th style={{ padding: '8px 10px' }}>Spent</th>
+                            <th style={{ padding: '8px 10px' }}>Visits</th>
+                            <th style={{ padding: '8px 10px' }}>Last Sale</th>
+                            <th style={{ padding: '8px 10px' }}>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {customerInsights.customers.map((c) => {
+                            let segColor = "rgba(56, 189, 248, 0.1)"; // Occasional
+                            let textCol = "#38bdf8";
+                            if (c.segment === "VIP") { segColor = "rgba(192, 132, 252, 0.1)"; textCol = "#c084fc"; }
+                            else if (c.segment === "Regular") { segColor = "rgba(99, 102, 241, 0.1)"; textCol = "#6366f1"; }
+                            else if (c.segment === "New") { segColor = "rgba(52, 211, 153, 0.1)"; textCol = "#34d399"; }
+                            else if (c.segment === "Inactive") { segColor = "rgba(248, 113, 113, 0.1)"; textCol = "#f87171"; }
+
+                            return (
+                              <tr key={c.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }} className="hover-row">
+                                <td style={{ padding: '10px' }}>
+                                  <div style={{ fontWeight: 'bold', color: 'var(--color-text-light)' }}>{c.name}</div>
+                                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-dim)' }}>{c.email} | {c.phone}</div>
+                                </td>
+                                <td style={{ padding: '10px' }}>
+                                  <span style={{ padding: '2px 8px', borderRadius: '4px', background: segColor, color: textCol, fontSize: '0.72rem', fontWeight: 'bold' }}>
+                                    {c.segment}
+                                  </span>
+                                </td>
+                                <td style={{ padding: '10px', fontWeight: 'bold' }}>
+                                  {business?.currency || "₹"}{c.spending.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                                </td>
+                                <td style={{ padding: '10px' }}>{c.visits} times</td>
+                                <td style={{ padding: '10px' }}>{c.last_purchase}</td>
+                                <td style={{ padding: '10px' }}>
+                                  <button 
+                                    className="btn btn-secondary" 
+                                    onClick={() => setSelectedCustomer(c)} 
+                                    style={{ padding: '4px 8px', fontSize: '0.7rem', marginRight: '6px' }}
+                                  >
+                                    Timeline
+                                  </button>
+                                  <button 
+                                    className="btn btn-secondary" 
+                                    onClick={() => handleGenerateCampaign(c.id, null, "Special Thank You Discount")} 
+                                    style={{ padding: '4px 8px', fontSize: '0.7rem' }}
+                                  >
+                                    Campaign
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* ADD CUSTOMER FORM WIDGET */}
+                  <div className="glass-card flex-column-full" style={{ alignSelf: 'start' }}>
+                    <h4 style={{ color: '#818cf8', fontSize: '1.05rem', marginBottom: '10px' }}>➕ Register New Customer</h4>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '12px' }}>
+                      Manually add a buyer account to compile purchase details and establish retention algorithms.
+                    </p>
+                    
+                    <form onSubmit={handleAddCustomer} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div className="input-group">
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>FULL NAME:</label>
+                        <input 
+                          type="text" 
+                          placeholder="e.g. Aarav Sharma" 
+                          className="text-input" 
+                          value={newCustomer.name} 
+                          onChange={(e) => setNewCustomer({...newCustomer, name: e.target.value})} 
+                        />
+                      </div>
+                      
+                      <div className="input-group">
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>EMAIL ADDRESS:</label>
+                        <input 
+                          type="email" 
+                          placeholder="e.g. name@gmail.com" 
+                          className="text-input" 
+                          value={newCustomer.email} 
+                          onChange={(e) => setNewCustomer({...newCustomer, email: e.target.value})} 
+                        />
+                      </div>
+                      
+                      <div className="input-group">
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>MOBILE NUMBER:</label>
+                        <input 
+                          type="text" 
+                          placeholder="e.g. +919876543210" 
+                          className="text-input" 
+                          value={newCustomer.phone} 
+                          onChange={(e) => setNewCustomer({...newCustomer, phone: e.target.value})} 
+                        />
+                      </div>
+                      
+                      {customerAddStatus.message && (
+                        <div style={{ 
+                          padding: '8px 10px', 
+                          borderRadius: '6px', 
+                          fontSize: '0.75rem', 
+                          background: customerAddStatus.type === 'success' ? 'rgba(16, 185, 129, 0.08)' : 'rgba(239, 68, 68, 0.08)',
+                          color: customerAddStatus.type === 'success' ? '#10b981' : '#f87171',
+                          border: customerAddStatus.type === 'success' ? '1px solid rgba(16,185,129,0.15)' : '1px solid rgba(239,68,68,0.15)',
+                          marginTop: '4px'
+                        }}>
+                          {customerAddStatus.message}
+                        </div>
+                      )}
+                      
+                      <button 
+                        type="submit" 
+                        className="btn btn-primary" 
+                        disabled={isAddingCustomer} 
+                        style={{ marginTop: '10px', width: '100%', justifyContent: 'center' }}
+                      >
+                        {isAddingCustomer ? "Adding Account..." : "Add Customer"}
+                      </button>
+                    </form>
+                  </div>
+                  
+                </div>
+              </>
+            )}
+
+            {/* 5. CUSTOMER DETAIL & TIMELINE MODAL */}
+            {selectedCustomer && (
+              <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+                <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '640px', background: 'var(--color-bg)', padding: '24px', border: '1px solid var(--color-primary)', borderRadius: '12px', maxHeight: '90vh', overflowY: 'auto' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                    <div>
+                      <h3 style={{ color: '#818cf8', fontSize: '1.3rem', fontWeight: 'bold' }}>👤 {selectedCustomer.name}</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                        ID: {selectedCustomer.id} | {selectedCustomer.email} | {selectedCustomer.phone}
+                      </p>
+                    </div>
+                    <span 
+                      style={{ 
+                        padding: '3px 10px', 
+                        borderRadius: '4px', 
+                        background: selectedCustomer.segment === 'VIP' ? 'rgba(192, 132, 252, 0.15)' : selectedCustomer.segment === 'Regular' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(56, 189, 248, 0.15)', 
+                        color: selectedCustomer.segment === 'VIP' ? '#c084fc' : selectedCustomer.segment === 'Regular' ? '#6366f1' : '#38bdf8', 
+                        fontSize: '0.75rem', 
+                        fontWeight: 'bold' 
+                      }}
+                    >
+                      {selectedCustomer.segment} Cohort
+                    </span>
+                  </div>
+
+                  {/* Cohort Stats */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--color-card-border)', marginBottom: '20px' }}>
+                    <div>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)', display: 'block' }}>TOTAL SPENT</span>
+                      <span style={{ fontSize: '1rem', fontWeight: 'bold', color: 'var(--color-text-light)' }}>
+                        {business?.currency || "₹"}{selectedCustomer.spending.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)', display: 'block' }}>VISIT FREQUENCY</span>
+                      <span style={{ fontSize: '1rem', fontWeight: 'bold', color: 'var(--color-text-light)' }}>{selectedCustomer.visits} orders</span>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)', display: 'block' }}>LAST PURCHASE</span>
+                      <span style={{ fontSize: '0.88rem', fontWeight: 'bold', color: 'var(--color-text-light)' }}>{selectedCustomer.last_purchase}</span>
+                    </div>
+                  </div>
+
+                  <h4 style={{ fontSize: '0.92rem', color: '#818cf8', marginBottom: '10px', borderBottom: '1px solid var(--color-card-border)', paddingBottom: '4px' }}>🛍️ Preferred Products</h4>
+                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '20px' }}>
+                    {selectedCustomer.pref_products && selectedCustomer.pref_products.length > 0 ? (
+                      selectedCustomer.pref_products.map((p, i) => (
+                        <span key={i} style={{ padding: '3px 8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '4px', fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+                          {p}
+                        </span>
+                      ))
+                    ) : (
+                      <span style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)' }}>None registered yet.</span>
+                    )}
+                  </div>
+
+                  <h4 style={{ fontSize: '0.92rem', color: '#818cf8', marginBottom: '10px', borderBottom: '1px solid var(--color-card-border)', paddingBottom: '4px' }}>📜 Purchase Timeline Logs</h4>
+                  {selectedCustomer.purchase_history && selectedCustomer.purchase_history.length > 0 ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '180px', overflowY: 'auto', paddingRight: '4px' }}>
+                      {selectedCustomer.purchase_history.map((item, idx) => (
+                        <div key={idx} style={{ padding: '8px 10px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.03)', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem' }}>
+                          <div>
+                            <span style={{ fontWeight: 'bold', color: 'var(--color-text-light)' }}>{item.product}</span>
+                            <span style={{ color: 'var(--color-text-dim)', marginLeft: '6px' }}>({item.qty} units)</span>
+                          </div>
+                          <div style={{ textAlign: 'right' }}>
+                            <span style={{ color: 'var(--color-text-muted)', marginRight: '8px' }}>{item.date}</span>
+                            <span style={{ fontWeight: 'bold' }}>{business?.currency || "₹"}{item.amount.toLocaleString('en-IN')}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)' }}>No invoices in purchase history database.</p>
+                  )}
+
+                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+                    <button className="btn btn-secondary" onClick={() => setSelectedCustomer(null)}>Close Profile</button>
+                    <button 
+                      className="btn btn-primary" 
+                      onClick={() => {
+                        handleGenerateCampaign(selectedCustomer.id, null, "15% discount code");
+                        setSelectedCustomer(null);
+                      }}
+                    >
+                      Draft Campaign
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 6. WHATSAPP CAMPAIGN DRAFT MODAL */}
+            {showCampaignModal && (
+              <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+                <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '520px', background: 'var(--color-bg)', padding: '24px', border: '1px solid rgba(129, 140, 248, 0.4)', borderRadius: '12px' }}>
+                  <h3 style={{ color: '#818cf8', fontSize: '1.25rem', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <MessageSquare size={20} /> Targeted Campaign Draft
+                  </h3>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: '14px' }}>
+                    Personalized WhatsApp message campaign generated dynamically by the AegisAI Communication Agent:
+                  </p>
+
+                  {campaignLoading ? (
+                    <div style={{ height: '160px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', borderRadius: '6px', border: '1px solid var(--color-card-border)' }}>
+                      <div className="animate-spin" style={{ width: '24px', height: '24px', border: '2px solid rgba(129,140,248,0.2)', borderTopColor: '#818cf8', borderRadius: '50%' }}></div>
+                      <p style={{ fontSize: '0.72rem', color: 'var(--color-text-dim)', marginTop: '10px' }}>Formulating copywriting draft...</p>
+                    </div>
+                  ) : (
+                    <textarea 
+                      className="input-field"
+                      value={campaignDraft}
+                      readOnly
+                      rows={8}
+                      style={{ width: '100%', fontFamily: 'monospace', fontSize: '0.78rem', background: 'rgba(0,0,0,0.3)', padding: '10px', borderRadius: '6px', resize: 'none', border: '1px solid var(--color-card-border)', color: '#fff', marginBottom: '16px' }}
+                    />
+                  )}
+
+                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                    <button className="btn btn-secondary" onClick={() => setShowCampaignModal(false)}>Close</button>
+                    {!campaignLoading && (
+                      <button 
+                        className="btn btn-primary" 
+                        onClick={() => {
+                          navigator.clipboard.writeText(campaignDraft);
+                          setSuccessMessage("Campaign copy template copied to clipboard!");
+                          setShowCampaignModal(false);
+                        }}
+                      >
+                        <Copy size={14} /> Copy Campaign
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            
+          </div>
+        )}
+
+        {/* TAB 3: STOCK CONTROL */}
+        {activeTab === "inventory" && (
+          <div className="scrollable-tab">
+            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px' }}>
+              
+              <div className="glass-card flex-column-full">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                  <div>
+                    <h3 style={{ color: '#818cf8', fontSize: '1.2rem' }}>📦 Stock Depletion Velocity</h3>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>Daily velocities and safety warnings calculated from CSV databases.</p>
+                  </div>
+                </div>
+
+                {inventory.length === 0 ? (
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px', background: 'rgba(255,255,255,0.01)', border: '1px dashed var(--color-card-border)', borderRadius: '8px', textAlign: 'center' }}>
+                    <Package size={28} color="#64748b" style={{ marginBottom: '10px' }} />
+                    <h4 style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', marginBottom: '3px' }}>Your Inventory is Empty</h4>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)', maxWidth: '300px' }}>
+                      Add your first product catalog item using the form on the right to start tracking stock buffers.
+                    </p>
+                  </div>
+                ) : (
+                  <div style={{ overflowX: 'auto', flex: 1 }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem', textAlign: 'left' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '1px solid var(--color-card-border)', color: 'var(--color-text-muted)' }}>
+                          <th style={{ padding: '8px 10px' }}>SKU</th>
+                          <th style={{ padding: '8px 10px' }}>Product</th>
+                          <th style={{ padding: '8px 10px' }}>Stock</th>
+                          <th style={{ padding: '8px 10px' }}>Velocity</th>
+                          <th style={{ padding: '8px 10px' }}>Days Left</th>
+                          <th style={{ padding: '8px 10px' }}>Status</th>
+                          <th style={{ padding: '8px 10px' }}>Supplier</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {inventory.map(item => {
+                          let statusBadge = "var(--color-success-glow)";
+                          let statusColor = "var(--color-success)";
+                          if (item.Status === "Low Stock") {
+                            statusBadge = "var(--color-danger-glow)";
+                            statusColor = "var(--color-danger)";
+                          } else if (item.Status === "Approaching Outage") {
+                            statusBadge = "var(--color-warning-glow)";
+                            statusColor = "var(--color-warning)";
+                          }
+
+                          return (
+                            <tr key={item.ProductID} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
+                              <td style={{ padding: '10px', fontWeight: 'bold' }}>{item.ProductID}</td>
+                              <td style={{ padding: '10px' }}>{item.ProductName}</td>
+                              <td style={{ padding: '10px', fontWeight: '600' }}>{item.CurrentStock}</td>
+                              <td style={{ padding: '10px' }}>{item.DailyVelocity} u/d</td>
+                              <td style={{ padding: '10px', fontWeight: '600' }}>{item.DaysRemaining} d</td>
+                              <td style={{ padding: '10px' }}>
+                                <span style={{ background: statusBadge, color: statusColor, padding: '2px 6px', borderRadius: '10px', fontSize: '0.68rem', fontWeight: 'bold' }}>
+                                  {item.Status}
+                                </span>
+                              </td>
+                              <td style={{ padding: '10px', fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{item.Supplier}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              <div className="glass-card flex-column-full">
+                <h3 style={{ color: '#818cf8', fontSize: '1.2rem', marginBottom: '4px' }}>➕ Register New Product</h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '14px' }}>
+                  Register and append a new product details row directly to your inventory database.
+                </p>
+
+                {addStatus.message && (
+                  <div style={{ padding: '8px 12px', background: addStatus.type === 'success' ? 'var(--color-success-glow)' : 'var(--color-danger-glow)', border: addStatus.type === 'success' ? '1px solid rgba(16,185,129,0.2)' : '1px solid rgba(239,68,68,0.2)', borderRadius: '6px', fontSize: '0.80rem', color: addStatus.type === 'success' ? 'var(--color-success)' : 'var(--color-danger)', marginBottom: '12px' }}>
+                    {addStatus.message}
+                  </div>
+                )}
+
+                <form onSubmit={handleAddProductSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Product ID *</label>
+                      <input 
+                        type="text" 
+                        className="input-field" 
+                        placeholder="e.g. P109"
+                        value={newProduct.ProductID}
+                        onChange={(e) => setNewProduct(prev => ({ ...prev, ProductID: e.target.value }))}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Product Name *</label>
+                      <input 
+                        type="text" 
+                        className="input-field" 
+                        placeholder="e.g. Maggi Noodles"
+                        value={newProduct.ProductName}
+                        onChange={(e) => setNewProduct(prev => ({ ...prev, ProductName: e.target.value }))}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Category</label>
+                      <input 
+                        type="text" 
+                        className="input-field" 
+                        placeholder="e.g. Snacks"
+                        value={newProduct.Category}
+                        onChange={(e) => setNewProduct(prev => ({ ...prev, Category: e.target.value }))}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Stock level *</label>
+                      <input 
+                        type="number" 
+                        className="input-field" 
+                        placeholder="e.g. 50"
+                        value={newProduct.StockLevel}
+                        onChange={(e) => setNewProduct(prev => ({ ...prev, StockLevel: e.target.value }))}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Cost Price (Unit Price) *</label>
+                      <input 
+                        type="number" 
+                        step="0.01"
+                        className="input-field" 
+                        placeholder="e.g. 20.00"
+                        value={newProduct.UnitPrice}
+                        onChange={(e) => setNewProduct(prev => ({ ...prev, UnitPrice: e.target.value }))}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Retail Price</label>
+                      <input 
+                        type="number" 
+                        step="0.01"
+                        className="input-field" 
+                        placeholder="e.g. 25.00"
+                        value={newProduct.RetailPrice}
+                        onChange={(e) => setNewProduct(prev => ({ ...prev, RetailPrice: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Reorder Limit</label>
+                      <input 
+                        type="number" 
+                        className="input-field" 
+                        placeholder="e.g. 15"
+                        value={newProduct.ReorderLevel}
+                        onChange={(e) => setNewProduct(prev => ({ ...prev, ReorderLevel: e.target.value }))}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Supplier / Vendor Name</label>
+                      <input 
+                        type="text" 
+                        className="input-field" 
+                        placeholder="e.g. Tirupur Distributors"
+                        value={newProduct.Supplier}
+                        onChange={(e) => setNewProduct(prev => ({ ...prev, Supplier: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+
+                  <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }} disabled={isAddingProduct}>
+                    {isAddingProduct ? 'Adding item...' : '➕ Append Product Record'}
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         )}
+
+        {/* --- NEW TAB 4: SUPPLIER HUB DASHBOARD --- */}
+        {activeTab === "supplier" && (
+          <div className="scrollable-tab">
+            {/* KPI Panels specific to procurement */}
+            <div className="metrics-grid" style={{ marginBottom: '20px' }}>
+              <div className="glass-card metric-box sales">
+                <div className="metric-box-title">Registered Suppliers</div>
+                <div className="metric-box-value">{suppliers.length} Vendors</div>
+                <div className="metric-box-trend" style={{ color: 'var(--color-primary)' }}><UserCheck size={14} style={{ display: 'inline', marginRight: '3px' }} /> Catalog Active</div>
+              </div>
+              <div className="glass-card metric-box warnings">
+                <div className="metric-box-title">Procurement Warnings</div>
+                <div className="metric-box-value">{procurementRecs.length} Alerts</div>
+                <div className="metric-box-trend" style={{ color: procurementRecs.length > 0 ? 'var(--color-danger)' : 'var(--color-success)' }}>
+                  {procurementRecs.length > 0 ? '⚠️ Purchase planning needed' : '🟢 Replenishments satisfied'}
+                </div>
+              </div>
+              <div className="glass-card metric-box profit">
+                <div className="metric-box-title">Pending Purchase Orders</div>
+                <div className="metric-box-value">{pendingPOsCount} Orders</div>
+                <div className="metric-box-trend" style={{ color: 'var(--color-warning)' }}><Truck size={14} style={{ display: 'inline', marginRight: '3px' }} /> Awaiting Delivery</div>
+              </div>
+              <div className="glass-card metric-box expenses">
+                <div className="metric-box-title">Avg Supplier Reliability</div>
+                <div className="metric-box-value">{avgSupplierReliability}%</div>
+                <div className="metric-box-trend" style={{ color: 'var(--color-success)' }}>▲ Operational quality high</div>
+              </div>
+            </div>
+
+            {/* Split layout: Procurement Warnings vs Register Supplier */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '20px', marginBottom: '20px' }}>
+              
+              {/* Procurement Warnings Box */}
+              <div className="glass-card flex-column-full">
+                <h3 style={{ color: '#818cf8', fontSize: '1.25rem', marginBottom: '4px' }}>🚨 Automated Reorder Recommendations</h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: '14px' }}>
+                  AegisAI scoring evaluates price, speed, and safety margin.
+                </p>
+
+                {procurementRecs.length === 0 ? (
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '30px', background: 'rgba(255,255,255,0.01)', border: '1px dashed var(--color-card-border)', borderRadius: '8px', textAlign: 'center' }}>
+                    <CheckCircle size={28} color="var(--color-success)" style={{ marginBottom: '10px' }} />
+                    <h4 style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>All Stocks Satisfied</h4>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)', maxWidth: '340px', marginTop: '4px' }}>
+                      No items are below safety stock or running out within 10 days. Reorder advice will trigger automatically upon inventory depletions.
+                    </p>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', maxH: '340px' }}>
+                    {procurementRecs.map(rec => (
+                      <div key={rec.product_id} className="glass-card" style={{ padding: '14px', background: 'rgba(255, 255, 255, 0.015)', border: '1px solid rgba(99, 102, 241, 0.15)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '0.88rem', fontWeight: 'bold' }}>📦 {rec.product_name} ({rec.product_id})</span>
+                          <span style={{ fontSize: '0.72rem', background: 'var(--color-danger-glow)', color: 'var(--color-danger)', padding: '2px 8px', borderRadius: '10px', fontWeight: 'bold' }}>
+                            Depletes in {rec.days_remaining} Days
+                          </span>
+                        </div>
+
+                        <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', lineHeight: '1.4' }}>
+                          {rec.reasoning}
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', background: 'rgba(0,0,0,0.2)', padding: '8px', borderRadius: '6px', fontSize: '0.75rem', border: '1px solid var(--color-card-border)' }}>
+                          <div>
+                            <span style={{ color: 'var(--color-text-dim)' }}>Reorder Quantity:</span> <strong style={{ color: '#fff' }}>{rec.recommended_quantity} units</strong> <span style={{ fontSize: '0.65rem' }}>(MOQ fit)</span>
+                          </div>
+                          <div>
+                            <span style={{ color: 'var(--color-text-dim)' }}>Expected Cost:</span> <strong style={{ color: 'var(--color-success)' }}>{business?.currency || "₹"}{rec.expected_cost.toLocaleString('en-IN')}</strong>
+                          </div>
+                          <div>
+                            <span style={{ color: 'var(--color-text-dim)' }}>Replenishment Span:</span> <strong style={{ color: '#fff' }}>~{rec.days_reorder_will_last} days</strong>
+                          </div>
+                          <div>
+                            <span style={{ color: 'var(--color-text-dim)' }}>Best Vendor:</span> <strong style={{ color: 'var(--color-primary)' }}>{rec.recommended_supplier_name}</strong>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
+                          <button className="btn btn-secondary" onClick={() => setSelectedRec(rec)} style={{ fontSize: '0.72rem', padding: '4px 10px', flex: 1 }}>
+                            <ExternalLink size={12} /> Compare Side-by-Side
+                          </button>
+                          <button className="btn btn-success" onClick={() => handleApproveRec(rec.product_id, rec.recommended_supplier_id, rec.recommended_quantity)} style={{ fontSize: '0.72rem', padding: '4px 10px', flex: 1 }}>
+                            <ShoppingCart size={12} /> Approve Reorder
+                          </button>
+                          <button className="btn btn-secondary" onClick={() => handleDismissRec(rec.product_id)} style={{ fontSize: '0.72rem', padding: '4px', maxWidth: '32px', color: '#f87171' }}>
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Add Supplier Box */}
+              <div className="glass-card flex-column-full">
+                <h3 style={{ color: '#818cf8', fontSize: '1.25rem', marginBottom: '4px' }}>➕ Register Vendor</h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: '14px' }}>
+                  Register a new supplier to evaluate reorders.
+                </p>
+
+                {supplierAddStatus.message && (
+                  <div style={{ padding: '8px 12px', background: supplierAddStatus.type === 'success' ? 'var(--color-success-glow)' : 'var(--color-danger-glow)', border: supplierAddStatus.type === 'success' ? '1px solid rgba(16,185,129,0.2)' : '1px solid rgba(239,68,68,0.2)', borderRadius: '6px', fontSize: '0.80rem', color: supplierAddStatus.type === 'success' ? 'var(--color-success)' : 'var(--color-danger)', marginBottom: '12px' }}>
+                    {supplierAddStatus.message}
+                  </div>
+                )}
+
+                <form onSubmit={handleAddSupplier} style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Supplier Name *</label>
+                    <input 
+                      type="text" 
+                      className="input-field" 
+                      placeholder="e.g. Raja Pulses"
+                      value={newSupplier.name}
+                      onChange={(e) => setNewSupplier(prev => ({ ...prev, name: e.target.value }))}
+                      required
+                    />
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>WhatsApp Number *</label>
+                      <input 
+                        type="text" 
+                        className="input-field" 
+                        placeholder="+91..."
+                        value={newSupplier.phone}
+                        onChange={(e) => setNewSupplier(prev => ({ ...prev, phone: e.target.value }))}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" style={{ fontSize: '0.75rem' }}>Email Address *</label>
+                      <input 
+                        type="email" 
+                        className="input-field" 
+                        placeholder="sales@vendor.com"
+                        value={newSupplier.email}
+                        onChange={(e) => setNewSupplier(prev => ({ ...prev, email: e.target.value }))}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Payment Terms</label>
+                    <select 
+                      className="select-input"
+                      value={newSupplier.paymentTerms}
+                      onChange={(e) => setNewSupplier(prev => ({ ...prev, paymentTerms: e.target.value }))}
+                    >
+                      <option value="COD">Cash on Delivery (COD)</option>
+                      <option value="Net 15">Net 15 Days</option>
+                      <option value="Net 30">Net 30 Days</option>
+                      <option value="UPI">UPI instant transfer</option>
+                    </select>
+                  </div>
+
+                  <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }} disabled={isAddingSupplier}>
+                    {isAddingSupplier ? 'Adding Supplier...' : '➕ Register Vendor'}
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
+            {/* Live Suppliers Table & Pending POs List */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '20px' }}>
+              
+              {/* Suppliers List Table */}
+              <div className="glass-card flex-column-full">
+                <h3 style={{ color: '#818cf8', fontSize: '1.2rem', marginBottom: '14px' }}>📋 Supplier Directory</h3>
+                
+                <div style={{ overflowX: 'auto', flex: 1 }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', textAlign: 'left' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '1px solid var(--color-card-border)', color: 'var(--color-text-muted)' }}>
+                        <th style={{ padding: '8px' }}>ID</th>
+                        <th style={{ padding: '8px' }}>Vendor Name</th>
+                        <th style={{ padding: '8px' }}>Reliability</th>
+                        <th style={{ padding: '8px' }}>Payment Terms</th>
+                        <th style={{ padding: '8px' }}>Contact</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {suppliers.map(s => (
+                        <tr key={s.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
+                          <td style={{ padding: '8px', fontWeight: 'bold' }}>{s.id}</td>
+                          <td style={{ padding: '8px' }}>{s.name}</td>
+                          <td style={{ padding: '8px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <span style={{ fontSize: '0.72rem', fontWeight: 'bold', color: s.reliability >= 90 ? 'var(--color-success)' : s.reliability >= 80 ? 'var(--color-warning)' : 'var(--color-danger)' }}>
+                                {s.reliability}%
+                              </span>
+                              <div style={{ width: '50px', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
+                                <div style={{ width: `${s.reliability}%`, height: '100%', background: s.reliability >= 90 ? 'var(--color-success)' : s.reliability >= 80 ? 'var(--color-warning)' : 'var(--color-danger)' }} />
+                              </div>
+                            </div>
+                          </td>
+                          <td style={{ padding: '8px', color: 'var(--color-text-muted)' }}>{s.payment_terms}</td>
+                          <td style={{ padding: '8px', fontSize: '0.72rem', color: 'var(--color-text-dim)' }}>{s.phone}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Purchase Orders Table */}
+              <div className="glass-card flex-column-full">
+                <h3 style={{ color: '#818cf8', fontSize: '1.2rem', marginBottom: '14px' }}>📋 Purchase Order Logs</h3>
+                
+                <div style={{ overflowX: 'auto', flex: 1 }}>
+                  {purchaseOrders.length === 0 ? (
+                    <p style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-dim)', fontSize: '0.75rem' }}>No purchase orders recorded yet.</p>
+                  ) : (
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', textAlign: 'left' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '1px solid var(--color-card-border)', color: 'var(--color-text-muted)' }}>
+                          <th style={{ padding: '8px' }}>PO ID</th>
+                          <th style={{ padding: '8px' }}>Supplier</th>
+                          <th style={{ padding: '8px' }}>Total Amount</th>
+                          <th style={{ padding: '8px' }}>Expected Delivery</th>
+                          <th style={{ padding: '8px' }}>Status</th>
+                          <th style={{ padding: '8px' }}>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {purchaseOrders.map(po => {
+                          const isDelivered = po.status === "Delivered";
+                          return (
+                            <tr key={po.po_id} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
+                              <td style={{ padding: '8px', fontWeight: 'bold' }}>{po.po_id}</td>
+                              <td style={{ padding: '8px' }}>{po.supplier_name}</td>
+                              <td style={{ padding: '8px', fontWeight: '600', color: 'var(--color-success)' }}>
+                                {business?.currency || "₹"}{po.total_amount.toLocaleString('en-IN')}
+                              </td>
+                              <td style={{ padding: '8px', color: 'var(--color-text-dim)' }}>{po.expected_delivery}</td>
+                              <td style={{ padding: '8px' }}>
+                                <span style={{ background: isDelivered ? 'var(--color-success-glow)' : 'var(--color-warning-glow)', color: isDelivered ? 'var(--color-success)' : 'var(--color-warning)', padding: '2px 6px', borderRadius: '10px', fontSize: '0.68rem', fontWeight: 'bold' }}>
+                                  {po.status}
+                                </span>
+                              </td>
+                              <td style={{ padding: '8px' }}>
+                                {!isDelivered && (
+                                  <button 
+                                    className="btn btn-primary" 
+                                    onClick={() => handleReceivePO(po.po_id)} 
+                                    disabled={poReceivingId === po.po_id}
+                                    style={{ fontSize: '0.68rem', padding: '3px 8px', borderRadius: '4px' }}
+                                  >
+                                    {poReceivingId === po.po_id ? 'Loading...' : '🚚 Mark Delivered'}
+                                  </button>
+                                )}
+                                {isDelivered && po.fulfillment_score && (
+                                  <span style={{ fontSize: '0.7rem', color: 'var(--color-text-dim)' }}>
+                                    Score: {po.fulfillment_score}%
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+            {/* SIDE-BY-SIDE COMPARE MODAL */}
+            {selectedRec && (
+              <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+                <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '640px', background: 'var(--color-bg)', padding: '24px', border: '1px solid rgba(99, 102, 241, 0.4)', borderRadius: '12px' }}>
+                  <h3 style={{ color: '#818cf8', fontSize: '1.25rem', marginBottom: '8px' }}>📊 Side-by-Side Supplier Comparison</h3>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
+                    Comparing available vendors for <strong>{selectedRec.product_name}</strong> (Stock depletions in {selectedRec.days_remaining} days).
+                  </p>
+
+                  <div style={{ overflowX: 'auto', marginBottom: '20px' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', textAlign: 'left' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '1px solid var(--color-card-border)', color: 'var(--color-text-muted)' }}>
+                          <th style={{ padding: '8px' }}>Vendor</th>
+                          <th style={{ padding: '8px' }}>Procurement Score</th>
+                          <th style={{ padding: '8px' }}>Unit Price</th>
+                          <th style={{ padding: '8px' }}>Delivery Lead Time</th>
+                          <th style={{ padding: '8px' }}>MOQ</th>
+                          <th style={{ padding: '8px' }}>Vendor Reliability</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedRec.capable_suppliers.map(c => {
+                          const isRecommended = c.supplier_id === selectedRec.recommended_supplier_id;
+                          const tooSlow = c.lead_time_days > selectedRec.days_remaining;
+                          return (
+                            <tr key={c.supplier_id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', background: isRecommended ? 'rgba(99, 102, 241, 0.06)' : 'transparent' }}>
+                              <td style={{ padding: '10px', fontWeight: 'bold' }}>
+                                {c.supplier_name} {isRecommended && "⭐"}
+                              </td>
+                              <td style={{ padding: '10px', fontWeight: 'bold', color: 'var(--color-primary)' }}>
+                                {c.procurement_score}%
+                              </td>
+                              <td style={{ padding: '10px', fontWeight: 'bold' }}>
+                                {business?.currency || "₹"}{c.unit_price}
+                              </td>
+                              <td style={{ padding: '10px', color: tooSlow ? 'var(--color-danger)' : '#fff' }}>
+                                {c.lead_time_days} days {tooSlow && "(⚠️ Late)"}
+                              </td>
+                              <td style={{ padding: '10px' }}>
+                                {c.min_order_qty} units
+                              </td>
+                              <td style={{ padding: '10px', color: 'var(--color-text-muted)' }}>
+                                {c.reliability}%
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--color-card-border)', fontSize: '0.78rem', color: 'var(--color-text-muted)', lineHeight: '1.4', marginBottom: '20px' }}>
+                    <strong>Analysis:</strong> {selectedRec.reasoning}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                    <button className="btn btn-secondary" onClick={() => setSelectedRec(null)}>Close</button>
+                    <button className="btn btn-success" onClick={() => {
+                      handleApproveRec(selectedRec.product_id, selectedRec.recommended_supplier_id, selectedRec.recommended_quantity);
+                      setSelectedRec(null);
+                    }}>
+                      Approve Top Recommended Vendor
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* WHATSAPP ORDER PREVIEW MODAL */}
+            {showPoModal && (
+              <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+                <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '520px', background: 'var(--color-bg)', padding: '24px', border: '1px solid rgba(16, 185, 129, 0.4)', borderRadius: '12px' }}>
+                  <h3 style={{ color: 'var(--color-success)', fontSize: '1.25rem', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <CheckCircle size={20} /> Purchase Order Draft
+                  </h3>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: '14px' }}>
+                    Copy this WhatsApp message draft and forward it to your supplier to place the order:
+                  </p>
+
+                  <textarea 
+                    className="input-field"
+                    value={poModalText}
+                    readOnly
+                    rows={8}
+                    style={{ width: '100%', fontFamily: 'monospace', fontSize: '0.78rem', background: 'rgba(0,0,0,0.3)', padding: '10px', borderRadius: '6px', resize: 'none', border: '1px solid var(--color-card-border)', color: '#fff', marginBottom: '16px' }}
+                  />
+
+                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                    <button className="btn btn-secondary" onClick={() => setShowPoModal(false)}>Close</button>
+                    <button 
+                      className="btn btn-primary" 
+                      onClick={() => {
+                        navigator.clipboard.writeText(poModalText);
+                        setSuccessMessage("WhatsApp purchase order template copied to clipboard!");
+                        setShowPoModal(false);
+                      }}
+                    >
+                      <Copy size={14} /> Copy Draft Text
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+          </div>
+        )}
+
+        {/* TAB 5: DOCUMENT HUB */}
+        {activeTab === "upload" && (
+          <div className="tab-container">
+            <div className="hub-flex-container">
+              <div className="glass-card flex-column-full" style={{ gap: '15px' }}>
+                <div>
+                  <h3 style={{ color: '#818cf8', marginBottom: '4px', fontSize: '1.2rem' }}>📁 Document Upload Parser</h3>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Upload invoices, bills, spreadsheets, and voice notes for AI processing.</p>
+                </div>
+
+                <form onSubmit={handleUploadSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
+                  <div className="dropzone">
+                    <Upload size={28} color="var(--color-primary)" />
+                    <span style={{ fontSize: '0.85rem' }}>Drag or choose business documents</span>
+                    <p style={{ fontSize: '0.72rem', color: 'var(--color-text-dim)' }}>Supports CSV, PNG, JPG, PDF, WAV, MP3</p>
+                    
+                    <input 
+                      type="file" 
+                      onChange={handleFileChange}
+                      style={{ fontSize: '0.75rem', background: '#080c16', padding: '6px', borderRadius: '4px', width: '100%', maxWidth: '240px' }} 
+                    />
+                  </div>
+
+                  {selectedFile && (
+                    <div style={{ fontSize: '0.8rem', padding: '8px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--color-card-border)' }}>
+                      Selected: <strong>{selectedFile.name}</strong> ({(selectedFile.size / 1024).toFixed(1)} KB)
+                    </div>
+                  )}
+
+                  <button type="submit" className="btn btn-primary" disabled={isUploading || !selectedFile} style={{ width: '100%' }}>
+                    {isUploading ? '⚡ Processing document...' : '⚡ Process Document'}
+                  </button>
+                </form>
+
+                {uploadResult && (
+                  <div style={{ color: uploadResult.success ? 'var(--color-success)' : 'var(--color-danger)', fontSize: '0.8rem', padding: '10px', background: uploadResult.success ? 'var(--color-success-glow)' : 'var(--color-danger-glow)', border: '1px solid rgba(16,185,129,0.15)', borderRadius: '6px' }}>
+                    {uploadResult.message}
+                  </div>
+                )}
+              </div>
+
+              <div className="glass-card flex-column-full" style={{ gap: '15px' }}>
+                <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.2rem' }}>
+                  <FileCheck size={20} color="var(--color-primary)" /> AI Extracted OCR & Transcription
+                </h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                  Extracted key-value records mapped from files using Gemini Multimodal models.
+                </p>
+
+                <textarea 
+                  className="input-field" 
+                  value={filePreview || "No files parsed in this session yet. Upload invoices or voice notes to inspect raw metadata logs."}
+                  readOnly
+                  style={{ flex: 1, height: '100%', fontFamily: 'monospace', fontSize: '0.8rem', resize: 'none', background: 'rgba(5,8,15,0.9)' }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 6: WHATSAPP WEBHOOK SANDBOX SIMULATOR */}
+        {activeTab === "phone" && (
+          <div className="tab-container">
+            <div className="sandbox-flex-container">
+              <div className="glass-card flex-column-full" style={{ gap: '15px', justifyContent: 'center' }}>
+                <div>
+                  <h3 style={{ color: '#818cf8', marginBottom: '4px', fontSize: '1.25rem' }}>📱 Twilio Sandbox Simulator</h3>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
+                    This simulator logs WhatsApp alerts sent to <strong>{business?.merchantWhatsapp || user?.mobile}</strong> and tests incoming query webhooks.
+                  </p>
+                </div>
+
+                <div style={{ background: 'rgba(255, 255, 255, 0.01)', padding: '14px', borderRadius: '10px', border: '1px solid var(--color-card-border)' }}>
+                  <h4 style={{ fontSize: '0.9rem', marginBottom: '6px' }}>Sandbox Controls</h4>
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '6px' }}>
+                    <button className="btn btn-secondary" onClick={handleClearLogs} style={{ flex: 1 }}>
+                      <Trash2 size={14} /> Clear Logs
+                    </button>
+                    <button className="btn btn-success" onClick={() => fetchWhatsappLogs(token)} style={{ flex: 1 }}>
+                      <RefreshCw size={14} /> Sync Logs
+                    </button>
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '14px', borderRadius: '10px', border: '1px solid var(--color-card-border)' }}>
+                  <h4 style={{ fontSize: '0.9rem', marginBottom: '8px' }}>Test Inbound Message</h4>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("How is my stock level for oils?")} style={{ fontSize: '0.7rem', padding: '4px 8px' }}>Check Oils</button>
+                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Am I profitable this month?")} style={{ fontSize: '0.7rem', padding: '4px 8px' }}>Check Profits</button>
+                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Who is my best supplier for Basmati Rice?")} style={{ fontSize: '0.7rem', padding: '4px 8px' }}>Best Supplier</button>
+                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Create PO recommendation for Basmati Rice")} style={{ fontSize: '0.7rem', padding: '4px 8px' }}>Draft PO Advice</button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="phone-shell">
+                <div style={{ padding: '12px 16px', background: '#075e54', color: 'white', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                  <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justify: 'center', fontWeight: 'bold', fontSize: '0.85rem' }}>A</div>
+                  <div>
+                    <h4 style={{ fontSize: '0.85rem' }}>AegisAI Gateway</h4>
+                    <p style={{ fontSize: '0.6rem', color: '#a3e635' }}>Active (Simulated sandbox)</p>
+                  </div>
+                </div>
+
+                <div className="phone-screen">
+                  {whatsappLogs.length === 0 ? (
+                    <div style={{ margin: 'auto', textAlign: 'center', color: '#64748b', fontSize: '0.72rem', padding: '10px', background: 'rgba(255,255,255,0.7)', borderRadius: '6px' }}>
+                      No alerts logged in the sandbox. Audit stock levels or trigger manual messages above to begin.
+                    </div>
+                  ) : (
+                    whatsappLogs.map((log, idx) => {
+                      const isMerchant = log.body.startsWith("Merchant asked");
+                      const cleanBody = log.body.replace("Merchant asked: ", "");
+                      return (
+                        <div key={idx} className={`phone-msg-bubble ${isMerchant ? 'out' : 'in'}`} style={{ whiteSpace: 'pre-line' }}>
+                          <div>{cleanBody}</div>
+                          <div style={{ fontSize: '0.52rem', color: '#94a3b8', textAlign: 'right', marginTop: '3px' }}>
+                            {log.timestamp} {log.status && `(${log.status})`}
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );

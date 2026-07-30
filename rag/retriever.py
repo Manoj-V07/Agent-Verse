@@ -8,9 +8,10 @@ from rag.vector_store import VectorStore
 # Path to save the vector store pickle
 VECTOR_STORE_PATH = os.path.join(config.DATA_DIR, 'vector_store.pkl')
 
-def get_vector_store() -> VectorStore:
+def get_vector_store(workspace_dir: str = None) -> VectorStore:
     """Helper to initialize and load the vector store."""
-    store = VectorStore(VECTOR_STORE_PATH)
+    path = os.path.join(workspace_dir, 'vector_store.pkl') if workspace_dir else VECTOR_STORE_PATH
+    store = VectorStore(path)
     store.load()
     return store
 
@@ -154,7 +155,7 @@ def extract_text_from_file(file_path: str) -> tuple[str, str]:
     except Exception as e:
         return f"Unsupported file or unable to read: {str(e)}", "unknown"
 
-def index_file(file_path: str) -> str:
+def index_file(file_path: str, workspace_dir: str = None) -> str:
     """
     Reads a file, extracts its content, chunks it, embeds each chunk,
     and saves them in the vector database.
@@ -169,7 +170,7 @@ def index_file(file_path: str) -> str:
     # Store the raw extracted text in a metadata field
     chunks = chunk_text(text_content, chunk_size=800, overlap=100)
     
-    store = get_vector_store()
+    store = get_vector_store(workspace_dir)
     
     for i, chunk in enumerate(chunks):
         embedding = get_embedding(chunk)
@@ -184,12 +185,12 @@ def index_file(file_path: str) -> str:
     store.save()
     return f"Successfully processed '{filename}'. Extracted {len(chunks)} text chunks."
 
-def retrieve_context(query: str, k: int = 3) -> str:
+def retrieve_context(query: str, k: int = 3, workspace_dir: str = None) -> str:
     """
     Search the vector store for query context.
     Returns a consolidated string of matching text segments.
     """
-    store = get_vector_store()
+    store = get_vector_store(workspace_dir)
     if not store.documents:
         return "No documents uploaded or indexed yet. Use the upload panel to index sales reports, invoices, or invoices."
         

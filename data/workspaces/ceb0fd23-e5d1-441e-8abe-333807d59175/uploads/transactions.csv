@@ -1,0 +1,21 @@
+Date,ProductName,Category,Quantity,Amount,Type,PaymentMode
+2026-07-01,Aashirvaad Atta 10kg,Grains,5,2400,Sale,UPI
+2026-07-01,Shop Rent,Operations,1,12000,Expense,Bank Transfer
+2026-07-02,Gold Winner Sunflower Oil 1L,Oils,8,1320,Sale,Cash
+2026-07-03,Britannia Bourbon 150g,Snacks,15,450,Sale,UPI
+2026-07-03,Electricity Bill,Utilities,1,3200,Expense,UPI
+2026-07-04,Coca-Cola 750ml,Beverages,12,540,Sale,Cash
+2026-07-05,Tata Salt 1kg,Essentials,10,280,Sale,UPI
+2026-07-06,Staff Salary,Payroll,1,18000,Expense,Bank Transfer
+2026-07-07,Surf Excel 1kg,Household,6,1320,Sale,Card
+2026-07-08,India Gate Rice 25kg,Grains,4,5520,Sale,UPI
+2026-07-09,Internet Bill,Utilities,1,1200,Expense,UPI
+2026-07-10,Parle-G 800g,Snacks,20,1200,Sale,Cash
+2026-07-11,Sprite 750ml,Beverages,10,450,Sale,Card
+2026-07-12,Gold Winner Sunflower Oil 1L,Oils,5,825,Sale,UPI
+2026-07-13,Cleaning Supplies,Operations,1,950,Expense,Cash
+2026-07-14,Aashirvaad Atta 10kg,Grains,6,2880,Sale,UPI
+2026-07-15,Tata Salt 1kg,Essentials,15,420,Sale,Cash
+2026-07-16,Coca-Cola 750ml,Beverages,14,630,Sale,UPI
+2026-07-17,Britannia Bourbon 150g,Snacks,18,540,Sale,Card
+2026-07-18,Equipment Maintenance,Operations,1,2500,Expense,Bank Transfer

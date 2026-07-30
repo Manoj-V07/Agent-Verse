@@ -1,0 +1,21 @@
+[
+    {
+        "po_id": "PO_1001",
+        "supplier_id": "S101",
+        "supplier_name": "Sri Balaji Traders",
+        "date_created": "2026-07-29",
+        "status": "Delivered",
+        "items": [
+            {
+                "product_id": "P101",
+                "product_name": "Premium Basmati Rice",
+                "quantity": 28,
+                "unit_price": 350.0
+            }
+        ],
+        "total_amount": 9800.0,
+        "expected_delivery": "2026-08-01",
+        "actual_delivery": "2026-07-29",
+        "fulfillment_score": 100
+    }
+]

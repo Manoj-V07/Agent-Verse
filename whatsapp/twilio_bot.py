@@ -5,20 +5,26 @@ import config
 
 LOG_PATH = os.path.join(config.DATA_DIR, 'whatsapp_logs.json')
 
-def get_whatsapp_logs() -> list[dict]:
+def get_log_path(workspace_dir: str = None) -> str:
+    if workspace_dir:
+        return os.path.join(workspace_dir, 'whatsapp_logs.json')
+    return LOG_PATH
+
+def get_whatsapp_logs(workspace_dir: str = None) -> list[dict]:
     """Retrieves all WhatsApp log records from disk."""
-    if not os.path.exists(LOG_PATH):
+    log_path = get_log_path(workspace_dir)
+    if not os.path.exists(log_path):
         return []
     try:
-        with open(LOG_PATH, 'r', encoding='utf-8') as f:
+        with open(log_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
         print(f"Error reading WhatsApp logs: {e}")
         return []
 
-def log_whatsapp_message(to_number: str, body: str, status: str):
+def log_whatsapp_message(to_number: str, body: str, status: str, workspace_dir: str = None):
     """Saves a WhatsApp log record to disk."""
-    logs = get_whatsapp_logs()
+    logs = get_whatsapp_logs(workspace_dir)
     
     # Clean phone numbers for logging
     clean_to = to_number.replace("whatsapp:", "")
@@ -36,21 +42,23 @@ def log_whatsapp_message(to_number: str, body: str, status: str):
     if len(logs) > 50:
         logs = logs[-50:]
         
+    log_path = get_log_path(workspace_dir)
     try:
-        with open(LOG_PATH, 'w', encoding='utf-8') as f:
+        with open(log_path, 'w', encoding='utf-8') as f:
             json.dump(logs, f, indent=4)
     except Exception as e:
         print(f"Error saving WhatsApp logs: {e}")
 
-def clear_whatsapp_logs():
+def clear_whatsapp_logs(workspace_dir: str = None):
     """Wipes the local simulated WhatsApp message history."""
-    if os.path.exists(LOG_PATH):
+    log_path = get_log_path(workspace_dir)
+    if os.path.exists(log_path):
         try:
-            os.remove(LOG_PATH)
+            os.remove(log_path)
         except Exception as e:
             print(f"Error clearing WhatsApp logs: {e}")
 
-def send_whatsapp_message(body: str, to_number: str = None) -> dict:
+def send_whatsapp_message(body: str, to_number: str = None, workspace_dir: str = None) -> dict:
     """
     Sends a WhatsApp message using Twilio if credentials exist,
     otherwise records it as a SIMULATED alert.
@@ -78,7 +86,7 @@ def send_whatsapp_message(body: str, to_number: str = None) -> dict:
                 from_=from_number,
                 to=formatted_to
             )
-            log_whatsapp_message(formatted_to, body, "Sent via Twilio")
+            log_whatsapp_message(formatted_to, body, "Sent via Twilio", workspace_dir)
             return {
                 "success": True,
                 "status": "sent",
@@ -90,7 +98,7 @@ def send_whatsapp_message(body: str, to_number: str = None) -> dict:
             error_msg = f"Twilio API Error: {str(e)}"
             print(error_msg)
             # Log as failed but fallback to simulation
-            log_whatsapp_message(formatted_to, f"{body}\n\n[Twilio Error: {str(e)}]", "Simulated (Twilio Failed)")
+            log_whatsapp_message(formatted_to, f"{body}\n\n[Twilio Error: {str(e)}]", "Simulated (Twilio Failed)", workspace_dir)
             return {
                 "success": False,
                 "status": "failed_fallback_simulated",
@@ -100,7 +108,7 @@ def send_whatsapp_message(body: str, to_number: str = None) -> dict:
             }
     else:
         # Simulated mode (no Twilio credentials)
-        log_whatsapp_message(formatted_to, body, "Simulated (Sandbox Mode)")
+        log_whatsapp_message(formatted_to, body, "Simulated (Sandbox Mode)", workspace_dir)
         return {
             "success": True,
             "status": "simulated",

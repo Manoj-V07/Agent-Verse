@@ -1,0 +1,10 @@
+{
+    "businessName": "Alice Wholesale",
+    "businessCategory": "Grocery",
+    "businessLocation": "Salem, Tamil Nadu",
+    "currency": "\u20b9",
+    "merchantWhatsapp": "+919999999999",
+    "enableInventory": true,
+    "enableWhatsapp": true,
+    "startFresh": true
+}

@@ -1,0 +1,102 @@
+[
+    {
+        "id": "S101",
+        "name": "Sri Balaji Traders",
+        "phone": "+919876543211",
+        "email": "balaji@traders.com",
+        "reliability": 96,
+        "payment_terms": "Net 15",
+        "catalog": [
+            {
+                "product_id": "P101",
+                "unit_price": 350.0,
+                "min_order_qty": 10,
+                "lead_time_days": 3
+            },
+            {
+                "product_id": "P104",
+                "unit_price": 220.0,
+                "min_order_qty": 15,
+                "lead_time_days": 4
+            }
+        ]
+    },
+    {
+        "id": "S102",
+        "name": "Vignesh Wholesalers",
+        "phone": "+919876543212",
+        "email": "vignesh@wholesalers.com",
+        "reliability": 88,
+        "payment_terms": "COD",
+        "catalog": [
+            {
+                "product_id": "P102",
+                "unit_price": 110.0,
+                "min_order_qty": 20,
+                "lead_time_days": 2
+            },
+            {
+                "product_id": "P107",
+                "unit_price": 95.0,
+                "min_order_qty": 10,
+                "lead_time_days": 5
+            },
+            {
+                "product_id": "P108",
+                "unit_price": 115.0,
+                "min_order_qty": 12,
+                "lead_time_days": 3
+            }
+        ]
+    },
+    {
+        "id": "S103",
+        "name": "Tirupur Distributors",
+        "phone": "+919876543213",
+        "email": "tirupur@distributors.com",
+        "reliability": 91,
+        "payment_terms": "Net 30",
+        "catalog": [
+            {
+                "product_id": "P103",
+                "unit_price": 20.0,
+                "min_order_qty": 30,
+                "lead_time_days": 6
+            },
+            {
+                "product_id": "P106",
+                "unit_price": 12.0,
+                "min_order_qty": 50,
+                "lead_time_days": 2
+            },
+            {
+                "product_id": "P109",
+                "unit_price": 20.0,
+                "min_order_qty": 25,
+                "lead_time_days": 3
+            },
+            {
+                "product_id": "P107",
+                "unit_price": 20.0,
+                "min_order_qty": 10,
+                "lead_time_days": 3
+            }
+        ]
+    },
+    {
+        "id": "S104",
+        "name": "Raja Pulses",
+        "phone": "+919876543214",
+        "email": "raja@pulses.com",
+        "reliability": 84,
+        "payment_terms": "UPI",
+        "catalog": [
+            {
+                "product_id": "P105",
+                "unit_price": 140.0,
+                "min_order_qty": 10,
+                "lead_time_days": 7
+            }
+        ]
+    }
+]
