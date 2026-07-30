@@ -1,0 +1,74 @@
+[
+    {
+        "timestamp": "2026-07-30 10:19:01",
+        "to": "+919876543211",
+        "body": "Draft campaign for customer Deepika Patel (phone: +919876543211) who is in the Regular segment and prefers Toor Dal Premium 1kg, Premium Basmati Rice 5kg, Aashirvaad Shudh Chakki Atta 5kg:\n\n```\n\ud83d\udc4b Hi Deepika Patel!\n\nWe at Suriya Traders want to thank you for being a valued customer! \ud83d\ude4f\n\nEnjoy a **Special Thank You Discount** on your favorite items like Toor Dal, Basmati Rice, and Aashirvaad Atta! \ud83c\udf5a\u2728\n\nUse code **THANKYOU10** for 10% off your next purchase. Valid for a limited time!\n\nShop now and save!\n```",
+        "status": "Campaign Drafted"
+    },
+    {
+        "timestamp": "2026-07-30 10:19:12",
+        "to": "+919876543219",
+        "body": "Draft campaign for customer Meera Krishnan (phone: +919876543219) who is in the Regular segment and prefers Gold Winner Sunflower Oil 1L, Premium Basmati Rice 5kg, Toor Dal Premium 1kg:\n\n```\n\ud83d\udc4b Hi Meera Krishnan!\n\nSuriya Traders has a special thank you just for you! \u2728\n\nWe know you love products like **Gold Winner Sunflower Oil 1L**, **Premium Basmati Rice 5kg**, & **Toor Dal Premium 1kg**.\n\nEnjoy a **Special Thank You Discount** on your next purchase! Visit Suriya Traders soon to avail it. \ud83d\ude0a\n```",
+        "status": "Campaign Drafted"
+    },
+    {
+        "timestamp": "2026-07-30 10:20:03",
+        "to": "+919876543214",
+        "body": "Draft campaign for customer Vikram Singh (phone: +919876543214) who is in the Regular segment and prefers Gold Winner Sunflower Oil 1L, Britannia Marie Gold Biscuits, Brooke Bond Red Label Tea 250g:\n\n```\n\ud83d\udc4b Hi Vikram Singh!\n\nIt's Suriya Traders here! We noticed you love our Oils, especially Gold Winner Sunflower Oil 1L.\n\n\u2728 Here's a special treat just for you: Get **15% OFF** on all Oils products!\n\nUse code: **SPECIAL15** at checkout.\n\nDon't miss out! Shop now!\n```",
+        "status": "Campaign Drafted"
+    },
+    {
+        "timestamp": "2026-07-30 10:25:06",
+        "to": "+91701009201",
+        "body": "```\n\u26a0\ufe0f Low Stock Alert: Yippee (P131)!\nYour stock is critically low at **10 units**, below the reorder level of **15 units**.\n\n\u23f3 Will run out in ~**25 days** at current sales velocity.\n\n\u2705 Recommended Restock: **20 units** from **Tirupur Distributors**.\nPlease order soon to avoid stockouts!\n```",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 10:33:36",
+        "to": "+917010092013",
+        "body": "```\n\u26a0\ufe0f Low Stock Alert!\nProduct: *Yippee (P131)*\nCurrent Stock: *10 units* (Below Reorder Level of 15)\nDays Remaining: ~*25 days* at current sales velocity.\n\n\u2705 Action: Order *20 units* from *Tirupur Distributors* ASAP to prevent stockout.\n```",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 10:34:19",
+        "to": "+917010092013",
+        "body": "\ud83d\udea8 **URGENT LOW STOCK ALERT!** \ud83d\udea8\n\n**Product:** Colgate Tooth Paste (P133)\n**Current Stock:** 10 units\n**Reorder Level:** 13 units\n**Days Remaining:** 25 days until stockout!\n\n**Action Required:** Reorder 20 units immediately.\n**Supplier:** Sri Balaji Traders\n\nPlease process this reorder to avoid potential stockouts.",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 12:41:37",
+        "to": "+919876543211",
+        "body": "Draft campaign for customer Deepika Patel (phone: +919876543211) who is in the Regular segment and prefers Toor Dal Premium 1kg, Premium Basmati Rice 5kg, Aashirvaad Shudh Chakki Atta 5kg:\n\n```\n\ud83d\ude4f Hi Deepika, \nWe at Suriya Traders \ud83c\udfec appreciate your loyalty! \ud83d\ude4c As a special thank you, we're offering you a discount on your favorite products: Toor Dal Premium 1kg, Premium Basmati Rice 5kg, and Aashirvaad Shudh Chakki Atta 5kg. \ud83c\udf5a\ud83d\udc4c\nUse code THANKYOU15 for 15% off on these items! \ud83d\udcb0\nShop now and enjoy! \ud83d\ude0a\n```",
+        "status": "Campaign Drafted"
+    },
+    {
+        "timestamp": "2026-07-30 13:19:29",
+        "to": "+919876543213",
+        "body": "Draft campaign for customer Rahul Verma (phone: +919876543213) who is in the Inactive segment and prefers Premium Basmati Rice 5kg, Tata Salt 1kg, Toor Dal Premium 1kg:\n\n```\n\ud83d\udc4b Hi Rahul Verma!\n\nWe've missed you at Suriya Traders! \ud83d\uded2\n\nCome back and enjoy 10% OFF your next purchase! Stock up on your favorites like Premium Basmati Rice, Tata Salt, and Toor Dal.\n\nUse code: *WELCOMEBACK10* at checkout.\n\nShop now and save!\nSuriya Traders\n```",
+        "status": "Campaign Drafted"
+    },
+    {
+        "timestamp": "2026-07-30 13:19:55",
+        "to": "+919876543217",
+        "body": "Draft campaign for customer Sneha Reddy (phone: +919876543217) who is in the Regular segment and prefers Britannia Marie Gold Biscuits, Brooke Bond Red Label Tea 250g, Sunsilk Black Shampoo 180ml:\n\n```\n\ud83d\udc4b Hi Sneha Reddy!\n\nIt's Suriya Traders here! We noticed you love our products like Britannia Marie Gold Biscuits, Brooke Bond Red Label Tea, and Sunsilk Black Shampoo.\n\nAs a thank you, enjoy a **Special Thank You Discount** on your next purchase! \u2728\n\nShop now and save!\n```",
+        "status": "Campaign Drafted"
+    },
+    {
+        "timestamp": "2026-07-30 13:21:04",
+        "to": "+919876543213",
+        "body": "Draft PO order text generated for Tirupur Distributors: \n```\n\ud83d\udd14 Purchase Order - Suriya Traders\n\nDear Tirupur Distributors,\n\nPlease find our purchase order details below:\n\n\u2705 **Product:** Yippee\n\ud83d\udce6 **Quantity:** 17 units\n\ud83d\udcb0 **Unit Price:** Rs. 20.0\n\ud83d\udcb2 **Total Amount:** Rs. 340.0\n\n\ud83d\uddd3\ufe0f **Requested Delivery:** By 2026-08-02\n\nKindly confirm receipt and delivery schedule.\n\nThank you,\nSuriya Traders\n```",
+        "status": "Draft Prepared"
+    },
+    {
+        "timestamp": "2026-07-30 14:07:17",
+        "to": "+917010092013",
+        "body": "\u26a0\ufe0f **URGENT Low Stock Alert!**\n\nYour stock for **Sugar (P132)** is critically low.\n*   **Current Stock:** 10 units\n*   **Reorder Limit:** 15 units\n*   **Daily Sales:** 0.4 units/day\n*   **Days Remaining:** ~25 days\n*   **Supplier:** Tirupur Distributors\n*   **Recommended Restock:** 20 units\n\nPlease reorder soon to avoid running out!",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 18:47:40",
+        "to": "+917010092013",
+        "body": "Here's a draft for an urgent low stock WhatsApp alert notification for Sugar (P132):\n\n---\n\n\ud83d\udea8 **URGENT LOW STOCK ALERT!** \ud83d\udea8\n\n**Product:** Sugar (P132)\n**Current Stock:** 10 units\n**Reorder Level:** 15 units\n\nWe are critically low on Sugar! At our current sales velocity of 0.4 units/day, stock will run out in approximately **25 days**.\n\n**Action Required:** Please reorder **20 units** immediately from **Tirupur Distributors** to avoid a stockout.",
+        "status": "Sent via Twilio"
+    }
+]

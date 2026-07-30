@@ -18,5 +18,15 @@
         "preferred_language": "english",
         "workspace_id": "2ce62cd9-6d2a-4496-a218-bb317fb05f8b",
         "created_at": "2026-07-29T12:58:37.460120"
+    },
+    "manojmanojvv123@gmail.com": {
+        "full_name": "Manoj V",
+        "email": "manojmanojvv123@gmail.com",
+        "mobile": "+918925149206",
+        "password_hash": "4131267d6763d35859a55c10f8348b5e1e0651b2e7f29e793518f43464bfd2fa",
+        "salt": "9e8c3972e0a3ce13c36d131666e1fc86",
+        "preferred_language": "english",
+        "workspace_id": "79147b93-248e-4ea3-8dd6-411559d7116b",
+        "created_at": "2026-07-30T09:42:51.952374"
     }
 }

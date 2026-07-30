@@ -27,8 +27,12 @@ import {
   ShoppingCart,
   Truck,
   ExternalLink,
-  Copy
+  Copy,
+  X,
+  Lightbulb
 } from 'lucide-react';
+
+
 
 const API_BASE = window.location.hostname === "localhost" ? "http://localhost:8000" : (import.meta.env.VITE_API_BASE || "https://aegisai-r1e9.onrender.com");
 
@@ -111,6 +115,18 @@ export default function App() {
   const [supplierAddStatus, setSupplierAddStatus] = useState({ type: "", message: "" });
   const [isAddingSupplier, setIsAddingSupplier] = useState(false);
 
+  // Business Strategy Agent States
+  const [strategyInputs, setStrategyInputs] = useState({
+    businessType: "",
+    targetAudience: "",
+    goals: "attract",
+    competitors: ""
+  });
+  const [generatedStrategy, setGeneratedStrategy] = useState("");
+  const [strategyLoading, setStrategyLoading] = useState(false);
+  const [strategyError, setStrategyError] = useState("");
+
+
   // Chat state
   const [chatHistory, setChatHistory] = useState([]);
   const [userInput, setUserInput] = useState("");
@@ -121,6 +137,42 @@ export default function App() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadResult, setUploadResult] = useState(null);
   const [filePreview, setFilePreview] = useState("");
+
+  // Government Scheme Eligibility & Verification States
+  const [eligibilityInputs, setEligibilityInputs] = useState({
+    businessName: "",
+    businessType: "Sole Proprietorship",
+    state: "Tamil Nadu",
+    district: "",
+    businessStartDate: "",
+    annualTurnover: "",
+    gstStatus: "Not Registered",
+    udyamStatus: "Not Registered",
+    enterpriseCategory: "Micro",
+    employeeCount: "",
+    businessSector: "Retail & Trading",
+    loanRequirement: "",
+    previousAssistance: "No",
+    socialCategory: "General",
+    ownerGender: "Male",
+    area: "Urban"
+  });
+  const [eligibilityLanguage, setEligibilityLanguage] = useState("english");
+  const [eligibilityResults, setEligibilityResults] = useState([]);
+  const [eligibilityLoading, setEligibilityLoading] = useState(false);
+  const [eligibilityError, setEligibilityError] = useState("");
+  const [selectedSchemeId, setSelectedSchemeId] = useState("");
+  const [uploadedDocsStatus, setUploadedDocsStatus] = useState({});
+  const [verifyingDocId, setVerifyingDocId] = useState("");
+
+  // Admin Government Schemes Management States
+  const [adminSchemes, setAdminSchemes] = useState([]);
+  const [adminSelectedScheme, setAdminSelectedScheme] = useState(null);
+  const [adminModalOpen, setAdminModalOpen] = useState(false);
+  const [adminModalMode, setAdminModalMode] = useState("add"); // "add" | "edit"
+  const [adminLoading, setAdminLoading] = useState(false);
+  const [adminError, setAdminError] = useState("");
+
 
   // Add Product State
   const [newProduct, setNewProduct] = useState({
@@ -213,7 +265,10 @@ export default function App() {
       fetchSuppliers(activeToken),
       fetchProcurementRecs(activeToken),
       fetchPurchaseOrders(activeToken),
-      fetchCustomerInsights(activeToken, inactiveDays)
+      fetchCustomerInsights(activeToken, inactiveDays),
+      fetchEligibilityProfile(activeToken),
+      fetchStrategyProfile(activeToken),
+      fetchAdminSchemes()
     ]);
 
     setChatHistory([
@@ -226,6 +281,237 @@ export default function App() {
       }
     ]);
   };
+
+  const fetchStrategyProfile = async (activeToken) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/strategy/profile`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.profile) {
+          setStrategyInputs(prev => ({
+            ...prev,
+            businessType: data.profile.businessType || data.profile.businessSector || ""
+          }));
+        }
+      }
+    } catch (e) {
+      console.log("Failed to fetch strategy profile:", e);
+    }
+  };
+
+  const handleGenerateStrategy = async (e) => {
+    if (e) e.preventDefault();
+    setStrategyLoading(true);
+    setStrategyError("");
+    setGeneratedStrategy("");
+    try {
+      const res = await fetch(`${API_BASE}/api/strategy/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          ...strategyInputs,
+          language: user?.preferredLanguage || "english"
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setGeneratedStrategy(data.strategy);
+      } else {
+        setStrategyError(data.detail || "Failed to generate strategy suggestion.");
+      }
+    } catch (err) {
+      setStrategyError("Failed to connect to the strategy backend.");
+    } finally {
+      setStrategyLoading(false);
+    }
+  };
+
+  const fetchEligibilityProfile = async (activeToken) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/eligibility/profile`, {
+        headers: { "Authorization": `Bearer ${activeToken || token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.profile) {
+          setEligibilityInputs(data.profile);
+        }
+      }
+    } catch (e) {
+      console.log("Failed to fetch eligibility profile:", e);
+    }
+  };
+
+  const handleCheckEligibility = async (e) => {
+    if (e) e.preventDefault();
+    setEligibilityLoading(true);
+    setEligibilityError("");
+    try {
+      const res = await fetch(`${API_BASE}/api/eligibility/check`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          ...eligibilityInputs,
+          annualTurnover: parseFloat(eligibilityInputs.annualTurnover) || 0,
+          employeeCount: parseInt(eligibilityInputs.employeeCount) || 0,
+          loanRequirement: parseFloat(eligibilityInputs.loanRequirement) || 0,
+          language: eligibilityLanguage
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setEligibilityResults(data.results);
+      } else {
+        setEligibilityError(data.detail || "Eligibility check failed.");
+      }
+    } catch (err) {
+      setEligibilityError("Failed to connect to the server.");
+    } finally {
+      setEligibilityLoading(false);
+    }
+  };
+
+  const handleVerifyDocument = async (documentId, file) => {
+    if (!file) return;
+    setVerifyingDocId(documentId);
+    setUploadedDocsStatus(prev => ({
+      ...prev,
+      [documentId]: { status: "verifying", message: "Extracting and verifying document via OCR..." }
+    }));
+    
+    const formData = new FormData();
+    formData.append("schemeId", selectedSchemeId);
+    formData.append("documentId", documentId);
+    formData.append("file", file);
+    
+    try {
+      const res = await fetch(`${API_BASE}/api/eligibility/verify-document`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+        body: formData
+      });
+      
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setUploadedDocsStatus(prev => ({
+          ...prev,
+          [documentId]: {
+            status: "verified",
+            documentType: data.document_type_detected,
+            matches: data.matches || [],
+            mismatches: data.mismatches || [],
+            missing: data.missing || []
+          }
+        }));
+      } else {
+        setUploadedDocsStatus(prev => ({
+          ...prev,
+          [documentId]: {
+            status: "mismatch",
+            message: data.detail || "Verification failed."
+          }
+        }));
+      }
+    } catch (err) {
+      setUploadedDocsStatus(prev => ({
+        ...prev,
+        [documentId]: {
+          status: "mismatch",
+          message: "Failed to connect for document verification."
+        }
+      }));
+    } finally {
+      setVerifyingDocId("");
+    }
+  };
+
+  const fetchAdminSchemes = async () => {
+    setAdminLoading(true);
+    setAdminError("");
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/schemes`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) {
+        setAdminSchemes(await res.json());
+      } else {
+        setAdminError("Failed to load admin schemes.");
+      }
+    } catch (err) {
+      setAdminError("Connection error loading schemes.");
+    } finally {
+      setAdminLoading(false);
+    }
+  };
+
+  const handleAdminSaveScheme = async (e) => {
+    if (e) e.preventDefault();
+    setAdminLoading(true);
+    setAdminError("");
+    
+    const method = adminModalMode === "add" ? "POST" : "PUT";
+    const url = adminModalMode === "add" 
+      ? `${API_BASE}/api/admin/schemes` 
+      : `${API_BASE}/api/admin/schemes/${adminSelectedScheme.id}`;
+      
+    try {
+      const res = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(adminSelectedScheme)
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setAdminModalOpen(false);
+        fetchAdminSchemes();
+        // Trigger check again if they already checked
+        handleCheckEligibility();
+      } else {
+        setAdminError(data.detail || "Failed to save scheme.");
+      }
+    } catch (err) {
+      setAdminError("Failed to connect to the server.");
+    } finally {
+      setAdminLoading(false);
+    }
+  };
+
+  const handleAdminDeleteScheme = async (schemeId) => {
+    if (!window.confirm("Are you sure you want to delete this government scheme?")) return;
+    setAdminLoading(true);
+    setAdminError("");
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/schemes/${schemeId}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        fetchAdminSchemes();
+        handleCheckEligibility();
+      } else {
+        setAdminError(data.detail || "Failed to delete scheme.");
+      }
+    } catch (err) {
+      setAdminError("Failed to delete scheme due to connection issue.");
+    } finally {
+      setAdminLoading(false);
+    }
+  };
+
 
   const fetchCustomerInsights = async (activeToken, days = 60) => {
     setIsCustomerLoading(true);
@@ -1230,11 +1516,21 @@ export default function App() {
           <button className={`btn ${activeTab === 'customer' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("customer")} style={{ justifyContent: 'flex-start' }}>
             <UserCheck size={16} /> Customer Insights
           </button>
+          <button className={`btn ${activeTab === 'strategy' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("strategy")} style={{ justifyContent: 'flex-start' }}>
+            <Lightbulb size={16} /> Growth Strategy
+          </button>
+
           <button className={`btn ${activeTab === 'inventory' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("inventory")} style={{ justifyContent: 'flex-start' }}>
             <Package size={16} /> Stock Control
           </button>
           <button className={`btn ${activeTab === 'supplier' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("supplier")} style={{ justifyContent: 'flex-start' }}>
             <Settings size={16} /> Supplier Hub
+          </button>
+          <button className={`btn ${activeTab === 'schemes' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("schemes")} style={{ justifyContent: 'flex-start' }}>
+            <FileCheck size={16} /> Government Schemes
+          </button>
+          <button className={`btn ${activeTab === 'adminSchemes' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("adminSchemes")} style={{ justifyContent: 'flex-start' }}>
+            <Cpu size={16} /> Scheme Admin
           </button>
           <button className={`btn ${activeTab === 'upload' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab("upload")} style={{ justifyContent: 'flex-start' }}>
             <Upload size={16} /> Document Hub
@@ -2178,6 +2474,159 @@ export default function App() {
           </div>
         )}
 
+        {/* TAB: BUSINESS STRATEGY AGENT */}
+        {activeTab === "strategy" && (
+          <div className="scrollable-tab">
+            <div className="glass-card" style={{ marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+                <div>
+                  <h3 style={{ color: '#818cf8', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Lightbulb size={20} /> SME Growth Strategy Copilot
+                  </h3>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                    Personalized strategy agent analyzing your business profile to generate actionable growth suggestions.
+                  </p>
+                </div>
+                {generatedStrategy && (
+                  <div style={{
+                    background: generatedStrategy.includes("fallback") ? 'rgba(245, 158, 11, 0.08)' : 'rgba(16, 185, 129, 0.08)',
+                    color: generatedStrategy.includes("fallback") ? '#f59e0b' : '#10b981',
+                    border: generatedStrategy.includes("fallback") ? '1px solid rgba(245, 158, 11, 0.15)' : '1px solid rgba(16, 185, 129, 0.15)',
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '0.75rem',
+                    fontWeight: 'bold'
+                  }}>
+                    {generatedStrategy.includes("fallback") ? '📶 Offline Fallback Active' : '⚡ Groq Engine Active'}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '20px' }}>
+              {/* Form Input Side */}
+              <div className="glass-card flex-column-full">
+                <h3 style={{ color: '#818cf8', fontSize: '1.15rem', marginBottom: '4px' }}>📋 Business & Goal Details</h3>
+                <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '14px' }}>
+                  Provide details to customize your business strategy.
+                </p>
+
+                {strategyError && (
+                  <div style={{ padding: '8px 12px', background: 'var(--color-danger-glow)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '6px', fontSize: '0.80rem', color: 'var(--color-danger)', marginBottom: '12px' }}>
+                    {strategyError}
+                  </div>
+                )}
+
+                <form onSubmit={handleGenerateStrategy} style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Business Type *</label>
+                    <input 
+                      type="text" 
+                      className="input-field" 
+                      placeholder="e.g. Grocery Store, Cafe, Salon"
+                      value={strategyInputs.businessType}
+                      onChange={(e) => setStrategyInputs(prev => ({ ...prev, businessType: e.target.value }))}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Target Audience *</label>
+                    <input 
+                      type="text" 
+                      className="input-field" 
+                      placeholder="e.g. Local residents, students, offices"
+                      value={strategyInputs.targetAudience}
+                      onChange={(e) => setStrategyInputs(prev => ({ ...prev, targetAudience: e.target.value }))}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Primary Business Goal *</label>
+                    <select 
+                      className="select-input"
+                      value={strategyInputs.goals}
+                      onChange={(e) => setStrategyInputs(prev => ({ ...prev, goals: e.target.value }))}
+                    >
+                      <option value="attract">🎯 Attract More Customers</option>
+                      <option value="sales">📈 Improve Sales & Order Value</option>
+                      <option value="retention">🔄 Increase Customer Retention & Loyalty</option>
+                      <option value="branding">🌟 Strengthen Branding & Identity</option>
+                      <option value="marketing">📢 Enhance Marketing & Social Media</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Competitor Names (Optional)</label>
+                    <input 
+                      type="text" 
+                      className="input-field" 
+                      placeholder="e.g. Supermarket X, Corner Shop Y"
+                      value={strategyInputs.competitors}
+                      onChange={(e) => setStrategyInputs(prev => ({ ...prev, competitors: e.target.value }))}
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }} disabled={strategyLoading}>
+                    {strategyLoading ? '⚡ Formulating strategies...' : '🚀 Generate Growth Strategy'}
+                  </button>
+                </form>
+              </div>
+
+              {/* Output Result Side */}
+              <div className="glass-card flex-column-full">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <h3 style={{ color: '#818cf8', fontSize: '1.15rem' }}>💡 Actions & Recommendations</h3>
+                  {generatedStrategy && (
+                    <button 
+                      className="btn btn-secondary" 
+                      style={{ padding: '4px 10px', fontSize: '0.75rem' }}
+                      onClick={() => {
+                        navigator.clipboard.writeText(generatedStrategy);
+                        setSuccessMessage("Strategy copied to clipboard!");
+                      }}
+                    >
+                      <Copy size={12} style={{ marginRight: '4px' }} /> Copy Strategy
+                    </button>
+                  )}
+                </div>
+
+                {strategyLoading ? (
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
+                    <div className="animate-spin" style={{ width: '32px', height: '32px', border: '3px solid rgba(129,140,248,0.2)', borderTopColor: '#818cf8', borderRadius: '50%' }}></div>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '12px' }}>Formulating tailored recommendations...</p>
+                  </div>
+                ) : generatedStrategy ? (
+                  <div 
+                    style={{ 
+                      flex: 1, 
+                      overflowY: 'auto', 
+                      maxHeight: '450px', 
+                      paddingRight: '6px', 
+                      fontSize: '0.88rem', 
+                      lineHeight: '1.5',
+                      color: 'var(--color-text-light)'
+                    }}
+                  >
+                    <div className="strategy-markdown-rendered" style={{ whiteSpace: 'pre-line' }}>
+                      {generatedStrategy}
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px', border: '1px dashed var(--color-card-border)', borderRadius: '8px', padding: '20px', textAlign: 'center' }}>
+                    <Lightbulb size={32} color="#64748b" style={{ marginBottom: '10px' }} />
+                    <h4 style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>No Strategy Formulated</h4>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)', maxWidth: '340px', marginTop: '4px' }}>
+                      Fill out the form on the left to invoke the AegisAI Strategy Agent. We will read your active business profile (turnover, category, location) and construct custom pricing, promos, branding, and local ads suggestions.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* TAB 3: STOCK CONTROL */}
         {activeTab === "inventory" && (
           <div className="scrollable-tab">
@@ -2873,6 +3322,760 @@ export default function App() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* TAB: GOVERNMENT SCHEMES ELIGIBILITY & DOCUMENT VERIFICATION */}
+        {activeTab === "schemes" && (
+          <div className="scrollable-tab">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <div>
+                <h2 style={{ fontSize: '1.5rem', color: '#818cf8', fontWeight: 'bold' }}>📋 Government Scheme Eligibility Check</h2>
+                <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)' }}>
+                  Enter your business details below to check eligibility for major Indian MSME credit and certification schemes.
+                </p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--color-card-border)' }}>
+                <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>Translate Explanation:</span>
+                <select className="select-input" value={eligibilityLanguage} onChange={(e) => setEligibilityLanguage(e.target.value)} style={{ padding: '3px 8px', fontSize: '0.78rem' }}>
+                  <option value="english">English</option>
+                  <option value="tamil">தமிழ் (Tamil)</option>
+                  <option value="hindi">हिंदी (Hindi)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '24px' }}>
+              {/* LEFT COLUMN: Business Profile Form */}
+              <div className="glass-card flex-column-full" style={{ gap: '12px' }}>
+                <h3 style={{ fontSize: '1rem', borderBottom: '1px solid var(--color-card-border)', paddingBottom: '8px', color: '#34d399' }}>👤 Business Profile Details</h3>
+                <form onSubmit={handleCheckEligibility} style={{ display: 'flex', flexDirection: 'column', gap: '10px', overflowY: 'auto', paddingRight: '4px' }}>
+                  <div>
+                    <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>
+                      Business Name <span style={{ color: 'var(--color-text-dim)' }}>(e.g. Karthik Retailers)</span>
+                    </label>
+                    <input type="text" className="input-field" value={eligibilityInputs.businessName} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, businessName: e.target.value }))} required placeholder="Karthik Retailers" />
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>
+                        Business Type <span style={{ color: 'var(--color-text-dim)' }}>(e.g. Proprietorship)</span>
+                      </label>
+                      <select className="select-input" value={eligibilityInputs.businessType} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, businessType: e.target.value }))}>
+                        <option value="Sole Proprietorship">Sole Proprietorship</option>
+                        <option value="Partnership">Partnership</option>
+                        <option value="LLP">LLP (Limited Liability)</option>
+                        <option value="Private Limited">Private Limited</option>
+                        <option value="Co-operative">Co-operative</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>
+                        Business Sector <span style={{ color: 'var(--color-text-dim)' }}>(e.g. Retail)</span>
+                      </label>
+                      <select className="select-input" value={eligibilityInputs.businessSector} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, businessSector: e.target.value }))}>
+                        <option value="Retail & Trading">Retail & Trading</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                        <option value="Services">Services</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>State</label>
+                      <select className="select-input" value={eligibilityInputs.state} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, state: e.target.value }))}>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>District</label>
+                      <input type="text" className="input-field" value={eligibilityInputs.district} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, district: e.target.value }))} required placeholder="Chennai" />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Business Start Date</label>
+                      <input type="date" className="input-field" value={eligibilityInputs.businessStartDate} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, businessStartDate: e.target.value }))} required />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Employees</label>
+                      <input type="number" className="input-field" value={eligibilityInputs.employeeCount} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, employeeCount: e.target.value }))} required placeholder="5" />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>
+                        Annual Turnover <span style={{ color: 'var(--color-text-dim)' }}>(₹)</span>
+                      </label>
+                      <input type="number" className="input-field" value={eligibilityInputs.annualTurnover} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, annualTurnover: e.target.value }))} required placeholder="e.g. 2500000" />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>
+                        Loan Required <span style={{ color: 'var(--color-text-dim)' }}>(₹)</span>
+                      </label>
+                      <input type="number" className="input-field" value={eligibilityInputs.loanRequirement} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, loanRequirement: e.target.value }))} required placeholder="e.g. 500000" />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>GST Status</label>
+                      <select className="select-input" value={eligibilityInputs.gstStatus} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, gstStatus: e.target.value }))}>
+                        <option value="Registered">Registered</option>
+                        <option value="Not Registered">Not Registered</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Udyam Status</label>
+                      <select className="select-input" value={eligibilityInputs.udyamStatus} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, udyamStatus: e.target.value }))}>
+                        <option value="Registered">Registered</option>
+                        <option value="Not Registered">Not Registered</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Enterprise Category</label>
+                      <select className="select-input" value={eligibilityInputs.enterpriseCategory} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, enterpriseCategory: e.target.value }))}>
+                        <option value="Micro">Micro (&lt; ₹5 Cr Turnover)</option>
+                        <option value="Small">Small (&lt; ₹50 Cr Turnover)</option>
+                        <option value="Medium">Medium (&lt; ₹250 Cr Turnover)</option>
+                        <option value="Not Applicable">Not Applicable</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Prev Govt Assistance</label>
+                      <select className="select-input" value={eligibilityInputs.previousAssistance} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, previousAssistance: e.target.value }))}>
+                        <option value="No">No (First Time Assistance)</option>
+                        <option value="Yes">Yes (Received Subsidies)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.72rem', display: 'block', marginBottom: '3px' }}>Social Category</label>
+                      <select className="select-input" value={eligibilityInputs.socialCategory} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, socialCategory: e.target.value }))}>
+                        <option value="General">General</option>
+                        <option value="OBC">OBC</option>
+                        <option value="SC">SC</option>
+                        <option value="ST">ST</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '0.72rem', display: 'block', marginBottom: '3px' }}>Owner Gender</label>
+                      <select className="select-input" value={eligibilityInputs.ownerGender} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, ownerGender: e.target.value }))}>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '0.72rem', display: 'block', marginBottom: '3px' }}>Area</label>
+                      <select className="select-input" value={eligibilityInputs.area} onChange={(e) => setEligibilityInputs(prev => ({ ...prev, area: e.target.value }))}>
+                        <option value="Urban">Urban</option>
+                        <option value="Rural">Rural</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <button className="btn btn-primary" type="submit" disabled={eligibilityLoading} style={{ marginTop: '10px' }}>
+                    {eligibilityLoading ? <RefreshCw size={14} className="spin" /> : "Check Scheme Eligibility"}
+                  </button>
+                </form>
+              </div>
+
+              {/* RIGHT COLUMN: Scheme Results or Document Upload */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', overflowY: 'auto', maxHeight: 'calc(100vh - 120px)', paddingRight: '4px' }}>
+                
+                {/* SCHEME RESULTS CARDS LIST */}
+                {eligibilityError && (
+                  <div className="glass-card" style={{ borderColor: 'var(--color-danger)', color: 'var(--color-danger)', fontSize: '0.85rem' }}>
+                    ⚠️ {eligibilityError}
+                  </div>
+                )}
+
+                {eligibilityResults.length === 0 ? (
+                  <div className="glass-card" style={{ textAlign: 'center', padding: '40px 20px', background: 'rgba(15,22,38,0.4)', borderStyle: 'dashed' }}>
+                    <Coins size={36} style={{ color: 'var(--color-primary)', marginBottom: '10px', opacity: 0.7 }} />
+                    <h4 style={{ fontSize: '1rem', color: 'var(--color-text-main)' }}>Awaiting Eligibility Analysis</h4>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', maxWidth: '400px', margin: '6px auto 0' }}>
+                      Submit your business profile details on the left. AegisAI will check your constraints against active schemes and provide guidance.
+                    </p>
+                  </div>
+                ) : (
+                  eligibilityResults.map((scheme, idx) => {
+                    const isEligible = scheme.status === "Eligible";
+                    const isPossible = scheme.status === "Possibly Eligible";
+                    
+                    let badgeColor = "var(--color-text-muted)";
+                    let badgeBg = "rgba(255,255,255,0.05)";
+                    let cardBorder = "var(--color-card-border)";
+                    let glowStyles = {};
+
+                    if (isEligible) {
+                      badgeBg = "var(--color-success-glow)";
+                      badgeColor = "var(--color-success)";
+                      cardBorder = "rgba(16, 185, 129, 0.25)";
+                      glowStyles = { boxShadow: '0 0 20px rgba(16, 185, 129, 0.08)' };
+                    } else if (isPossible) {
+                      badgeBg = "var(--color-warning-glow)";
+                      badgeColor = "var(--color-warning)";
+                      cardBorder = "rgba(245, 158, 11, 0.25)";
+                      glowStyles = { boxShadow: '0 0 20px rgba(245, 158, 11, 0.08)' };
+                    } else {
+                      badgeBg = "var(--color-danger-glow)";
+                      badgeColor = "var(--color-danger)";
+                      cardBorder = "rgba(244, 63, 94, 0.15)";
+                    }
+
+                    return (
+                      <div 
+                        key={idx} 
+                        className="glass-card" 
+                        style={{ border: `1px solid ${cardBorder}`, display: 'flex', flexDirection: 'column', gap: '12px', ...glowStyles }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '15px' }}>
+                          <div>
+                            <h3 style={{ fontSize: '1.1rem', color: 'var(--color-text-main)' }}>
+                              {scheme.name[eligibilityLanguage] || scheme.name.en}
+                            </h3>
+                            <p style={{ fontSize: '0.78rem', color: 'var(--color-text-dim)', marginTop: '2px' }}>
+                              {scheme.description[eligibilityLanguage] || scheme.description.en}
+                            </p>
+                          </div>
+                          <span 
+                            style={{ 
+                              padding: '4px 10px', 
+                              borderRadius: '6px', 
+                              fontSize: '0.75rem', 
+                              fontWeight: 'bold', 
+                              background: badgeBg, 
+                              color: badgeColor, 
+                              whiteSpace: 'nowrap' 
+                            }}
+                          >
+                            {scheme.status}
+                          </span>
+                        </div>
+
+                        {/* Benefits and official link */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', background: 'rgba(0,0,0,0.15)', padding: '10px', borderRadius: '8px' }}>
+                          <div>
+                            <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', display: 'block', textTransform: 'uppercase' }}>Scheme Benefit:</span>
+                            <span style={{ fontSize: '0.8rem', color: '#a3e635', fontWeight: '500' }}>
+                              {scheme.benefits[eligibilityLanguage] || scheme.benefits.en}
+                            </span>
+                          </div>
+                          <div>
+                            <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', display: 'block', textTransform: 'uppercase' }}>Official Portal:</span>
+                            <a href={scheme.official_link} target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: '#60a5fa', textDecoration: 'underline', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              Apply Officially <ExternalLink size={10} />
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Matched / Missing Rules Details */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '15px', fontSize: '0.78rem' }}>
+                          <div>
+                            <span style={{ color: 'var(--color-success)', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>✓ Matched Conditions:</span>
+                            <ul style={{ listStyleType: 'none', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                              {scheme.matched_conditions.map((item, idy) => (
+                                <li key={idy} style={{ color: 'var(--color-text-muted)' }}>🟢 {item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            {scheme.missing_requirements.length > 0 && (
+                              <>
+                                <span style={{ color: isPossible ? 'var(--color-warning)' : 'var(--color-danger)', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>
+                                  {isPossible ? "⚠️ Missing Registrations / Adjustments:" : "❌ Disqualifying Criteria:"}
+                                </span>
+                                <ul style={{ listStyleType: 'none', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                  {scheme.missing_requirements.map((item, idy) => (
+                                    <li key={idy} style={{ color: 'var(--color-text-muted)' }}>🔴 {item}</li>
+                                  ))}
+                                </ul>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Required Documents Section */}
+                        <div style={{ borderTop: '1px solid var(--color-card-border)', paddingTop: '10px', marginTop: '4px' }}>
+                          <span style={{ color: '#818cf8', fontWeight: 'bold', display: 'block', marginBottom: '6px', fontSize: '0.75rem' }}>
+                            📁 Required Supporting Documents:
+                          </span>
+                          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            {scheme.required_documents.map((doc, dIdx) => (
+                              <span 
+                                key={dIdx} 
+                                style={{ 
+                                  background: 'rgba(255,255,255,0.04)', 
+                                  border: '1px solid var(--color-card-border)', 
+                                  padding: '4px 10px', 
+                                  borderRadius: '6px', 
+                                  fontSize: '0.74rem', 
+                                  color: 'var(--color-text-main)' 
+                                }}
+                              >
+                                {doc[`name_${eligibilityLanguage}`] || doc.name_en}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Groq Multilingual Guidance Box */}
+                        {scheme.explanation && (
+                          <div style={{ borderLeft: '3px solid var(--color-primary)', background: 'rgba(99,102,241,0.03)', padding: '10px 14px', borderRadius: '4px', fontSize: '0.8rem', whiteSpace: 'pre-line' }}>
+                            <span style={{ color: '#818cf8', fontWeight: 'bold', fontSize: '0.75rem', display: 'block', marginBottom: '4px' }}>🤖 AegisAI Assistant Guidance (Groq Explainer)</span>
+                            {scheme.explanation}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB: SCHEME ADMIN CONFIGURATION MODULE */}
+        {activeTab === "adminSchemes" && (
+          <div className="scrollable-tab">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <div>
+                <h2 style={{ fontSize: '1.5rem', color: '#f59e0b', fontWeight: 'bold' }}>⚙️ Scheme Administration Module</h2>
+                <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)' }}>
+                  Manage active government schemes, eligibility parameters, rules, benefits, and required document files.
+                </p>
+              </div>
+              <button 
+                className="btn btn-success" 
+                onClick={() => {
+                  setAdminSelectedScheme({
+                    id: "",
+                    name_en: "", name_ta: "", name_hi: "",
+                    description_en: "", description_ta: "", description_hi: "",
+                    benefits_en: "", benefits_ta: "", benefits_hi: "",
+                    official_link: "",
+                    required_documents: [],
+                    rules: {
+                      enterprise_categories: ["Micro", "Small"],
+                      sectors: ["Manufacturing", "Services"],
+                      max_turnover: "",
+                      min_loan_requirement: "",
+                      max_loan_requirement: "",
+                      requires_udyam: false,
+                      requires_gst: false,
+                      owner_gender: [],
+                      owner_social_category: []
+                    }
+                  });
+                  setAdminModalMode("add");
+                  setAdminModalOpen(true);
+                }}
+              >
+                <Plus size={16} /> Add Custom Scheme
+              </button>
+            </div>
+
+            {adminError && (
+              <div className="glass-card" style={{ borderColor: 'var(--color-danger)', color: 'var(--color-danger)', fontSize: '0.85rem' }}>
+                ⚠️ {adminError}
+              </div>
+            )}
+
+            <div className="glass-card" style={{ padding: '0px', overflow: 'hidden' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid var(--color-card-border)', background: 'rgba(255,255,255,0.02)' }}>
+                    <th style={{ padding: '12px' }}>Scheme Name</th>
+                    <th style={{ padding: '12px' }}>ID</th>
+                    <th style={{ padding: '12px' }}>Sectors</th>
+                    <th style={{ padding: '12px' }}>MSME Cat</th>
+                    <th style={{ padding: '12px' }}>Required Docs</th>
+                    <th style={{ padding: '12px', textAlign: 'right' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {adminSchemes.map((scheme, idx) => (
+                    <tr key={idx} style={{ borderBottom: '1px solid var(--color-card-border)' }}>
+                      <td style={{ padding: '12px', fontWeight: 'bold' }}>{scheme.name_en}</td>
+                      <td style={{ padding: '12px', color: 'var(--color-text-muted)' }}><code>{scheme.id}</code></td>
+                      <td style={{ padding: '12px' }}>{scheme.rules.sectors.join(", ")}</td>
+                      <td style={{ padding: '12px' }}>{scheme.rules.enterprise_categories.join(", ")}</td>
+                      <td style={{ padding: '12px' }}>{scheme.required_documents.length} Files</td>
+                      <td style={{ padding: '12px', textAlign: 'right' }}>
+                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                          <button 
+                            className="btn btn-secondary" 
+                            style={{ fontSize: '0.75rem', padding: '4px 8px' }}
+                            onClick={() => {
+                              setAdminSelectedScheme(scheme);
+                              setAdminModalMode("edit");
+                              setAdminModalOpen(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button 
+                            className="btn btn-secondary" 
+                            style={{ fontSize: '0.75rem', padding: '4px 8px', color: '#f87171', borderColor: 'rgba(248,113,113,0.15)' }}
+                            onClick={() => handleAdminDeleteScheme(scheme.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* ADMIN MODAL FORM */}
+            {adminModalOpen && adminSelectedScheme && (
+              <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }}>
+                <div className="glass-card" style={{ width: '100%', maxWidth: '750px', maxHeight: '90vh', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '15px', border: '1px solid var(--color-primary-glow)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--color-card-border)', paddingBottom: '8px' }}>
+                    <h3 style={{ fontSize: '1.25rem', color: '#f59e0b' }}>
+                      {adminModalMode === "add" ? "➕ Create Custom Government Scheme" : "✏️ Edit Scheme Configuration"}
+                    </h3>
+                    <button onClick={() => setAdminModalOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer' }}>
+                      <X size={20} />
+                    </button>
+                  </div>
+
+                  <form onSubmit={handleAdminSaveScheme} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    
+                    {/* Basic IDs and Links */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Scheme ID (Unique)</label>
+                        <input 
+                          type="text" 
+                          className="input-field" 
+                          value={adminSelectedScheme.id}
+                          onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, id: e.target.value }))}
+                          disabled={adminModalMode === "edit"}
+                          required 
+                          placeholder="e.g. startup_india"
+                        />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Official Application Portal URL</label>
+                        <input 
+                          type="url" 
+                          className="input-field" 
+                          value={adminSelectedScheme.official_link}
+                          onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, official_link: e.target.value }))}
+                          required 
+                          placeholder="https://example.gov.in"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Multilingual Names */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Name (English)</label>
+                        <input type="text" className="input-field" value={adminSelectedScheme.name_en} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, name_en: e.target.value }))} required />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Name (Tamil - தமிழ்)</label>
+                        <input type="text" className="input-field" value={adminSelectedScheme.name_ta} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, name_ta: e.target.value }))} required />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Name (Hindi - हिंदी)</label>
+                        <input type="text" className="input-field" value={adminSelectedScheme.name_hi} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, name_hi: e.target.value }))} required />
+                      </div>
+                    </div>
+
+                    {/* Descriptions */}
+                    <div>
+                      <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Description (English)</label>
+                      <input type="text" className="input-field" value={adminSelectedScheme.description_en} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, description_en: e.target.value }))} required />
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Description (Tamil)</label>
+                        <input type="text" className="input-field" value={adminSelectedScheme.description_ta} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, description_ta: e.target.value }))} required />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Description (Hindi)</label>
+                        <input type="text" className="input-field" value={adminSelectedScheme.description_hi} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, description_hi: e.target.value }))} required />
+                      </div>
+                    </div>
+
+                    {/* Benefits */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Benefits (English)</label>
+                        <input type="text" className="input-field" value={adminSelectedScheme.benefits_en} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, benefits_en: e.target.value }))} required />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Benefits (Tamil)</label>
+                        <input type="text" className="input-field" value={adminSelectedScheme.benefits_ta} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, benefits_ta: e.target.value }))} required />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 'bold', display: 'block', marginBottom: '3px' }}>Benefits (Hindi)</label>
+                        <input type="text" className="input-field" value={adminSelectedScheme.benefits_hi} onChange={(e) => setAdminSelectedScheme(prev => ({ ...prev, benefits_hi: e.target.value }))} required />
+                      </div>
+                    </div>
+
+                    {/* Rules Evaluation Parameters */}
+                    <div style={{ padding: '12px', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', border: '1px solid var(--color-card-border)' }}>
+                      <h4 style={{ fontSize: '0.85rem', color: '#f59e0b', marginBottom: '10px' }}>⚙️ Eligibility Rule Engine Thresholds</h4>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px' }}>
+                        <div>
+                          <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Sectors Allowed</label>
+                          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', fontSize: '0.75rem', marginTop: '4px' }}>
+                            {["Manufacturing", "Services", "Retail & Trading"].map((sec) => (
+                              <label key={sec} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <input 
+                                  type="checkbox"
+                                  checked={adminSelectedScheme.rules.sectors.includes(sec)}
+                                  onChange={(e) => {
+                                    const checked = e.target.checked;
+                                    setAdminSelectedScheme(prev => {
+                                      const oldSectors = prev.rules.sectors;
+                                      const newSectors = checked 
+                                        ? [...oldSectors, sec]
+                                        : oldSectors.filter(s => s !== sec);
+                                      return { ...prev, rules: { ...prev.rules, sectors: newSectors } };
+                                    });
+                                  }}
+                                />
+                                {sec}
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>MSME Categories Allowed</label>
+                          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', fontSize: '0.75rem', marginTop: '4px' }}>
+                            {["Micro", "Small", "Medium"].map((cat) => (
+                              <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <input 
+                                  type="checkbox"
+                                  checked={adminSelectedScheme.rules.enterprise_categories.includes(cat)}
+                                  onChange={(e) => {
+                                    const checked = e.target.checked;
+                                    setAdminSelectedScheme(prev => {
+                                      const oldCats = prev.rules.enterprise_categories;
+                                      const newCats = checked 
+                                        ? [...oldCats, cat]
+                                        : oldCats.filter(c => c !== cat);
+                                      return { ...prev, rules: { ...prev.rules, enterprise_categories: newCats } };
+                                    });
+                                  }}
+                                />
+                                {cat}
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '10px' }}>
+                        <div>
+                          <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Max Annual Turnover (₹)</label>
+                          <input 
+                            type="number" 
+                            className="input-field" 
+                            value={adminSelectedScheme.rules.max_turnover || ""}
+                            onChange={(e) => setAdminSelectedScheme(prev => ({ 
+                              ...prev, 
+                              rules: { ...prev.rules, max_turnover: e.target.value ? parseFloat(e.target.value) : null } 
+                            }))}
+                            placeholder="Unlimited"
+                          />
+                        </div>
+                        <div>
+                          <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Min Loan Amount (₹)</label>
+                          <input 
+                            type="number" 
+                            className="input-field" 
+                            value={adminSelectedScheme.rules.min_loan_requirement || ""}
+                            onChange={(e) => setAdminSelectedScheme(prev => ({ 
+                              ...prev, 
+                              rules: { ...prev.rules, min_loan_requirement: e.target.value ? parseFloat(e.target.value) : null } 
+                            }))}
+                            placeholder="0"
+                          />
+                        </div>
+                        <div>
+                          <label style={{ fontSize: '0.75rem', display: 'block', marginBottom: '3px' }}>Max Loan Amount (₹)</label>
+                          <input 
+                            type="number" 
+                            className="input-field" 
+                            value={adminSelectedScheme.rules.max_loan_requirement || ""}
+                            onChange={(e) => setAdminSelectedScheme(prev => ({ 
+                              ...prev, 
+                              rules: { ...prev.rules, max_loan_requirement: e.target.value ? parseFloat(e.target.value) : null } 
+                            }))}
+                            placeholder="Unlimited"
+                          />
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '20px', fontSize: '0.78rem', marginTop: '10px' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+                          <input 
+                            type="checkbox"
+                            checked={adminSelectedScheme.rules.requires_udyam}
+                            onChange={(e) => setAdminSelectedScheme(prev => ({ 
+                              ...prev, 
+                              rules: { ...prev.rules, requires_udyam: e.target.checked } 
+                            }))}
+                          />
+                          Requires Active Udyam/MSME Registration
+                        </label>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+                          <input 
+                            type="checkbox"
+                            checked={adminSelectedScheme.rules.requires_gst}
+                            onChange={(e) => setAdminSelectedScheme(prev => ({ 
+                              ...prev, 
+                              rules: { ...prev.rules, requires_gst: e.target.checked } 
+                            }))}
+                          />
+                          Requires Active GSTIN
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Required Documents Section */}
+                    <div style={{ padding: '12px', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', border: '1px solid var(--color-card-border)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                        <h4 style={{ fontSize: '0.85rem', color: '#34d399' }}>📁 Required Supporting Documents</h4>
+                        <button 
+                          className="btn btn-secondary" 
+                          type="button" 
+                          style={{ fontSize: '0.75rem', padding: '3px 8px' }}
+                          onClick={() => {
+                            setAdminSelectedScheme(prev => {
+                              const docs = prev.required_documents || [];
+                              const newDoc = { id: `doc_${Date.now()}`, name_en: "New Document", name_ta: "புதிய ஆவணம்", name_hi: "नया दस्तावेज़" };
+                              return { ...prev, required_documents: [...docs, newDoc] };
+                            });
+                          }}
+                        >
+                          + Add Doc Field
+                        </button>
+                      </div>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {adminSelectedScheme.required_documents?.map((doc, dIdx) => (
+                          <div key={dIdx} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1fr auto', gap: '8px', alignItems: 'center' }}>
+                            <input 
+                              type="text" 
+                              className="input-field" 
+                              value={doc.id}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setAdminSelectedScheme(prev => {
+                                  const list = [...prev.required_documents];
+                                  list[dIdx].id = val;
+                                  return { ...prev, required_documents: list };
+                                });
+                              }}
+                              placeholder="Doc ID"
+                              required 
+                              style={{ fontSize: '0.75rem', padding: '4px 6px' }}
+                            />
+                            <input 
+                              type="text" 
+                              className="input-field" 
+                              value={doc.name_en}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setAdminSelectedScheme(prev => {
+                                  const list = [...prev.required_documents];
+                                  list[dIdx].name_en = val;
+                                  return { ...prev, required_documents: list };
+                                });
+                              }}
+                              placeholder="English Name"
+                              required 
+                              style={{ fontSize: '0.75rem', padding: '4px 6px' }}
+                            />
+                            <input 
+                              type="text" 
+                              className="input-field" 
+                              value={doc.name_ta}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setAdminSelectedScheme(prev => {
+                                  const list = [...prev.required_documents];
+                                  list[dIdx].name_ta = val;
+                                  return { ...prev, required_documents: list };
+                                });
+                              }}
+                              placeholder="Tamil Name"
+                              required 
+                              style={{ fontSize: '0.75rem', padding: '4px 6px' }}
+                            />
+                            <input 
+                              type="text" 
+                              className="input-field" 
+                              value={doc.name_hi}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setAdminSelectedScheme(prev => {
+                                  const list = [...prev.required_documents];
+                                  list[dIdx].name_hi = val;
+                                  return { ...prev, required_documents: list };
+                                });
+                              }}
+                              placeholder="Hindi Name"
+                              required 
+                              style={{ fontSize: '0.75rem', padding: '4px 6px' }}
+                            />
+                            <button 
+                              className="btn btn-secondary" 
+                              type="button" 
+                              style={{ padding: '4px 8px', color: '#f87171' }}
+                              onClick={() => {
+                                setAdminSelectedScheme(prev => {
+                                  const list = prev.required_documents.filter((_, idx) => idx !== dIdx);
+                                  return { ...prev, required_documents: list };
+                                });
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '10px', borderTop: '1px solid var(--color-card-border)', paddingTop: '10px' }}>
+                      <button className="btn btn-secondary" type="button" onClick={() => setAdminModalOpen(false)}>Cancel</button>
+                      <button className="btn btn-success" type="submit" disabled={adminLoading}>
+                        {adminLoading ? <RefreshCw size={14} className="spin" /> : "Save Scheme Guidelines"}
+                      </button>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

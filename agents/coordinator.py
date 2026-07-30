@@ -9,6 +9,8 @@ from agents.analytics_agent import run_analytics_agent
 from agents.communication_agent import run_communication_agent
 from agents.supplier_agent import run_supplier_agent
 from agents.customer_agent import run_customer_agent
+from agents.strategy_agent import generate_strategy
+
 
 def get_customer_db_context(workspace_dir: str = None) -> str:
     """Loads customer statistics, top buyers, segments, and bundle co-occurrences from analytics engine."""
@@ -189,9 +191,10 @@ COORDINATOR_SYSTEM_INSTRUCTION = (
     "- COMMUNICATION: For drafting WhatsApp alerts, customer messages, or notification texts. "
     "- SUPPLIER: For purchase orders, supplier evaluation, price quotes, procurement, or reordering recommendations. "
     "- CUSTOMER: For customer databases, loyalty, repeat buyers, spending, segmentation, CLV, AOV, purchase history, and campaigns. "
+    "- STRATEGY: For questions about business strategy, growth, marketing, promotions, pricing ideas, branding, or attracting more customers. "
     "\n"
     "You must return your response in this exact format:\n"
-    "AGENT: [FINANCE/INVENTORY/ANALYTICS/COMMUNICATION/SUPPLIER/CUSTOMER/GENERAL]\n"
+    "AGENT: [FINANCE/INVENTORY/ANALYTICS/COMMUNICATION/SUPPLIER/CUSTOMER/STRATEGY/GENERAL]\n"
     "REASONING: [Explain in one brief sentence why you chose this agent]\n"
     "THOUGHTS: [List any additional coordinator steps, e.g., 'Analyzing invoice context...']"
 )
@@ -234,6 +237,8 @@ def coordinate_agents(query: str, context: str, provider: str = "gemini", worksp
             routing_response = "AGENT: SUPPLIER\nREASONING: The user is asking about supplier catalog, procurement, or reorder parameters.\nTHOUGHTS: Routing to Supplier Agent for procurement calculations."
         elif any(k in query_lower for k in ["customer", "loyalty", "repeat", "buyer", "clv", "aov", "segment", "spending", "visit", "bought together", "வாடிக்கையாளர்", "அடிக்கடி"]):
             routing_response = "AGENT: CUSTOMER\nREASONING: The query deals with customer retention, spending, segments, or profiles.\nTHOUGHTS: Routing to Customer Insights Agent."
+        elif any(k in query_lower for k in ["strategy", "growth", "branding", "marketing", "promotion", "competitor", "attract", "retain", "sales improvement", "வளர்ச்சி", "விளம்பரம்"]):
+            routing_response = "AGENT: STRATEGY\nREASONING: The query asks for business growth strategies or promotional suggestions.\nTHOUGHTS: Routing to Business Strategy Agent."
         else:
             routing_response = "AGENT: GENERAL\nREASONING: General customer assistance query.\nTHOUGHTS: General coordinator fallback."
   
@@ -311,15 +316,75 @@ def coordinate_agents(query: str, context: str, provider: str = "gemini", worksp
     elif agent == "CUSTOMER":
         db_context = get_customer_db_context(workspace_dir)
         combined_context = f"{db_context}\n\n---\n\n{context}"
-        try:
-            response = run_customer_agent(query, combined_context, provider=provider)
-            # If the LLM returns empty or offline fallback is triggered
-            if not response or "offline" in response.lower() or "local data-driven fallback" in response.lower():
-                from agents.customer_agent import fallback_customer_agent
-                response = fallback_customer_agent(query, workspace_dir)
-        except Exception:
-            from agents.customer_agent import fallback_customer_agent
-            response = fallback_customer_agent(query, workspace_dir)
+        response = run_customer_agent(query, combined_context, provider=provider)
+    elif agent == "STRATEGY":
+        # Load business profile
+        profile = {}
+        if workspace_dir:
+            profile_path = os.path.join(workspace_dir, "business_profile.json")
+            if os.path.exists(profile_path):
+                try:
+                    with open(profile_path, "r", encoding="utf-8") as f:
+                        profile = json.load(f)
+                except Exception:
+                    pass
+            
+            if not profile:
+                onboarding_file = os.path.join(workspace_dir, "onboarding.json")
+                if os.path.exists(onboarding_file):
+                    try:
+                        with open(onboarding_file, "r", encoding="utf-8") as f:
+                            biz = json.load(f)
+                            profile = {
+                                "businessName": biz.get("businessName", "Small Business"),
+                                "businessType": biz.get("businessCategory", "Small Business"),
+                                "businessSector": biz.get("businessCategory", "Retail"),
+                                "enterpriseCategory": "Micro",
+                                "state": "Local",
+                                "district": biz.get("businessLocation", "Region"),
+                                "annualTurnover": "Undisclosed",
+                                "employeeCount": "N/A"
+                            }
+                    except Exception:
+                        pass
+        
+        if not profile:
+            profile = {
+                "businessName": "Small Business",
+                "businessType": "Retail Shop",
+                "businessSector": "Retail",
+                "enterpriseCategory": "Micro",
+                "state": "Local",
+                "district": "Region",
+                "annualTurnover": "Undisclosed",
+                "employeeCount": "N/A"
+            }
+            
+        goals = "attract"
+        query_lower = query.lower()
+        if "sales" in query_lower or "revenue" in query_lower or "price" in query_lower:
+            goals = "sales"
+        elif "retention" in query_lower or "loyalty" in query_lower or "repeat" in query_lower:
+            goals = "retention"
+        elif "brand" in query_lower or "identity" in query_lower:
+            goals = "branding"
+        elif "marketing" in query_lower or "social" in query_lower or "advertise" in query_lower:
+            goals = "marketing"
+            
+        strategy_inputs = {
+            "businessType": profile.get("businessType", "Small Business"),
+            "targetAudience": "General Public",
+            "goals": goals,
+            "competitors": ""
+        }
+        
+        lang = "english"
+        if any(w in query_lower for w in ["தமிழ்", "tamil"]):
+            lang = "tamil"
+        elif any(w in query_lower for w in ["हिंदी", "hindi"]):
+            lang = "hindi"
+            
+        response = generate_strategy(profile, strategy_inputs, language=lang)
     else:
         # General/Coordinator direct response - include basic general DB states
         db_context = f"{get_inventory_db_context(workspace_dir)}\n\n{get_finance_db_context(workspace_dir)}\n\n{get_supplier_db_context(workspace_dir)}\n\n{get_customer_db_context(workspace_dir)}"

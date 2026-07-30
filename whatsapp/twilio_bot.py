@@ -87,15 +87,20 @@ def _workspace_id_from_dir(workspace_dir: str | None) -> str | None:
 
 def send_whatsapp_message(body: str, to_number: str = None, workspace_dir: str = None) -> dict:
     """
-    Sends a WhatsApp message using Twilio if credentials exist,
-    otherwise records it as a SIMULATED alert.
+    Sends a WhatsApp message using Twilio.
+    Does NOT fall back to simulation if credentials exist or fail.
     """
     target_number = to_number or config.USER_WHATSAPP_NUMBER or "+919876543210"
 
-    if not target_number.startswith("whatsapp:"):
-        formatted_to = f"whatsapp:{target_number}"
-    else:
-        formatted_to = target_number
+    is_whatsapp_prefixed = target_number.startswith("whatsapp:")
+    phone_part = target_number[9:] if is_whatsapp_prefixed else target_number
+
+    if not phone_part.startswith("+"):
+        default_code = getattr(config, "WHATSAPP_DEFAULT_COUNTRY_CODE", "+91")
+        phone_part = phone_part.lstrip("0")
+        phone_part = f"{default_code}{phone_part}"
+
+    formatted_to = f"whatsapp:{phone_part}"
 
     sid = config.TWILIO_ACCOUNT_SID
     token = config.TWILIO_AUTH_TOKEN

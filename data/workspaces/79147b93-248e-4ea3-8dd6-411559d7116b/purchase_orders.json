@@ -1,0 +1,21 @@
+[
+    {
+        "po_id": "PO_1001",
+        "supplier_id": "S103",
+        "supplier_name": "Tirupur Distributors",
+        "date_created": "2026-07-30",
+        "status": "Delivered",
+        "items": [
+            {
+                "product_id": "P131",
+                "product_name": "Yippee",
+                "quantity": 17,
+                "unit_price": 20.0
+            }
+        ],
+        "total_amount": 340.0,
+        "expected_delivery": "2026-08-02",
+        "actual_delivery": "2026-07-30",
+        "fulfillment_score": 100
+    }
+]

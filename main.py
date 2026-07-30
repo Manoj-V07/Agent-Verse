@@ -5,7 +5,9 @@ import uuid
 import hashlib
 import base64
 import math
+import asyncio
 from datetime import datetime, timedelta
+from typing import Optional
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Query, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
@@ -15,6 +17,7 @@ import pandas as pd
 from database import db
 from rag.retriever import index_file, retrieve_context
 from agents.coordinator import coordinate_agents
+from agents.strategy_agent import generate_strategy
 from forecasting.predictor import forecast_sales, predict_inventory_exhaustion
 from forecasting.customer_analytics import initialize_customers_and_transactions, get_customer_insights
 from whatsapp.twilio_bot import send_whatsapp_message, get_whatsapp_logs, clear_whatsapp_logs, log_whatsapp_message
@@ -47,6 +50,10 @@ async def global_exception_handler(request: Request, exc: Exception):
 # ---------------------------------------------------------------------------
 # Password hashing helpers
 # ---------------------------------------------------------------------------
+# Database Paths
+USERS_DB_PATH = os.path.join(config.DATA_DIR, "users.json")
+SESSIONS_DB_PATH = os.path.join(config.DATA_DIR, "sessions.json")
+SCHEMES_DB_PATH = os.path.join(config.DATA_DIR, "government_schemes.json")
 
 def hash_password(password: str, salt: str = None) -> tuple[str, str]:
     if salt is None:
@@ -358,7 +365,7 @@ class ChatRequest(BaseModel):
     provider: str = "gemini"
 
 class AlertRequest(BaseModel):
-    custom_recipient: str = None
+    custom_recipient: Optional[str] = None
     provider: str = "gemini"
 
 class ProductAddRequest(BaseModel):
@@ -383,9 +390,9 @@ class CustomerAddRequest(BaseModel):
     phone: str
 
 class CampaignRequest(BaseModel):
-    segment: str = None
-    customer_id: str = None
-    custom_offer: str = None
+    segment: Optional[str] = None
+    customer_id: Optional[str] = None
+    custom_offer: Optional[str] = None
     provider: str = "gemini"
 
 class POApproveRequest(BaseModel):
@@ -395,6 +402,14 @@ class POApproveRequest(BaseModel):
 
 class POReceiveRequest(BaseModel):
     poId: str
+
+class StrategyInputsRequest(BaseModel):
+    businessType: str
+    targetAudience: str
+    goals: str
+    competitors: Optional[str] = ""
+    language: Optional[str] = "english"
+
 
 # Endpoints
 @app.get("/")
@@ -579,6 +594,423 @@ async def onboard(
 
     return {"success": True, "message": "Onboarding completed successfully"}
 
+def load_schemes() -> list:
+    if not os.path.exists(SCHEMES_DB_PATH):
+        return []
+    try:
+        with open(SCHEMES_DB_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+def save_schemes(schemes: list):
+    with open(SCHEMES_DB_PATH, "w", encoding="utf-8") as f:
+        json.dump(schemes, f, indent=4)
+
+# Pydantic models for Eligibility
+class EligibilityCheckRequest(BaseModel):
+    businessName: str
+    businessType: str
+    state: str
+    district: str
+    businessStartDate: str
+    annualTurnover: float
+    gstStatus: str
+    udyamStatus: str
+    enterpriseCategory: str
+    employeeCount: int
+    businessSector: str
+    loanRequirement: float
+    previousAssistance: str
+    socialCategory: str
+    ownerGender: str
+    area: str
+    language: Optional[str] = "english"
+
+class SchemeRulesModel(BaseModel):
+    enterprise_categories: list[str]
+    sectors: list[str]
+    max_turnover: Optional[float] = None
+    min_loan_requirement: Optional[float] = None
+    max_loan_requirement: Optional[float] = None
+    requires_udyam: bool
+    requires_gst: bool
+    owner_gender: Optional[list[str]] = None
+    owner_social_category: Optional[list[str]] = None
+
+class DocumentModel(BaseModel):
+    id: str
+    name_en: str
+    name_ta: str
+    name_hi: str
+
+class SchemeModel(BaseModel):
+    id: str
+    name_en: str
+    name_ta: str
+    name_hi: str
+    description_en: str
+    description_ta: str
+    description_hi: str
+    benefits_en: str
+    benefits_ta: str
+    benefits_hi: str
+    official_link: str
+    required_documents: list[DocumentModel]
+    rules: SchemeRulesModel
+
+# --- GOVERNMENT SCHEME ELIGIBILITY ROUTES ---
+
+@app.get("/api/eligibility/schemes")
+def get_eligibility_schemes():
+    return load_schemes()
+
+@app.get("/api/eligibility/profile")
+def get_eligibility_profile(user_info: dict = Depends(get_current_user_workspace_info)):
+    workspace_dir = user_info["workspace_dir"]
+    profile_path = os.path.join(workspace_dir, "business_profile.json")
+    if not os.path.exists(profile_path):
+        return {"success": False, "message": "No profile found"}
+    try:
+        with open(profile_path, "r", encoding="utf-8") as f:
+            profile = json.load(f)
+        return {"success": True, "profile": profile}
+    except Exception:
+        return {"success": False, "message": "Failed to load profile"}
+
+@app.post("/api/eligibility/check")
+def check_eligibility(req: EligibilityCheckRequest, user_info: dict = Depends(get_current_user_workspace_info)):
+    workspace_dir = user_info["workspace_dir"]
+    profile_path = os.path.join(workspace_dir, "business_profile.json")
+    
+    # Save business profile
+    profile = req.dict()
+    with open(profile_path, "w", encoding="utf-8") as f:
+        json.dump(profile, f, indent=4)
+        
+    # Evaluate against schemes
+    schemes = load_schemes()
+    from agents.eligibility_agent import evaluate_eligibility, generate_groq_explanation
+    
+    results = []
+    for s in schemes:
+        eval_res = evaluate_eligibility(profile, s)
+        explanation = generate_groq_explanation(profile, eval_res, s.get(f"name_{req.language}", s["name_en"]), req.language)
+        results.append({
+            "scheme_id": s["id"],
+            "name": {
+                "en": s["name_en"],
+                "ta": s["name_ta"],
+                "hi": s["name_hi"]
+            },
+            "description": {
+                "en": s["description_en"],
+                "ta": s["description_ta"],
+                "hi": s["description_hi"]
+            },
+            "benefits": {
+                "en": s["benefits_en"],
+                "ta": s["benefits_ta"],
+                "hi": s["benefits_hi"]
+            },
+            "official_link": s["official_link"],
+            "required_documents": s["required_documents"],
+            "status": eval_res["status"],
+            "matched_conditions": eval_res["matched_conditions"],
+            "missing_requirements": eval_res["missing_requirements"],
+            "explanation": explanation
+        })
+        
+    return {
+        "success": True,
+        "profile": profile,
+        "results": results
+    }
+
+@app.post("/api/eligibility/verify-document")
+async def verify_scheme_document(
+    schemeId: str = Form(...),
+    documentId: str = Form(...),
+    file: UploadFile = File(...),
+    user_info: dict = Depends(get_current_user_workspace_info)
+):
+    workspace_dir = user_info["workspace_dir"]
+    profile_path = os.path.join(workspace_dir, "business_profile.json")
+    
+    if not os.path.exists(profile_path):
+        raise HTTPException(status_code=400, detail="Please complete the Quick Eligibility Check form first.")
+        
+    try:
+        with open(profile_path, "r", encoding="utf-8") as f:
+            profile = json.load(f)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Failed to load your business profile.")
+        
+    # Save the file
+    upload_dir = os.path.join(workspace_dir, "uploads")
+    os.makedirs(upload_dir, exist_ok=True)
+    file_path = os.path.join(upload_dir, file.filename)
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+        
+    # Extract text content
+    from rag.retriever import extract_text_from_file
+    extracted_text, file_type = extract_text_from_file(file_path)
+    
+    # Send extracted text to LLM to parse structured JSON
+    prompt = (
+        f"Analyze the following OCR text extracted from a business/identity document:\n\n"
+        f"{extracted_text}\n\n"
+        "Identify the document type (e.g. Udyam Registration, GST Certificate, Aadhaar Card, Caste Certificate, Project Report, Address Proof).\n"
+        "Extract the following details if present (return null if not found):\n"
+        "1. Business Name\n"
+        "2. GSTIN\n"
+        "3. Udyam Number\n"
+        "4. State\n"
+        "5. District\n"
+        "6. Owner Name\n"
+        "7. Caste/Category (SC, ST, OBC, General)\n"
+        "8. Gender (Male, Female, Other)\n\n"
+        "Format the output strictly as a JSON object with keys: "
+        "\"document_type\", \"business_name\", \"gstin\", \"udyam_number\", \"state\", \"district\", \"owner_name\", \"caste\", \"gender\""
+    )
+    
+    import re
+    from agents.base_agent import call_llm
+    
+    extracted_data = {}
+    try:
+        system_instruction = "You are a document extraction assistant. Respond ONLY with valid JSON."
+        provider = "gemini" if config.is_gemini_available() else "groq"
+        response_text = call_llm(system_instruction, prompt, provider=provider)
+        response_text = response_text.replace("```json", "").replace("```", "").strip()
+        extracted_data = json.loads(response_text)
+    except Exception as e:
+        print(f"Error parsing document: {e}")
+        # Fallback regex parsing
+        extracted_data = {
+            "document_type": "Unknown",
+            "business_name": None,
+            "gstin": None,
+            "udyam_number": None,
+            "state": None,
+            "district": None,
+            "owner_name": None,
+            "caste": None,
+            "gender": None
+        }
+        text_lower = extracted_text.lower()
+        if "udyam" in text_lower:
+            extracted_data["document_type"] = "Udyam Registration"
+        elif "gstin" in text_lower or "goods and services" in text_lower:
+            extracted_data["document_type"] = "GST Registration"
+        elif "aadhaar" in text_lower:
+            extracted_data["document_type"] = "Aadhaar Card"
+        
+        gst_match = re.search(r"\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}", extracted_text)
+        if gst_match:
+            extracted_data["gstin"] = gst_match.group(0)
+            
+        udyam_match = re.search(r"UDYAM-[A-Z]{2}-\d{2}-\d{7}", extracted_text, re.IGNORECASE)
+        if udyam_match:
+            extracted_data["udyam_number"] = udyam_match.group(0).upper()
+            
+    # Perform verification check against profile
+    matches = []
+    mismatches = []
+    missing = []
+    
+    # 1. Document Type Check
+    doc_type = extracted_data.get("document_type", "Unknown")
+    
+    # 2. Field Comparisons
+    # Business Name Check
+    doc_biz_name = extracted_data.get("business_name")
+    prof_biz_name = profile.get("businessName")
+    if doc_biz_name and prof_biz_name:
+        if prof_biz_name.lower().replace(" ", "") in doc_biz_name.lower().replace(" ", "") or doc_biz_name.lower().replace(" ", "") in prof_biz_name.lower().replace(" ", ""):
+            matches.append({
+                "field": "Business Name",
+                "expected": prof_biz_name,
+                "found": doc_biz_name
+            })
+        else:
+            mismatches.append({
+                "field": "Business Name",
+                "expected": prof_biz_name,
+                "found": doc_biz_name,
+                "reason": "Business name on document does not match entered profile."
+            })
+            
+    # GSTIN check
+    doc_gstin = extracted_data.get("gstin")
+    prof_gst_status = profile.get("gstStatus")
+    if doc_gstin:
+        if prof_gst_status == "Registered":
+            matches.append({
+                "field": "GST Registration",
+                "expected": "Registered",
+                "found": f"GSTIN: {doc_gstin}"
+            })
+        else:
+            mismatches.append({
+                "field": "GST Registration",
+                "expected": "Not Registered",
+                "found": f"GSTIN: {doc_gstin}",
+                "reason": "Document contains a GSTIN but profile lists business as Not Registered."
+            })
+            
+    # Udyam number check
+    doc_udyam = extracted_data.get("udyam_number")
+    prof_udyam_status = profile.get("udyamStatus")
+    if doc_udyam:
+        if prof_udyam_status == "Registered":
+            matches.append({
+                "field": "Udyam/MSME Registration",
+                "expected": "Registered",
+                "found": f"Udyam No: {doc_udyam}"
+            })
+        else:
+            mismatches.append({
+                "field": "Udyam/MSME Registration",
+                "expected": "Not Registered",
+                "found": f"Udyam No: {doc_udyam}",
+                "reason": "Document contains Udyam number but profile lists business as Not Registered."
+            })
+            
+    # State check
+    doc_state = extracted_data.get("state")
+    prof_state = profile.get("state")
+    if doc_state and prof_state:
+        if prof_state.lower().replace(" ", "") in doc_state.lower().replace(" ", "") or doc_state.lower().replace(" ", "") in prof_state.lower().replace(" ", ""):
+            matches.append({
+                "field": "State",
+                "expected": prof_state,
+                "found": doc_state
+            })
+        else:
+            mismatches.append({
+                "field": "State",
+                "expected": prof_state,
+                "found": doc_state,
+                "reason": "State on document does not match business profile state."
+            })
+            
+    # Owner Name Check
+    doc_owner = extracted_data.get("owner_name")
+    prof_owner = user_info.get("fullName")
+    if doc_owner and prof_owner:
+        if prof_owner.lower().replace(" ", "") in doc_owner.lower().replace(" ", "") or doc_owner.lower().replace(" ", "") in prof_owner.lower().replace(" ", ""):
+            matches.append({
+                "field": "Owner / Applicant Name",
+                "expected": prof_owner,
+                "found": doc_owner
+            })
+        else:
+            mismatches.append({
+                "field": "Owner / Applicant Name",
+                "expected": prof_owner,
+                "found": doc_owner,
+                "reason": "Owner name on document does not match registered user name."
+            })
+            
+    # Caste Category Check
+    doc_caste = extracted_data.get("caste")
+    prof_caste = profile.get("socialCategory")
+    if doc_caste and prof_caste:
+        if prof_caste.lower() in doc_caste.lower() or doc_caste.lower() in prof_caste.lower():
+            matches.append({
+                "field": "Social Category",
+                "expected": prof_caste,
+                "found": doc_caste
+            })
+        else:
+            mismatches.append({
+                "field": "Social Category",
+                "expected": prof_caste,
+                "found": doc_caste,
+                "reason": "Caste/Category on certificate does not match entered profile."
+            })
+            
+    # Gender check
+    doc_gender = extracted_data.get("gender")
+    prof_gender = profile.get("ownerGender")
+    if doc_gender and prof_gender:
+        if prof_gender.lower() in doc_gender.lower() or doc_gender.lower() in prof_gender.lower():
+            matches.append({
+                "field": "Owner Gender",
+                "expected": prof_gender,
+                "found": doc_gender
+            })
+        else:
+            mismatches.append({
+                "field": "Owner Gender",
+                "expected": prof_gender,
+                "found": doc_gender,
+                "reason": "Gender on document does not match entered profile."
+            })
+
+    # Recalculate missing items if any
+    schemes = load_schemes()
+    selected_scheme = next((s for s in schemes if s["id"] == schemeId), None)
+    if selected_scheme:
+        rules = selected_scheme.get("rules", {})
+        if rules.get("requires_udyam") and not doc_udyam and prof_udyam_status != "Registered":
+            missing.append("Udyam Certificate Registration number was not found.")
+        if rules.get("requires_gst") and not doc_gstin and prof_gst_status != "Registered":
+            missing.append("GSTIN number was not found.")
+
+    return {
+        "success": True,
+        "document_type_detected": doc_type,
+        "extracted_data": extracted_data,
+        "matches": matches,
+        "mismatches": mismatches,
+        "missing": missing
+    }
+
+# --- ADMIN GOVERNMENT SCHEMES ROUTES ---
+
+@app.get("/api/admin/schemes")
+def admin_get_schemes(user_info: dict = Depends(get_current_user_workspace_info)):
+    return load_schemes()
+
+@app.post("/api/admin/schemes")
+def admin_add_scheme(req: SchemeModel, user_info: dict = Depends(get_current_user_workspace_info)):
+    schemes = load_schemes()
+    if any(s["id"] == req.id for s in schemes):
+        raise HTTPException(status_code=400, detail=f"Scheme with ID '{req.id}' already exists.")
+        
+    schemes.append(req.dict())
+    save_schemes(schemes)
+    return {"success": True, "message": f"Scheme '{req.name_en}' added successfully."}
+
+@app.put("/api/admin/schemes/{scheme_id}")
+def admin_update_scheme(scheme_id: str, req: SchemeModel, user_info: dict = Depends(get_current_user_workspace_info)):
+    schemes = load_schemes()
+    idx = -1
+    for i, s in enumerate(schemes):
+        if s["id"] == scheme_id:
+            idx = i
+            break
+            
+    if idx == -1:
+        raise HTTPException(status_code=404, detail="Scheme not found.")
+        
+    schemes[idx] = req.dict()
+    save_schemes(schemes)
+    return {"success": True, "message": f"Scheme '{req.name_en}' updated successfully."}
+
+@app.delete("/api/admin/schemes/{scheme_id}")
+def admin_delete_scheme(scheme_id: str, user_info: dict = Depends(get_current_user_workspace_info)):
+    schemes = load_schemes()
+    new_schemes = [s for s in schemes if s["id"] != scheme_id]
+    if len(new_schemes) == len(schemes):
+        raise HTTPException(status_code=404, detail="Scheme not found.")
+        
+    save_schemes(new_schemes)
+    return {"success": True, "message": f"Scheme deleted successfully."}
+
 # --- WORKSPACE PROTECTED COPILOT ROUTES ---
 
 @app.get("/api/finance/summary")
@@ -717,7 +1149,7 @@ def trigger_low_stock_alerts(req: AlertRequest = None, user_info: dict = Depends
             return {"success": True, "alert_sent": False, "message": "All stock levels are currently healthy. No alerts triggered."}
             
         alerts_sent = []
-        recipient = (req.custom_recipient if req else None) or (user_info["business"]["merchantWhatsapp"] if user_info["business"] else None)
+        recipient = (req.custom_recipient if req else None) or config.USER_WHATSAPP_NUMBER or (user_info["business"]["merchantWhatsapp"] if user_info["business"] else None)
         provider = req.provider if req else "gemini"
         
         for item in low_stock_items:
@@ -1217,6 +1649,7 @@ def generate_customer_campaign(req: CampaignRequest, user_info: dict = Depends(g
         discount = req.custom_offer or "10% off checkout"
         
         # Check specific customer or segment targeting
+        customer = None
         if req.customer_id:
             customer = next((c for c in insights["customers"] if c["id"] == req.customer_id), None)
             if not customer:
@@ -1237,9 +1670,9 @@ def generate_customer_campaign(req: CampaignRequest, user_info: dict = Depends(g
         result = coordinate_agents(query, context, provider=req.provider, workspace_dir=workspace_dir)
         
         # Log campaign message in the Twilio simulation database
-        target_phone = customer["phone"] if req.customer_id else "+919999999999"
+        target_phone = customer["phone"] if customer else "+919999999999"
         log_whatsapp_message(
-            from_number="AegisAI Campaign",
+            to_number=target_phone,
             body=f"Draft campaign for {target_description}:\n\n{result['response']}",
             status="Campaign Drafted",
             workspace_dir=workspace_dir
@@ -1255,6 +1688,158 @@ def generate_customer_campaign(req: CampaignRequest, user_info: dict = Depends(g
         raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate campaign: {str(e)}")
+
+@app.get("/api/strategy/profile")
+def get_strategy_profile(user_info: dict = Depends(get_current_user_workspace_info)):
+    workspace_dir = user_info["workspace_dir"]
+    profile_path = os.path.join(workspace_dir, "business_profile.json")
+    
+    if os.path.exists(profile_path):
+        try:
+            with open(profile_path, "r", encoding="utf-8") as f:
+                profile = json.load(f)
+            return {"success": True, "profile": profile}
+        except Exception:
+            pass
+            
+    biz = user_info.get("business") or {}
+    fallback_profile = {
+        "businessName": biz.get("businessName", "Small Business"),
+        "businessType": biz.get("businessCategory", "Small Business"),
+        "state": "Local",
+        "district": biz.get("businessLocation", "Region"),
+        "annualTurnover": 0.0,
+        "enterpriseCategory": "Micro",
+        "employeeCount": 0,
+        "businessSector": biz.get("businessCategory", "Retail"),
+        "loanRequirement": 0.0,
+        "previousAssistance": "No",
+        "socialCategory": "General",
+        "ownerGender": "Male",
+        "area": "Urban"
+    }
+    return {"success": True, "profile": fallback_profile}
+
+@app.post("/api/strategy/generate")
+def generate_business_strategy(req: StrategyInputsRequest, user_info: dict = Depends(get_current_user_workspace_info)):
+    workspace_dir = user_info["workspace_dir"]
+    profile_path = os.path.join(workspace_dir, "business_profile.json")
+    
+    profile = {}
+    if os.path.exists(profile_path):
+        try:
+            with open(profile_path, "r", encoding="utf-8") as f:
+                profile = json.load(f)
+        except Exception:
+            pass
+            
+    if not profile:
+        biz = user_info.get("business") or {}
+        profile = {
+            "businessName": biz.get("businessName", "Small Business"),
+            "businessType": biz.get("businessCategory", "Small Business"),
+            "businessSector": biz.get("businessCategory", "Retail"),
+            "enterpriseCategory": "Micro",
+            "state": "Local",
+            "district": biz.get("businessLocation", "Region"),
+            "annualTurnover": "Undisclosed",
+            "employeeCount": "N/A"
+        }
+    
+    try:
+        strategy_inputs = {
+            "businessType": req.businessType,
+            "targetAudience": req.targetAudience,
+            "goals": req.goals,
+            "competitors": req.competitors
+        }
+        
+        lang = req.language or user_info.get("preferredLanguage") or "english"
+        strategy_markdown = generate_strategy(profile, strategy_inputs, language=lang)
+        
+        return {
+            "success": True,
+            "strategy": strategy_markdown
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate strategy: {str(e)}")
+
+
+async def check_inventory_and_alert_loop():
+    """
+    Background loop that runs every 6 hours to check all workspaces/users'
+    inventories and send WhatsApp alerts for products below their reorder limits.
+    """
+    print("[BG LOOP] Starting background inventory checker task...")
+    await asyncio.sleep(10)  # Wait for application startup to complete
+    while True:
+        print(f"[BG LOOP] Running check at {datetime.now()}...")
+        try:
+            users = load_users()
+            print(f"[BG LOOP] Loaded {len(users)} users.")
+            for email, user_record in users.items():
+                workspace_id = user_record.get("workspace_id")
+                if not workspace_id:
+                    print(f"[BG LOOP] No workspace ID for user {email}")
+                    continue
+                workspace_dir = os.path.join(config.WORKSPACES_DIR, workspace_id)
+                if not os.path.exists(workspace_dir):
+                    print(f"[BG LOOP] Workspace directory {workspace_dir} does not exist for user {email}")
+                    continue
+                
+                print(f"[BG LOOP] Processing workspace {workspace_id} for user {email}")
+                
+                # Check onboarding to retrieve target number
+                onboarding_file = os.path.join(workspace_dir, "onboarding.json")
+                recipient = None
+                if os.path.exists(onboarding_file):
+                    try:
+                        with open(onboarding_file, "r", encoding="utf-8") as f:
+                            biz = json.load(f)
+                            recipient = biz.get("merchantWhatsapp")
+                    except Exception:
+                        pass
+                
+                # Fallback path prioritizing configured USER_WHATSAPP_NUMBER
+                recipient = config.USER_WHATSAPP_NUMBER or recipient or user_record.get("mobile")
+                print(f"[BG LOOP] Target recipient phone: {recipient}")
+                if not recipient:
+                    continue
+                
+                # Predict inventory velocity and low stock levels
+                try:
+                    depletion = predict_inventory_exhaustion(workspace_dir=workspace_dir)
+                except Exception as e:
+                    print(f"Error predicting inventory exhaustion for workspace {workspace_id}: {e}")
+                    continue
+                
+                low_stock_items = [item for item in depletion if item["Status"] == "Low Stock"]
+                print(f"[BG LOOP] Found {len(low_stock_items)} low stock items.")
+                for item in low_stock_items:
+                    alert_query = (
+                        f"Draft a short, urgent low stock WhatsApp alert notification for this product: "
+                        f"{item['ProductName']} (ID: {item['ProductID']}). "
+                        f"Current Stock: {item['CurrentStock']} units. Reorder limit: {item['ReorderLevel']}. "
+                        f"We are selling {item['DailyVelocity']} units per day, and will run out in {item['DaysRemaining']} days. "
+                        f"Supplier is {item['Supplier']}. Recommend restocking {item['ReorderRecommendation']} units."
+                    )
+                    context = f"Product details: {str(item)}"
+                    try:
+                        agent_result = coordinate_agents(alert_query, context, provider="gemini", workspace_dir=workspace_dir)
+                        alert_draft = agent_result["response"]
+                        
+                        send_whatsapp_message(alert_draft, to_number=recipient, workspace_dir=workspace_dir)
+                        print(f"Periodic low stock alert dispatched for {item['ProductName']} in workspace {workspace_id} to {recipient}")
+                    except Exception as ae:
+                        print(f"Failed to generate/send background alert: {ae}")
+        except Exception as e:
+            print(f"Error in background alert scheduler loop: {e}")
+            
+        await asyncio.sleep(21600)  # Sleep for 6 hours
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(check_inventory_and_alert_loop())
 
 # Run Uvicorn if file is executed directly
 if __name__ == "__main__":

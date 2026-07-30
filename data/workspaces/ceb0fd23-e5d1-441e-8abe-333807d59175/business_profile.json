@@ -1,0 +1,19 @@
+{
+    "businessName": "Suriya Traders",
+    "businessType": "Sole Proprietorship",
+    "state": "Tamil Nadu",
+    "district": "Coimbatore",
+    "businessStartDate": "2026-01-01",
+    "annualTurnover": 200000.0,
+    "gstStatus": "Registered",
+    "udyamStatus": "Not Registered",
+    "enterpriseCategory": "Micro",
+    "employeeCount": 5,
+    "businessSector": "Manufacturing",
+    "loanRequirement": 50000.0,
+    "previousAssistance": "No",
+    "socialCategory": "SC",
+    "ownerGender": "Male",
+    "area": "Urban",
+    "language": "english"
+}

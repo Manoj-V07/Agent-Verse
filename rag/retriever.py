@@ -54,98 +54,55 @@ def extract_text_from_file(file_path: str) -> tuple[str, str]:
 
     # 2. Images & PDFs (using Gemini multimodal OCR)
     elif ext in ['.pdf', '.png', '.jpg', '.jpeg']:
-        if api_key:
-            try:
-                genai.configure(api_key=api_key)
-                # Read file bytes
-                with open(file_path, 'rb') as f:
-                    file_data = f.read()
-                
-                mime_type = "application/pdf" if ext == ".pdf" else f"image/{ext[1:]}"
-                if mime_type == "image/jpg": mime_type = "image/jpeg"
-                
-                model = genai.GenerativeModel('gemini-1.5-flash')
-                prompt = (
-                    "You are an expert OCR and invoice-parsing assistant. Extract all text, tables, "
-                    "invoice details, vendor name, dates, item descriptions, and totals from this file. "
-                    "Format the output in a clean, human-readable structure with markdown headers."
-                )
-                
-                contents = [
-                    {"mime_type": mime_type, "data": file_data},
-                    prompt
-                ]
-                response = model.generate_content(contents)
-                return response.text, "document"
-            except Exception as e:
-                print(f"Gemini Multimodal OCR failed: {e}. Falling back to mock extraction.")
+        if not api_key:
+            raise ValueError("Gemini API key is missing. Cannot perform OCR.")
+            
+        genai.configure(api_key=api_key)
+        # Read file bytes
+        with open(file_path, 'rb') as f:
+            file_data = f.read()
         
-        # Mock/Offline Parser fallback for invoices & receipts
-        filename = os.path.basename(file_path).lower()
-        if "invoice" in filename or "receipt" in filename:
-            mock_ocr = (
-                f"--- SIMULATED OCR DATA FOR: {os.path.basename(file_path)} ---\n"
-                f"Document Type: Invoice\n"
-                f"Vendor: Sri Balaji Traders\n"
-                f"Invoice Date: 2026-06-10\n"
-                f"Due Date: 2026-06-25\n"
-                f"Invoice Number: SBT-99482\n"
-                f"Items:\n"
-                f"1. Premium Basmati Rice 5kg - Qty: 20 bags - Unit Price: Rs. 350 - Total: Rs. 7,000\n"
-                f"2. Aashirvaad Shudh Chakki Atta 5kg - Qty: 15 bags - Unit Price: Rs. 220 - Total: Rs. 3,300\n"
-                f"Subtotal: Rs. 10,300\n"
-                f"SGST (9%): Rs. 927\n"
-                f"CGST (9%): Rs. 927\n"
-                f"Grand Total: Rs. 12,154\n"
-                f"Payment Status: PENDING\n"
-                f"Payment Instructions: UPI to balaji@upi or Bank transfer."
-            )
-            return mock_ocr, "document"
-        else:
-            return f"Mock text content for document {os.path.basename(file_path)}. (Upload a file with 'invoice' in its name for detailed mock OCR data).", "document"
+        mime_type = "application/pdf" if ext == ".pdf" else f"image/{ext[1:]}"
+        if mime_type == "image/jpg": mime_type = "image/jpeg"
+        
+        model = genai.GenerativeModel('gemini-2.5-flash')
+        prompt = (
+            "You are an expert OCR and invoice-parsing assistant. Extract all text, tables, "
+            "invoice details, vendor name, dates, item descriptions, and totals from this file. "
+            "Format the output in a clean, human-readable structure with markdown headers."
+        )
+        
+        contents = [
+            {"mime_type": mime_type, "data": file_data},
+            prompt
+        ]
+        response = model.generate_content(contents)
+        return response.text, "document"
 
     # 3. Audio Voice Notes (Speech-to-Text)
     elif ext in ['.wav', '.mp3', '.m4a', '.ogg']:
-        if api_key:
-            try:
-                genai.configure(api_key=api_key)
-                with open(file_path, 'rb') as f:
-                    file_data = f.read()
-                
-                mime_type = f"audio/{ext[1:]}"
-                if ext == '.m4a': mime_type = "audio/mp4" # Gemini expects mp4 for m4a
-                
-                model = genai.GenerativeModel('gemini-1.5-flash')
-                prompt = (
-                    "Transcribe this voice note exactly. If it is in Tamil or another Indian language, "
-                    "transcribe the text in that language and also provide a translation in English."
-                )
-                
-                contents = [
-                    {"mime_type": mime_type, "data": file_data},
-                    prompt
-                ]
-                response = model.generate_content(contents)
-                return response.text, "audio"
-            except Exception as e:
-                print(f"Gemini Speech-to-Text failed: {e}. Falling back to mock transcription.")
-                
-        # Mock/Offline Audio fallbacks
-        filename = os.path.basename(file_path).lower()
-        if "tamil" in filename:
-            return (
-                "--- SIMULATED SPEECH-TO-TEXT ---\n"
-                "Voice Note Transcription (Tamil):\n"
-                "\"அடுத்த மாத விற்பனை எவ்வாறு இருக்கும் என்று கணித்து சொல்லுங்கள்.\"\n"
-                "Translation (English):\n"
-                "\"Predict and tell me how next month's sales will be.\""
-            ), "audio"
-        else:
-            return (
-                "--- SIMULATED SPEECH-TO-TEXT ---\n"
-                "Voice Note Transcription (English):\n"
-                "\"How is our stock level for Sunflower Oil? Do we need to restock?\""
-            ), "audio"
+        if not api_key:
+            raise ValueError("Gemini API key is missing. Cannot transcribe audio.")
+            
+        genai.configure(api_key=api_key)
+        with open(file_path, 'rb') as f:
+            file_data = f.read()
+        
+        mime_type = f"audio/{ext[1:]}"
+        if ext == '.m4a': mime_type = "audio/mp4" # Gemini expects mp4 for m4a
+        
+        model = genai.GenerativeModel('gemini-2.5-flash')
+        prompt = (
+            "Transcribe this voice note exactly. If it is in Tamil or another Indian language, "
+            "transcribe the text in that language and also provide a translation in English."
+        )
+        
+        contents = [
+            {"mime_type": mime_type, "data": file_data},
+            prompt
+        ]
+        response = model.generate_content(contents)
+        return response.text, "audio"
             
     # Default text/unsupported files
     try:

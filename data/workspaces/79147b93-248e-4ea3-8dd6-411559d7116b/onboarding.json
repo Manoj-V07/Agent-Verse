@@ -1,0 +1,10 @@
+{
+    "businessName": "Suriya Traders",
+    "businessCategory": "Grocery",
+    "businessLocation": "Chennai, Tamilnadu",
+    "currency": "\u20b9",
+    "merchantWhatsapp": "7010092013",
+    "enableInventory": true,
+    "enableWhatsapp": true,
+    "startFresh": true
+}
