@@ -311,15 +311,7 @@ def coordinate_agents(query: str, context: str, provider: str = "gemini", worksp
     elif agent == "CUSTOMER":
         db_context = get_customer_db_context(workspace_dir)
         combined_context = f"{db_context}\n\n---\n\n{context}"
-        try:
-            response = run_customer_agent(query, combined_context, provider=provider)
-            # If the LLM returns empty or offline fallback is triggered
-            if not response or "offline" in response.lower() or "local data-driven fallback" in response.lower():
-                from agents.customer_agent import fallback_customer_agent
-                response = fallback_customer_agent(query, workspace_dir)
-        except Exception:
-            from agents.customer_agent import fallback_customer_agent
-            response = fallback_customer_agent(query, workspace_dir)
+        response = run_customer_agent(query, combined_context, provider=provider)
     else:
         # General/Coordinator direct response - include basic general DB states
         db_context = f"{get_inventory_db_context(workspace_dir)}\n\n{get_finance_db_context(workspace_dir)}\n\n{get_supplier_db_context(workspace_dir)}\n\n{get_customer_db_context(workspace_dir)}"

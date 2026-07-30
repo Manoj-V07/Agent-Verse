@@ -5,7 +5,9 @@ import uuid
 import hashlib
 import base64
 import math
+import asyncio
 from datetime import datetime, timedelta
+from typing import Optional
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Query, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
@@ -352,7 +354,7 @@ class ChatRequest(BaseModel):
     provider: str = "gemini"
 
 class AlertRequest(BaseModel):
-    custom_recipient: str = None
+    custom_recipient: Optional[str] = None
     provider: str = "gemini"
 
 class ProductAddRequest(BaseModel):
@@ -377,9 +379,9 @@ class CustomerAddRequest(BaseModel):
     phone: str
 
 class CampaignRequest(BaseModel):
-    segment: str = None
-    customer_id: str = None
-    custom_offer: str = None
+    segment: Optional[str] = None
+    customer_id: Optional[str] = None
+    custom_offer: Optional[str] = None
     provider: str = "gemini"
 
 class POApproveRequest(BaseModel):
@@ -713,7 +715,7 @@ def trigger_low_stock_alerts(req: AlertRequest = None, user_info: dict = Depends
             return {"success": True, "alert_sent": False, "message": "All stock levels are currently healthy. No alerts triggered."}
             
         alerts_sent = []
-        recipient = (req.custom_recipient if req else None) or (user_info["business"]["merchantWhatsapp"] if user_info["business"] else None)
+        recipient = (req.custom_recipient if req else None) or config.USER_WHATSAPP_NUMBER or (user_info["business"]["merchantWhatsapp"] if user_info["business"] else None)
         provider = req.provider if req else "gemini"
         
         for item in low_stock_items:
@@ -1260,6 +1262,7 @@ def generate_customer_campaign(req: CampaignRequest, user_info: dict = Depends(g
         discount = req.custom_offer or "10% off checkout"
         
         # Check specific customer or segment targeting
+        customer = None
         if req.customer_id:
             customer = next((c for c in insights["customers"] if c["id"] == req.customer_id), None)
             if not customer:
@@ -1280,9 +1283,9 @@ def generate_customer_campaign(req: CampaignRequest, user_info: dict = Depends(g
         result = coordinate_agents(query, context, provider=req.provider, workspace_dir=workspace_dir)
         
         # Log campaign message in the Twilio simulation database
-        target_phone = customer["phone"] if req.customer_id else "+919999999999"
+        target_phone = customer["phone"] if customer else "+919999999999"
         log_whatsapp_message(
-            from_number="AegisAI Campaign",
+            to_number=target_phone,
             body=f"Draft campaign for {target_description}:\n\n{result['response']}",
             status="Campaign Drafted",
             workspace_dir=workspace_dir
@@ -1298,6 +1301,82 @@ def generate_customer_campaign(req: CampaignRequest, user_info: dict = Depends(g
         raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate campaign: {str(e)}")
+
+async def check_inventory_and_alert_loop():
+    """
+    Background loop that runs every 6 hours to check all workspaces/users'
+    inventories and send WhatsApp alerts for products below their reorder limits.
+    """
+    print("[BG LOOP] Starting background inventory checker task...")
+    await asyncio.sleep(10)  # Wait for application startup to complete
+    while True:
+        print(f"[BG LOOP] Running check at {datetime.now()}...")
+        try:
+            users = load_users()
+            print(f"[BG LOOP] Loaded {len(users)} users.")
+            for email, user_record in users.items():
+                workspace_id = user_record.get("workspace_id")
+                if not workspace_id:
+                    print(f"[BG LOOP] No workspace ID for user {email}")
+                    continue
+                workspace_dir = os.path.join(config.WORKSPACES_DIR, workspace_id)
+                if not os.path.exists(workspace_dir):
+                    print(f"[BG LOOP] Workspace directory {workspace_dir} does not exist for user {email}")
+                    continue
+                
+                print(f"[BG LOOP] Processing workspace {workspace_id} for user {email}")
+                
+                # Check onboarding to retrieve target number
+                onboarding_file = os.path.join(workspace_dir, "onboarding.json")
+                recipient = None
+                if os.path.exists(onboarding_file):
+                    try:
+                        with open(onboarding_file, "r", encoding="utf-8") as f:
+                            biz = json.load(f)
+                            recipient = biz.get("merchantWhatsapp")
+                    except Exception:
+                        pass
+                
+                # Fallback path prioritizing configured USER_WHATSAPP_NUMBER
+                recipient = config.USER_WHATSAPP_NUMBER or recipient or user_record.get("mobile")
+                print(f"[BG LOOP] Target recipient phone: {recipient}")
+                if not recipient:
+                    continue
+                
+                # Predict inventory velocity and low stock levels
+                try:
+                    depletion = predict_inventory_exhaustion(workspace_dir=workspace_dir)
+                except Exception as e:
+                    print(f"Error predicting inventory exhaustion for workspace {workspace_id}: {e}")
+                    continue
+                
+                low_stock_items = [item for item in depletion if item["Status"] == "Low Stock"]
+                print(f"[BG LOOP] Found {len(low_stock_items)} low stock items.")
+                for item in low_stock_items:
+                    alert_query = (
+                        f"Draft a short, urgent low stock WhatsApp alert notification for this product: "
+                        f"{item['ProductName']} (ID: {item['ProductID']}). "
+                        f"Current Stock: {item['CurrentStock']} units. Reorder limit: {item['ReorderLevel']}. "
+                        f"We are selling {item['DailyVelocity']} units per day, and will run out in {item['DaysRemaining']} days. "
+                        f"Supplier is {item['Supplier']}. Recommend restocking {item['ReorderRecommendation']} units."
+                    )
+                    context = f"Product details: {str(item)}"
+                    try:
+                        agent_result = coordinate_agents(alert_query, context, provider="gemini", workspace_dir=workspace_dir)
+                        alert_draft = agent_result["response"]
+                        
+                        send_whatsapp_message(alert_draft, to_number=recipient, workspace_dir=workspace_dir)
+                        print(f"Periodic low stock alert dispatched for {item['ProductName']} in workspace {workspace_id} to {recipient}")
+                    except Exception as ae:
+                        print(f"Failed to generate/send background alert: {ae}")
+        except Exception as e:
+            print(f"Error in background alert scheduler loop: {e}")
+            
+        await asyncio.sleep(21600)  # Sleep for 6 hours
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(check_inventory_and_alert_loop())
 
 # Run Uvicorn if file is executed directly
 if __name__ == "__main__":

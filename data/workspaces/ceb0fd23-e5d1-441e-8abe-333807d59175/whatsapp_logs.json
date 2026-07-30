@@ -4,5 +4,29 @@
         "to": "+919876543211",
         "body": "Draft PO order text generated for Sri Balaji Traders: \n\ud83d\udd14 *Draft Message:*\n\nDear Owner,\n\nHere is the information you requested regarding: RAG Data Context:\nActive Live Inventory Database (includes Stock Levels, safety limits, daily velocities, and suppliers):\n- ProductID: P101 | Name: Premium Basmati Rice | Category: Grains | CurrentStock: 5 units | ReorderLevel (Safety Limit): 15 units | Daily Sales Velocity: 0.6 units/day | DaysRemaining: 8.3 days | Status: Low Stock | Recommended Restock: 30 units | Supplier: Sri Balaji Traders\n\nActive Live Financial Ledger (from transactions.csv):\n- Total Revenue (Sales): Rs. 7,560.00\n- Total Expenses: Rs. 0.00\n- Net Profit Margin: Rs. 7,560.00\n- Sales Payment Methods Split: UPI: Rs. 7,560.00\n- Sales by Category: Grains: Rs. 7,560.00\n- Top Expense Spikes (Recent Restocks/Bills):\n\n\n---\n\nSupplier Contact Details: {'id': 'S101', 'name': 'Sri Balaji Traders', 'phone': '+919876543211', 'email': 'balaji@traders.com', 'reliability': 95, 'payment_terms': 'Net 15', 'catalog': [{'product_id': 'P101', 'unit_price': 350.0, 'min_order_qty': 10, 'lead_time_days': 3}, {'product_id': 'P104', 'unit_price': 220.0, 'min_order_qty': 15, 'lead_time_days': 4}]}\n\nUser Question: Draft a professional WhatsApp purchase order message to Sri Balaji Traders. We want to order 28 units of Premium Basmati Rice at Rs. 350.0 each. Total amount is Rs. 9800.0. Delivery requested by 2026-08-01. Our business is Alice Wholesale.",
         "status": "Draft Prepared"
+    },
+    {
+        "timestamp": "2026-07-30 10:25:01",
+        "to": "+919999999999",
+        "body": "```\n\u26a0\ufe0f **Urgent Low Stock Alert!** \u26a0\ufe0f\n\n**Maggi (P107)** stock is critically low.\n\ud83d\udcca Current Stock: **10 units** (Reorder Limit: 12 units)\n\ud83d\udcc9 Selling **0.23 units/day**, will run out in **42.9 days**.\n\n\ud83d\udd14 **Action Needed:** Restock **15 units** from **Tirupur Distributors** ASAP!\n```",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 10:33:30",
+        "to": "+917010092013",
+        "body": "```\n\u26a0\ufe0f **Urgent Low Stock Alert!** \u26a0\ufe0f\n\n**Maggi (P107)** is critically low.\n\ud83d\udcca Current Stock: **10 units** (Reorder Limit: 12 units)\n\ud83d\udcc9 Selling **0.23 units/day**, stock will last only **42.9 days**.\n\n\ud83d\udd14 **Action Needed:** Restock **15 units** from **Tirupur Distributors** ASAP!\n```",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 13:12:11",
+        "to": "+917010092013",
+        "body": "```\n\u26a0\ufe0f **URGENT: Low Stock Alert!** \u26a0\ufe0f\n\n**Maggi (P107)** stock is critically low!\n\ud83d\udcca Current Stock: **10 units** (Reorder Limit: 12 units)\n\ud83d\udcc9 Selling **0.23 units/day**, will run out in **42.9 days**.\n\n\ud83d\udd14 **Action Needed:** Restock **15 units** from **Tirupur Distributors** ASAP!\n```",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 14:07:13",
+        "to": "+917010092013",
+        "body": "```\n\u26a0\ufe0f **Urgent Low Stock Alert!** \u26a0\ufe0f\n\n**Maggi (P107)** is critically low.\n*   **Current Stock:** 10 units\n*   **Reorder Limit:** 12 units\n*   **Days Remaining:** ~42 days\n*   **Supplier:** Tirupur Distributors\n\nPlease restock **15 units** immediately to avoid running out!\n```",
+        "status": "Sent via Twilio"
     }
 ]

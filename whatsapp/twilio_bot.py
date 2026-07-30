@@ -60,59 +60,44 @@ def clear_whatsapp_logs(workspace_dir: str = None):
 
 def send_whatsapp_message(body: str, to_number: str = None, workspace_dir: str = None) -> dict:
     """
-    Sends a WhatsApp message using Twilio if credentials exist,
-    otherwise records it as a SIMULATED alert.
+    Sends a WhatsApp message using Twilio.
+    Does NOT fall back to simulation if credentials exist or fail.
     """
-    # Fallback to configured default recipient if none provided
-    target_number = to_number or config.USER_WHATSAPP_NUMBER or "+919876543210"
+    target_number = to_number or config.USER_WHATSAPP_NUMBER
+    if not target_number:
+        raise ValueError("Recipient WhatsApp number is missing.")
+        
+    # Clean and check whatsapp: prefix
+    is_whatsapp_prefixed = target_number.startswith("whatsapp:")
+    phone_part = target_number[9:] if is_whatsapp_prefixed else target_number
     
-    # Format target with "whatsapp:" prefix for Twilio compatibility
-    if not target_number.startswith("whatsapp:"):
-        formatted_to = f"whatsapp:{target_number}"
-    else:
-        formatted_to = target_number
+    # Prepend default country code if not starting with '+'
+    if not phone_part.startswith("+"):
+        default_code = getattr(config, "WHATSAPP_DEFAULT_COUNTRY_CODE", "+91")
+        phone_part = phone_part.lstrip("0")
+        phone_part = f"{default_code}{phone_part}"
+        
+    formatted_to = f"whatsapp:{phone_part}"
 
     sid = config.TWILIO_ACCOUNT_SID
     token = config.TWILIO_AUTH_TOKEN
     from_number = config.TWILIO_WHATSAPP_NUMBER
     
-    # Check if credentials are set
-    if sid and token and from_number:
-        try:
-            from twilio.rest import Client
-            client = Client(sid, token)
-            message = client.messages.create(
-                body=body,
-                from_=from_number,
-                to=formatted_to
-            )
-            log_whatsapp_message(formatted_to, body, "Sent via Twilio", workspace_dir)
-            return {
-                "success": True,
-                "status": "sent",
-                "message_sid": message.sid,
-                "body": body,
-                "to": formatted_to
-            }
-        except Exception as e:
-            error_msg = f"Twilio API Error: {str(e)}"
-            print(error_msg)
-            # Log as failed but fallback to simulation
-            log_whatsapp_message(formatted_to, f"{body}\n\n[Twilio Error: {str(e)}]", "Simulated (Twilio Failed)", workspace_dir)
-            return {
-                "success": False,
-                "status": "failed_fallback_simulated",
-                "error": error_msg,
-                "body": body,
-                "to": formatted_to
-            }
-    else:
-        # Simulated mode (no Twilio credentials)
-        log_whatsapp_message(formatted_to, body, "Simulated (Sandbox Mode)", workspace_dir)
-        return {
-            "success": True,
-            "status": "simulated",
-            "message_sid": f"SM_MOCK_{int(datetime.now().timestamp())}",
-            "body": body,
-            "to": formatted_to
-        }
+    if not (sid and token and from_number):
+        raise ValueError("Twilio credentials (ACCOUNT_SID, AUTH_TOKEN, WHATSAPP_NUMBER) are missing/incomplete in config.")
+        
+    from twilio.rest import Client
+    client = Client(sid, token)
+    message = client.messages.create(
+        body=body,
+        from_=from_number,
+        to=formatted_to
+    )
+    log_whatsapp_message(formatted_to, body, "Sent via Twilio", workspace_dir)
+    return {
+        "success": True,
+        "status": "sent",
+        "message_sid": message.sid,
+        "body": body,
+        "to": formatted_to
+    }

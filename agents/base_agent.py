@@ -34,53 +34,25 @@ def call_groq_llm(system_instruction: str, prompt: str, temperature: float = 0.2
 def call_llm(system_instruction: str, prompt: str, temperature: float = 0.2, provider: str = "gemini") -> str:
     """
     Invokes Gemini or Groq API with a system instruction and user prompt.
-    Falls back to the other provider if the primary one fails.
-    Falls back to data-driven local rules if both fail or are unconfigured.
+    Does NOT fall back to alternative providers or mock/offline agents on failure.
     """
     provider = (provider or "gemini").lower()
     
     if provider == "groq":
-        # Try Groq first
-        try:
-            return call_groq_llm(system_instruction, prompt, temperature)
-        except Exception as e:
-            print(f"Groq API call failed: {e}. Trying Gemini fallback...")
-            # Fallback to Gemini
-            try:
-                gemini_key = config.get_gemini_key()
-                if gemini_key:
-                    genai.configure(api_key=gemini_key)
-                    model = genai.GenerativeModel(
-                        model_name="gemini-1.5-flash",
-                        system_instruction=system_instruction,
-                        generation_config={"temperature": temperature}
-                    )
-                    response = model.generate_content(prompt)
-                    return response.text
-            except Exception as ge:
-                print(f"Gemini fallback failed: {ge}. Running local fallback...")
+        return call_groq_llm(system_instruction, prompt, temperature)
     else:
-        # Try Gemini first
-        try:
-            gemini_key = config.get_gemini_key()
-            if gemini_key:
-                genai.configure(api_key=gemini_key)
-                model = genai.GenerativeModel(
-                    model_name="gemini-1.5-flash",
-                    system_instruction=system_instruction,
-                    generation_config={"temperature": temperature}
-                )
-                response = model.generate_content(prompt)
-                return response.text
-        except Exception as e:
-            print(f"Gemini API call failed: {e}. Trying Groq fallback...")
-            # Fallback to Groq
-            try:
-                return call_groq_llm(system_instruction, prompt, temperature)
-            except Exception as gre:
-                print(f"Groq fallback failed: {gre}. Running local fallback...")
-                
-    return fallback_local_agent(system_instruction, prompt)
+        gemini_key = config.get_gemini_key()
+        if not gemini_key:
+            raise ValueError("Gemini API key is empty.")
+        genai.configure(api_key=gemini_key)
+        model = genai.GenerativeModel(
+            model_name="gemini-2.5-flash",
+            system_instruction=system_instruction,
+            generation_config={"temperature": temperature}
+        )
+        response = model.generate_content(prompt)
+        return response.text
+
 
 def fallback_local_agent(system_instruction: str, prompt: str) -> str:
     """

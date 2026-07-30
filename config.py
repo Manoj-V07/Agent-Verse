@@ -22,6 +22,7 @@ TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID", "")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN", "")
 TWILIO_WHATSAPP_NUMBER = os.getenv("TWILIO_WHATSAPP_NUMBER", "whatsapp:+14155238886") # Default sandbox number
 USER_WHATSAPP_NUMBER = os.getenv("USER_WHATSAPP_NUMBER", "") # The SME owner's phone
+WHATSAPP_DEFAULT_COUNTRY_CODE = os.getenv("WHATSAPP_DEFAULT_COUNTRY_CODE", "+91")
 
 def is_gemini_available():
     """Checks if a Gemini API key is configured."""

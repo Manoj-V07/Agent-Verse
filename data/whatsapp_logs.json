@@ -136,5 +136,29 @@
         "to": "+919876543210",
         "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
         "status": "Simulated (Sandbox Mode)"
+    },
+    {
+        "timestamp": "2026-07-30 09:23:33",
+        "to": "+917010092013",
+        "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 09:24:37",
+        "to": "+917010092013",
+        "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 10:17:50",
+        "to": "+917010092013",
+        "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
+        "status": "Sent via Twilio"
+    },
+    {
+        "timestamp": "2026-07-30 10:24:03",
+        "to": "+917010092013",
+        "body": "SYSTEM TEST: Low stock for Sunflower Oil.",
+        "status": "Sent via Twilio"
     }
 ]
