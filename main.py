@@ -12,6 +12,7 @@ from fastapi.responses import Response
 from pydantic import BaseModel
 import config
 import pandas as pd
+from database import db
 from rag.retriever import index_file, retrieve_context
 from agents.coordinator import coordinate_agents
 from forecasting.predictor import forecast_sales, predict_inventory_exhaustion
@@ -30,11 +31,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Database Paths
-USERS_DB_PATH = os.path.join(config.DATA_DIR, "users.json")
-SESSIONS_DB_PATH = os.path.join(config.DATA_DIR, "sessions.json")
+# Global exception handler — catches ANY unhandled error (including DB failures)
+# and returns a JSON 500/503 response that STILL includes CORS headers
+from fastapi import Request
+from fastapi.responses import JSONResponse
 
-# Hashing & Salt functions
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=503,
+        content={"detail": str(exc)},
+        headers={"Access-Control-Allow-Origin": "*"},
+    )
+
+# ---------------------------------------------------------------------------
+# Password hashing helpers
+# ---------------------------------------------------------------------------
+
 def hash_password(password: str, salt: str = None) -> tuple[str, str]:
     if salt is None:
         salt = os.urandom(16).hex()
@@ -46,32 +59,30 @@ def hash_password(password: str, salt: str = None) -> tuple[str, str]:
     ).hex()
     return pwd_hash, salt
 
-# DB Helper functions
-def load_users() -> dict:
-    if not os.path.exists(USERS_DB_PATH):
-        return {}
-    try:
-        with open(USERS_DB_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {}
+# ---------------------------------------------------------------------------
+# MongoDB DB helper functions
+# ---------------------------------------------------------------------------
 
-def save_users(users: dict):
-    with open(USERS_DB_PATH, "w", encoding="utf-8") as f:
-        json.dump(users, f, indent=4)
+def get_user_by_email(email: str) -> dict | None:
+    """Fetch a user document by email from MongoDB."""
+    return db.users.find_one({"email": email}, {"_id": 0})
 
-def load_sessions() -> dict:
-    if not os.path.exists(SESSIONS_DB_PATH):
-        return {}
-    try:
-        with open(SESSIONS_DB_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {}
+def save_user(user_doc: dict):
+    """Upsert a user document in MongoDB."""
+    db.users.replace_one({"email": user_doc["email"]}, user_doc, upsert=True)
 
-def save_sessions(sessions: dict):
-    with open(SESSIONS_DB_PATH, "w", encoding="utf-8") as f:
-        json.dump(sessions, f, indent=4)
+def get_email_by_token(token: str) -> str | None:
+    """Look up which email owns a session token."""
+    rec = db.sessions.find_one({"token": token}, {"_id": 0})
+    return rec["email"] if rec else None
+
+def create_session(token: str, email: str):
+    """Store a session token → email mapping in MongoDB."""
+    db.sessions.replace_one({"token": token}, {"token": token, "email": email}, upsert=True)
+
+def delete_session(token: str):
+    """Remove a session token from MongoDB."""
+    db.sessions.delete_one({"token": token})
 
 # Data Importers & Mappers
 def parse_uploaded_file(file: UploadFile) -> pd.DataFrame:
@@ -146,19 +157,12 @@ def initialize_empty_workspace(workspace_dir: str):
 
 # --- SUPPLIER & PROCUREMENT HELPERS ---
 
-def initialize_default_suppliers(workspace_dir: str):
-    suppliers_path = os.path.join(workspace_dir, "suppliers.json")
-    po_path = os.path.join(workspace_dir, "purchase_orders.json")
-    
-    # Initialize empty POs
-    if not os.path.exists(po_path):
-        with open(po_path, "w", encoding="utf-8") as f:
-            json.dump([], f)
-            
-    # Default suppliers database
-    if not os.path.exists(suppliers_path):
+def initialize_default_suppliers(workspace_id: str):
+    """Seed default suppliers in MongoDB if none exist for this workspace."""
+    if db.suppliers.count_documents({"workspace_id": workspace_id}) == 0:
         default_sups = [
             {
+                "workspace_id": workspace_id,
                 "id": "S101",
                 "name": "Sri Balaji Traders",
                 "phone": "+919876543211",
@@ -171,6 +175,7 @@ def initialize_default_suppliers(workspace_dir: str):
                 ]
             },
             {
+                "workspace_id": workspace_id,
                 "id": "S102",
                 "name": "Vignesh Wholesalers",
                 "phone": "+919876543212",
@@ -184,6 +189,7 @@ def initialize_default_suppliers(workspace_dir: str):
                 ]
             },
             {
+                "workspace_id": workspace_id,
                 "id": "S103",
                 "name": "Tirupur Distributors",
                 "phone": "+919876543213",
@@ -197,6 +203,7 @@ def initialize_default_suppliers(workspace_dir: str):
                 ]
             },
             {
+                "workspace_id": workspace_id,
                 "id": "S104",
                 "name": "Raja Pulses",
                 "phone": "+919876543214",
@@ -208,33 +215,27 @@ def initialize_default_suppliers(workspace_dir: str):
                 ]
             }
         ]
-        with open(suppliers_path, "w", encoding="utf-8") as f:
-            json.dump(default_sups, f, indent=4)
+        db.suppliers.insert_many(default_sups)
 
-def sync_product_with_supplier(workspace_dir: str, product_id: str, unit_price: float, supplier_name: str):
+def sync_product_with_supplier(workspace_id: str, product_id: str, unit_price: float, supplier_name: str):
+    """Upsert a product entry in a supplier's catalog within MongoDB."""
     if not supplier_name or not isinstance(supplier_name, str) or supplier_name.strip() == "" or supplier_name == "Unknown":
         return
-        
-    suppliers_path = os.path.join(workspace_dir, "suppliers.json")
-    if not os.path.exists(suppliers_path):
-        initialize_default_suppliers(workspace_dir)
-        
-    try:
-        with open(suppliers_path, "r", encoding="utf-8") as f:
-            suppliers = json.load(f)
-    except Exception:
-        suppliers = []
-        
-    target_sup = None
-    for s in suppliers:
-        if s["name"].lower() == supplier_name.lower():
-            target_sup = s
-            break
-            
+
+    initialize_default_suppliers(workspace_id)
+
+    # Try to find existing supplier
+    target_sup = db.suppliers.find_one(
+        {"workspace_id": workspace_id, "name": {"$regex": f"^{supplier_name}$", "$options": "i"}},
+        {"_id": 0}
+    )
+
     if not target_sup:
-        sup_id = f"S{100 + len(suppliers) + 1}"
-        phone = f"+9198765{10000 + len(suppliers)}"
+        count = db.suppliers.count_documents({"workspace_id": workspace_id})
+        sup_id = f"S{100 + count + 1}"
+        phone = f"+9198765{10000 + count}"
         target_sup = {
+            "workspace_id": workspace_id,
             "id": sup_id,
             "name": supplier_name,
             "phone": phone,
@@ -243,17 +244,21 @@ def sync_product_with_supplier(workspace_dir: str, product_id: str, unit_price: 
             "payment_terms": "COD",
             "catalog": []
         }
-        suppliers.append(target_sup)
-        
-    # Verify product catalog entry
-    catalog = target_sup["catalog"]
+        db.suppliers.insert_one(target_sup)
+        # Reload without _id
+        target_sup = db.suppliers.find_one(
+            {"workspace_id": workspace_id, "id": sup_id}, {"_id": 0}
+        )
+
+    # Update catalog entry
+    catalog = target_sup.get("catalog", [])
     product_in_catalog = False
     for item in catalog:
         if item["product_id"] == product_id:
             item["unit_price"] = unit_price
             product_in_catalog = True
             break
-            
+
     if not product_in_catalog:
         catalog.append({
             "product_id": product_id,
@@ -261,52 +266,53 @@ def sync_product_with_supplier(workspace_dir: str, product_id: str, unit_price: 
             "min_order_qty": 10,
             "lead_time_days": 3
         })
-        
-    with open(suppliers_path, "w", encoding="utf-8") as f:
-        json.dump(suppliers, f, indent=4)
 
+    db.suppliers.update_one(
+        {"workspace_id": workspace_id, "id": target_sup["id"]},
+        {"$set": {"catalog": catalog}}
+    )
+
+# ---------------------------------------------------------------------------
 # Security Dependency
+# ---------------------------------------------------------------------------
+
 def get_current_user_workspace_info(authorization: str = Header(None)) -> dict:
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Unauthorized - Missing or invalid token format")
     token = authorization.split(" ")[1]
-    
-    sessions = load_sessions()
-    email = sessions.get(token)
+
+    # Resolve session token → email via MongoDB
+    email = get_email_by_token(token)
     if not email:
         raise HTTPException(status_code=401, detail="Session expired")
-        
-    users = load_users()
-    user_record = users.get(email)
+
+    # Fetch user from MongoDB
+    user_record = get_user_by_email(email)
     if not user_record:
         raise HTTPException(status_code=401, detail="User not found")
-        
+
     workspace_id = user_record.get("workspace_id")
     if not workspace_id:
         workspace_id = str(uuid.uuid4())
         user_record["workspace_id"] = workspace_id
-        save_users(users)
-        
+        save_user(user_record)
+
     workspace_dir = os.path.join(config.WORKSPACES_DIR, workspace_id)
     os.makedirs(workspace_dir, exist_ok=True)
-    
-    # Check databases exist
-    initialize_default_suppliers(workspace_dir)
+
+    # Ensure default suppliers exist in MongoDB for this workspace
+    initialize_default_suppliers(workspace_id)
     initialize_customers_and_transactions(workspace_dir)
-    
-    # Read onboarding status and details
-    onboarding_file = os.path.join(workspace_dir, "onboarding.json")
+
+    # Read onboarding from MongoDB
+    onb_doc = db.onboarding.find_one({"workspace_id": workspace_id}, {"_id": 0})
     business_details = None
     is_onboarded = False
-    if os.path.exists(onboarding_file):
-        try:
-            with open(onboarding_file, "r", encoding="utf-8") as f:
-                business_details = json.load(f)
-                is_onboarded = True
-        except Exception:
-            pass
-            
-    # Read logo base64 if present
+    if onb_doc:
+        business_details = {k: v for k, v in onb_doc.items() if k != "workspace_id"}
+        is_onboarded = True
+
+    # Read logo base64 if present (still stored on disk)
     logo_base64 = None
     for ext in ['.png', '.jpg', '.jpeg', '.svg']:
         logo_path = os.path.join(workspace_dir, f"logo{ext}")
@@ -321,7 +327,7 @@ def get_current_user_workspace_info(authorization: str = Header(None)) -> dict:
                 break
             except Exception:
                 pass
-            
+
     return {
         "email": email,
         "fullName": user_record.get("full_name"),
@@ -400,14 +406,15 @@ def read_root():
 @app.post("/api/auth/signup")
 def signup(req: SignupRequest):
     email_clean = req.email.strip().lower()
-    users = load_users()
-    if email_clean in users:
+
+    # Check duplicate via MongoDB
+    if get_user_by_email(email_clean):
         raise HTTPException(status_code=400, detail="User with this email already exists")
-        
+
     pwd_hash, salt = hash_password(req.password)
     workspace_id = str(uuid.uuid4())
-    
-    users[email_clean] = {
+
+    user_doc = {
         "full_name": req.fullName,
         "email": email_clean,
         "mobile": req.mobile,
@@ -417,39 +424,36 @@ def signup(req: SignupRequest):
         "workspace_id": workspace_id,
         "created_at": datetime.now().isoformat()
     }
-    save_users(users)
-    
-    # Initialize workspace folder
+    save_user(user_doc)
+
+    # Initialize workspace folder & default suppliers in MongoDB
     workspace_dir = os.path.join(config.WORKSPACES_DIR, workspace_id)
     os.makedirs(workspace_dir, exist_ok=True)
-    initialize_default_suppliers(workspace_dir)
-    
+    initialize_default_suppliers(workspace_id)
+
     return {"success": True, "message": "User registered successfully"}
 
 @app.post("/api/auth/login")
 def login(req: LoginRequest):
     email_clean = req.email.strip().lower()
-    users = load_users()
-    user_record = users.get(email_clean)
+
+    # Fetch user from MongoDB
+    user_record = get_user_by_email(email_clean)
     if not user_record:
         raise HTTPException(status_code=400, detail="Invalid email or password")
-        
+
     pwd_hash, _ = hash_password(req.password, user_record["salt"])
     if pwd_hash != user_record["password_hash"]:
         raise HTTPException(status_code=400, detail="Invalid email or password")
-        
-    # Generate session token
+
+    # Generate session token and store in MongoDB
     token = str(uuid.uuid4())
-    sessions = load_sessions()
-    sessions[token] = email_clean
-    save_sessions(sessions)
-    
-    # Check onboarding status
+    create_session(token, email_clean)
+
+    # Check onboarding status via MongoDB
     workspace_id = user_record["workspace_id"]
-    workspace_dir = os.path.join(config.WORKSPACES_DIR, workspace_id)
-    onboarding_file = os.path.join(workspace_dir, "onboarding.json")
-    is_onboarded = os.path.exists(onboarding_file)
-    
+    is_onboarded = db.onboarding.find_one({"workspace_id": workspace_id}) is not None
+
     return {
         "success": True,
         "token": token,
@@ -495,24 +499,23 @@ async def onboard(
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Unauthorized")
     token = authorization.split(" ")[1]
-    
-    sessions = load_sessions()
-    email = sessions.get(token)
+
+    # Resolve session via MongoDB
+    email = get_email_by_token(token)
     if not email:
         raise HTTPException(status_code=401, detail="Session expired")
-        
-    users = load_users()
-    user_record = users.get(email)
+
+    user_record = get_user_by_email(email)
     if not user_record:
         raise HTTPException(status_code=401, detail="User not found")
-        
+
     workspace_id = user_record.get("workspace_id")
     workspace_dir = os.path.join(config.WORKSPACES_DIR, workspace_id)
     os.makedirs(workspace_dir, exist_ok=True)
-    
-    initialize_default_suppliers(workspace_dir)
-    
-    # Save optional logo
+
+    initialize_default_suppliers(workspace_id)
+
+    # Save optional logo (still on disk — binary blobs stay local)
     if businessLogo and businessLogo.filename:
         logo_ext = os.path.splitext(businessLogo.filename)[1].lower()
         if logo_ext in ['.png', '.jpg', '.jpeg', '.svg']:
@@ -523,9 +526,10 @@ async def onboard(
                     os.remove(prev_logo)
             with open(logo_path, "wb") as buffer:
                 shutil.copyfileobj(businessLogo.file, buffer)
-                
-    # Save onboarding config
+
+    # Save onboarding config to MongoDB
     onboarding_data = {
+        "workspace_id": workspace_id,
         "businessName": businessName,
         "businessCategory": businessCategory,
         "businessLocation": businessLocation,
@@ -535,11 +539,11 @@ async def onboard(
         "enableWhatsapp": enableWhatsapp == "true",
         "startFresh": startFresh == "true"
     }
-    
-    with open(os.path.join(workspace_dir, "onboarding.json"), "w", encoding="utf-8") as f:
-        json.dump(onboarding_data, f, indent=4)
-        
-    # Set up databases
+    db.onboarding.replace_one(
+        {"workspace_id": workspace_id}, onboarding_data, upsert=True
+    )
+
+    # Set up CSV workspace files (still used by pandas analytics)
     if startFresh == "true":
         initialize_empty_workspace(workspace_dir)
     else:
@@ -548,20 +552,20 @@ async def onboard(
             try:
                 prod_df = parse_uploaded_file(productsFile)
                 map_and_save_products(prod_df, inv_path)
-                
-                # Sync unique suppliers from imported catalog
+
+                # Sync unique suppliers from imported catalog to MongoDB
                 for _, row in prod_df.iterrows():
                     p_id = str(row.get("ProductID", ""))
                     p_price = float(row.get("UnitPrice", 0.0))
                     p_sup = str(row.get("Supplier", "Unknown"))
                     if p_id and p_sup != "Unknown":
-                        sync_product_with_supplier(workspace_dir, p_id, p_price, p_sup)
+                        sync_product_with_supplier(workspace_id, p_id, p_price, p_sup)
             except Exception as e:
                 pd.DataFrame(columns=["ProductID", "ProductName", "Category", "StockLevel", "ReorderLevel", "UnitPrice", "RetailPrice", "Supplier"]).to_csv(inv_path, index=False)
                 print(f"Products import failed: {e}")
         else:
             pd.DataFrame(columns=["ProductID", "ProductName", "Category", "StockLevel", "ReorderLevel", "UnitPrice", "RetailPrice", "Supplier"]).to_csv(inv_path, index=False)
-            
+
         tx_path = os.path.join(workspace_dir, "transactions.csv")
         if transactionsFile and transactionsFile.filename:
             try:
@@ -694,8 +698,8 @@ def add_inventory_product(req: ProductAddRequest, user_info: dict = Depends(get_
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
         df.to_csv(inv_path, index=False)
         
-        # Sync product with supplier.json catalog
-        sync_product_with_supplier(workspace_dir, req.ProductID, req.UnitPrice, req.Supplier)
+        # Sync product with supplier catalog in MongoDB
+        sync_product_with_supplier(user_info["workspace_id"], req.ProductID, req.UnitPrice, req.Supplier)
         
         return {"success": True, "message": f"Product {req.ProductName} successfully added to inventory."}
     except HTTPException as he:
@@ -754,37 +758,29 @@ def clear_message_logs(user_info: dict = Depends(get_current_user_workspace_info
 
 @app.get("/api/suppliers")
 def get_suppliers(user_info: dict = Depends(get_current_user_workspace_info)):
-    workspace_dir = user_info["workspace_dir"]
-    suppliers_path = os.path.join(workspace_dir, "suppliers.json")
-    
-    if not os.path.exists(suppliers_path):
-        initialize_default_suppliers(workspace_dir)
-        
+    workspace_id = user_info["workspace_id"]
+    initialize_default_suppliers(workspace_id)
     try:
-        with open(suppliers_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        suppliers = list(db.suppliers.find({"workspace_id": workspace_id}, {"_id": 0}))
+        return suppliers
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to read suppliers: {str(e)}")
 
 @app.post("/api/suppliers/add")
 def add_supplier(req: SupplierAddRequest, user_info: dict = Depends(get_current_user_workspace_info)):
-    workspace_dir = user_info["workspace_dir"]
-    suppliers_path = os.path.join(workspace_dir, "suppliers.json")
-    
-    if not os.path.exists(suppliers_path):
-        initialize_default_suppliers(workspace_dir)
-        
+    workspace_id = user_info["workspace_id"]
     try:
-        with open(suppliers_path, "r", encoding="utf-8") as f:
-            suppliers = json.load(f)
-            
         # Check duplicate
-        for s in suppliers:
-            if s["name"].lower() == req.name.lower():
-                raise HTTPException(status_code=400, detail="Supplier name already exists.")
-                
-        sup_id = f"S{100 + len(suppliers) + 1}"
+        existing = db.suppliers.find_one(
+            {"workspace_id": workspace_id, "name": {"$regex": f"^{req.name}$", "$options": "i"}}
+        )
+        if existing:
+            raise HTTPException(status_code=400, detail="Supplier name already exists.")
+
+        count = db.suppliers.count_documents({"workspace_id": workspace_id})
+        sup_id = f"S{100 + count + 1}"
         new_sup = {
+            "workspace_id": workspace_id,
             "id": sup_id,
             "name": req.name,
             "phone": req.phone,
@@ -793,11 +789,7 @@ def add_supplier(req: SupplierAddRequest, user_info: dict = Depends(get_current_
             "payment_terms": req.paymentTerms,
             "catalog": []
         }
-        suppliers.append(new_sup)
-        
-        with open(suppliers_path, "w", encoding="utf-8") as f:
-            json.dump(suppliers, f, indent=4)
-            
+        db.suppliers.insert_one(new_sup)
         return {"success": True, "message": f"Supplier {req.name} added successfully."}
     except HTTPException as he:
         raise he
@@ -815,12 +807,12 @@ def get_procurement_recommendations(user_info: dict = Depends(get_current_user_w
     if not low_stock:
         return {"recommendations": []}
         
-    # Load suppliers
-    suppliers_path = os.path.join(workspace_dir, "suppliers.json")
-    if not os.path.exists(suppliers_path):
-        initialize_default_suppliers(workspace_dir)
-    with open(suppliers_path, "r", encoding="utf-8") as f:
-        suppliers = json.load(f)
+    # Load suppliers from MongoDB
+    workspace_id = user_info["workspace_id"]
+    suppliers = list(db.suppliers.find({"workspace_id": workspace_id}, {"_id": 0}))
+    if not suppliers:
+        initialize_default_suppliers(workspace_id)
+        suppliers = list(db.suppliers.find({"workspace_id": workspace_id}, {"_id": 0}))
         
     recommendations = []
     
@@ -917,61 +909,49 @@ def get_procurement_recommendations(user_info: dict = Depends(get_current_user_w
 
 @app.get("/api/procurement/orders")
 def get_procurement_orders(user_info: dict = Depends(get_current_user_workspace_info)):
-    workspace_dir = user_info["workspace_dir"]
-    po_path = os.path.join(workspace_dir, "purchase_orders.json")
-    
-    if not os.path.exists(po_path):
-        with open(po_path, "w", encoding="utf-8") as f:
-            json.dump([], f)
-            
+    workspace_id = user_info["workspace_id"]
     try:
-        with open(po_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        orders = list(db.purchase_orders.find({"workspace_id": workspace_id}, {"_id": 0}))
+        return orders
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to read POs: {str(e)}")
 
 @app.post("/api/procurement/orders/approve")
 def approve_recommendation(req: POApproveRequest, user_info: dict = Depends(get_current_user_workspace_info)):
+    workspace_id = user_info["workspace_id"]
     workspace_dir = user_info["workspace_dir"]
-    po_path = os.path.join(workspace_dir, "purchase_orders.json")
-    suppliers_path = os.path.join(workspace_dir, "suppliers.json")
     inv_path = os.path.join(workspace_dir, "inventory.csv")
-    
-    if not os.path.exists(po_path):
-        with open(po_path, "w", encoding="utf-8") as f:
-            json.dump([], f)
-            
+
     try:
-        # Load suppliers
-        with open(suppliers_path, "r", encoding="utf-8") as f:
-            suppliers = json.load(f)
-        supplier = next((s for s in suppliers if s["id"] == req.supplierId), None)
+        # Load supplier from MongoDB
+        supplier = db.suppliers.find_one(
+            {"workspace_id": workspace_id, "id": req.supplierId}, {"_id": 0}
+        )
         if not supplier:
             raise HTTPException(status_code=400, detail="Supplier not found.")
-            
-        # Get product pricing
-        catalog_item = next((item for item in supplier.get("catalog", []) if item["product_id"] == req.productId), None)
+
+        catalog_item = next(
+            (item for item in supplier.get("catalog", []) if item["product_id"] == req.productId), None
+        )
         if not catalog_item:
             raise HTTPException(status_code=400, detail="Supplier does not supply this product.")
-            
-        # Read inventory for name
+
+        # Read inventory for product name
         df_inv = pd.read_csv(inv_path)
         prod_row = df_inv[df_inv["ProductID"] == req.productId]
         if prod_row.empty:
             raise HTTPException(status_code=400, detail="Product not found in inventory.")
         p_name = prod_row["ProductName"].values[0]
         p_cat = prod_row["Category"].values[0]
-        
-        # Load POs
-        with open(po_path, "r", encoding="utf-8") as f:
-            pos = json.load(f)
-            
-        # Calculate parameters
+
+        # Build PO
+        po_count = db.purchase_orders.count_documents({"workspace_id": workspace_id})
+        po_id = f"PO_{1000 + po_count + 1}"
         expected_delivery = (datetime.now() + timedelta(days=catalog_item["lead_time_days"])).strftime("%Y-%m-%d")
         total_amount = req.quantity * catalog_item["unit_price"]
-        po_id = f"PO_{1000 + len(pos) + 1}"
-        
+
         new_po = {
+            "workspace_id": workspace_id,
             "po_id": po_id,
             "supplier_id": req.supplierId,
             "supplier_name": supplier["name"],
@@ -990,12 +970,9 @@ def approve_recommendation(req: POApproveRequest, user_info: dict = Depends(get_
             "actual_delivery": None,
             "fulfillment_score": None
         }
-        
-        pos.append(new_po)
-        with open(po_path, "w", encoding="utf-8") as f:
-            json.dump(pos, f, indent=4)
-            
-        # Invoke Communication Agent to write ordering text
+        db.purchase_orders.insert_one(new_po)
+
+        # Generate WhatsApp draft via agent
         alert_query = (
             f"Draft a professional WhatsApp purchase order message to {supplier['name']}. "
             f"We want to order {req.quantity} units of {p_name} at Rs. {catalog_item['unit_price']} each. "
@@ -1005,19 +982,18 @@ def approve_recommendation(req: POApproveRequest, user_info: dict = Depends(get_
         context = f"Supplier Contact Details: {str(supplier)}"
         agent_result = coordinate_agents(alert_query, context, provider="gemini", workspace_dir=workspace_dir)
         whatsapp_draft = agent_result["response"]
-        
-        # Also log inside WhatsApp simulator database
+
         log_whatsapp_message(
             to_number=supplier["phone"],
             body=f"Draft PO order text generated for {supplier['name']}: \n{whatsapp_draft}",
             status="Draft Prepared",
             workspace_dir=workspace_dir
         )
-        
+
         return {
             "success": True,
             "message": f"Purchase Order {po_id} created successfully.",
-            "po": new_po,
+            "po": {k: v for k, v in new_po.items() if k != "workspace_id"},
             "whatsapp_draft": whatsapp_draft
         }
     except HTTPException as he:
@@ -1027,83 +1003,80 @@ def approve_recommendation(req: POApproveRequest, user_info: dict = Depends(get_
 
 @app.post("/api/procurement/orders/receive")
 def receive_purchase_order(req: POReceiveRequest, user_info: dict = Depends(get_current_user_workspace_info)):
+    workspace_id = user_info["workspace_id"]
     workspace_dir = user_info["workspace_dir"]
-    po_path = os.path.join(workspace_dir, "purchase_orders.json")
-    suppliers_path = os.path.join(workspace_dir, "suppliers.json")
     inv_path = os.path.join(workspace_dir, "inventory.csv")
     tx_path = os.path.join(workspace_dir, "transactions.csv")
-    
+
     try:
-        # Load POs
-        with open(po_path, "r", encoding="utf-8") as f:
-            pos = json.load(f)
-            
-        po = next((p for p in pos if p["po_id"] == req.poId), None)
+        # Load PO from MongoDB
+        po = db.purchase_orders.find_one(
+            {"workspace_id": workspace_id, "po_id": req.poId}, {"_id": 0}
+        )
         if not po:
             raise HTTPException(status_code=404, detail="Purchase Order not found.")
-            
+
         if po["status"] == "Delivered":
             return {"success": True, "message": "Purchase Order already marked as delivered."}
-            
-        po["status"] = "Delivered"
-        po["actual_delivery"] = datetime.now().strftime("%Y-%m-%d")
-        
-        # Calculate delivery speed fulfillment score
+
+        # Calculate fulfillment score
         date_created = datetime.strptime(po["date_created"], "%Y-%m-%d")
         expected_delivery = datetime.strptime(po["expected_delivery"], "%Y-%m-%d")
         actual_delivery = datetime.now()
-        
         expected_days = (expected_delivery - date_created).days
         actual_days = (actual_delivery - date_created).days
-        
+
         if actual_days <= expected_days:
             fulfillment_score = 100
         else:
             delay = actual_days - expected_days
             fulfillment_score = max(50, 100 - (delay * 10))
-            
-        po["fulfillment_score"] = fulfillment_score
-        
-        # Load suppliers and update rolling reliability average
-        with open(suppliers_path, "r", encoding="utf-8") as f:
-            suppliers = json.load(f)
-            
-        supplier = next((s for s in suppliers if s["id"] == po["supplier_id"]), None)
+
+        # Update PO in MongoDB
+        db.purchase_orders.update_one(
+            {"workspace_id": workspace_id, "po_id": req.poId},
+            {"$set": {
+                "status": "Delivered",
+                "actual_delivery": actual_delivery.strftime("%Y-%m-%d"),
+                "fulfillment_score": fulfillment_score
+            }}
+        )
+
+        # Update supplier reliability in MongoDB
+        supplier = db.suppliers.find_one(
+            {"workspace_id": workspace_id, "id": po["supplier_id"]}
+        )
         if supplier:
             old_r = supplier["reliability"]
-            # 70% previous score + 30% current fulfillment rolling fit
             new_r = int(round(old_r * 0.7 + fulfillment_score * 0.3))
-            supplier["reliability"] = max(50, min(100, new_r))
-            
-        with open(suppliers_path, "w", encoding="utf-8") as f:
-            json.dump(suppliers, f, indent=4)
-            
-        # Update Stock Level in inventory.csv
+            db.suppliers.update_one(
+                {"workspace_id": workspace_id, "id": po["supplier_id"]},
+                {"$set": {"reliability": max(50, min(100, new_r))}}
+            )
+
+        # Update inventory CSV stock levels
         df_inv = pd.read_csv(inv_path)
         for item in po["items"]:
             prod_id = item["product_id"]
             qty = item["quantity"]
             df_inv.loc[df_inv["ProductID"] == prod_id, "StockLevel"] += qty
         df_inv.to_csv(inv_path, index=False)
-        
-        # Log restocking as an Expense in transactions.csv
+
+        # Log restocking as Expense in transactions CSV
         if os.path.exists(tx_path):
             df_tx = pd.read_csv(tx_path)
         else:
             df_tx = pd.DataFrame(columns=["Date", "TransactionID", "ProductID", "ProductName", "Category", "Quantity", "Price", "Type", "Amount", "PaymentMode"])
-            
+
         for item in po["items"]:
             prod_id = item["product_id"]
             p_name = item["product_name"]
             qty = item["quantity"]
             price = item["unit_price"]
-            
-            # Fetch Category from inventory
             prod_info = df_inv[df_inv["ProductID"] == prod_id]
             p_cat = prod_info["Category"].values[0] if not prod_info.empty else "Operations"
-            
             new_row = {
-                "Date": datetime.now().strftime("%Y-%m-%d"),
+                "Date": actual_delivery.strftime("%Y-%m-%d"),
                 "TransactionID": po["po_id"],
                 "ProductID": prod_id,
                 "ProductName": f"Restock - {p_name}",
@@ -1115,13 +1088,9 @@ def receive_purchase_order(req: POReceiveRequest, user_info: dict = Depends(get_
                 "PaymentMode": "UPI"
             }
             df_tx = pd.concat([df_tx, pd.DataFrame([new_row])], ignore_index=True)
-            
+
         df_tx.to_csv(tx_path, index=False)
-        
-        # Save POs
-        with open(po_path, "w", encoding="utf-8") as f:
-            json.dump(pos, f, indent=4)
-            
+
         return {"success": True, "message": f"Purchase Order {po['po_id']} delivered. Inventory restocked and recorded."}
     except HTTPException as he:
         raise he
@@ -1135,34 +1104,25 @@ async def twilio_webhook(From: str = Form(...), Body: str = Form(...)):
     clean_sender = From.replace("whatsapp:", "").strip()
     print(f"Incoming WhatsApp message from {clean_sender}: '{Body}'")
     
-    # Resolve workspace by matching sender number to merchant mobile
+    # Resolve workspace by matching sender number to merchant mobile (MongoDB)
     workspace_dir = None
-    users = load_users()
     matched_workspace_id = None
-    
-    # 1. Match users by mobile
-    for email, record in users.items():
-        user_mob = record.get("mobile", "").replace(" ", "").replace("-", "")
-        clean_mob = clean_sender.replace(" ", "").replace("-", "")
-        if clean_mob in user_mob or user_mob in clean_mob:
-            matched_workspace_id = record["workspace_id"]
-            break
-            
-    # 2. Match workspaces by merchantWhatsapp in onboarding
+
+    # 1. Match users by mobile number
+    clean_mob = clean_sender.replace(" ", "").replace("-", "")
+    user_doc = db.users.find_one(
+        {"mobile": {"$regex": clean_mob[-10:]}}, {"_id": 0}
+    )
+    if user_doc:
+        matched_workspace_id = user_doc.get("workspace_id")
+
+    # 2. Match by merchantWhatsapp in onboarding collection
     if not matched_workspace_id:
-        for w_id in os.listdir(config.WORKSPACES_DIR):
-            onb_file = os.path.join(config.WORKSPACES_DIR, w_id, "onboarding.json")
-            if os.path.exists(onb_file):
-                try:
-                    with open(onb_file, "r", encoding="utf-8") as f:
-                        onb_data = json.load(f)
-                    merchant_mob = onb_data.get("merchantWhatsapp", "").replace(" ", "").replace("-", "")
-                    clean_mob = clean_sender.replace(" ", "").replace("-", "")
-                    if clean_mob in merchant_mob or merchant_mob in clean_mob:
-                        matched_workspace_id = w_id
-                        break
-                except Exception:
-                    pass
+        onb_doc = db.onboarding.find_one(
+            {"merchantWhatsapp": {"$regex": clean_mob[-10:]}}, {"_id": 0}
+        )
+        if onb_doc:
+            matched_workspace_id = onb_doc.get("workspace_id")
                     
     if matched_workspace_id:
         workspace_dir = os.path.join(config.WORKSPACES_DIR, matched_workspace_id)
@@ -1206,35 +1166,32 @@ def get_customers(user_info: dict = Depends(get_current_user_workspace_info)):
 
 @app.post("/api/customers/add")
 def add_customer(req: CustomerAddRequest, user_info: dict = Depends(get_current_user_workspace_info)):
-    workspace_dir = user_info["workspace_dir"]
-    customers_path = os.path.join(workspace_dir, "customers.json")
-    
+    workspace_id = user_info["workspace_id"]
+
     try:
-        # Load existing
-        if os.path.exists(customers_path):
-            with open(customers_path, "r", encoding="utf-8") as f:
-                customers = json.load(f)
-        else:
-            customers = []
-            
-        # Check if email/phone already exists
-        for c in customers:
-            if c["email"].lower() == req.email.strip().lower() or c["phone"] == req.phone.strip():
-                raise HTTPException(status_code=400, detail="Customer with this email or phone already exists.")
-                
-        new_id = f"C{100 + len(customers) + 1}"
+        # Check duplicate via MongoDB
+        existing = db.customers.find_one({
+            "workspace_id": workspace_id,
+            "$or": [
+                {"email": req.email.strip().lower()},
+                {"phone": req.phone.strip()}
+            ]
+        })
+        if existing:
+            raise HTTPException(status_code=400, detail="Customer with this email or phone already exists.")
+
+        count = db.customers.count_documents({"workspace_id": workspace_id})
+        new_id = f"C{100 + count + 1}"
         new_cust = {
+            "workspace_id": workspace_id,
             "id": new_id,
             "name": req.name.strip(),
             "email": req.email.strip().lower(),
             "phone": req.phone.strip()
         }
-        customers.append(new_cust)
-        
-        with open(customers_path, "w", encoding="utf-8") as f:
-            json.dump(customers, f, indent=4)
-            
-        return {"success": True, "message": f"Customer {req.name} added successfully.", "customer": new_cust}
+        db.customers.insert_one(new_cust)
+        return_cust = {k: v for k, v in new_cust.items() if k != "workspace_id"}
+        return {"success": True, "message": f"Customer {req.name} added successfully.", "customer": return_cust}
     except HTTPException as he:
         raise he
     except Exception as e:
