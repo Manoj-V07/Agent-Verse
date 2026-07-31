@@ -54,31 +54,24 @@ def get_customer_db_context(workspace_dir: str = None) -> str:
 
 
 def get_supplier_db_context(workspace_dir: str = None) -> str:
-    """Loads supplier list, catalog rates, lead times, and reliability from suppliers database."""
+    """Loads supplier list from MongoDB for the given workspace."""
     try:
         if not workspace_dir:
             return "No supplier database records found."
-        suppliers_path = os.path.join(workspace_dir, "suppliers.json")
-        if not os.path.exists(suppliers_path):
-            return "No supplier database records found."
-            
-        with open(suppliers_path, "r", encoding="utf-8") as f:
-            suppliers = json.load(f)
-            
+        workspace_id = os.path.basename(workspace_dir)
+        from database import db
+        suppliers = list(db.suppliers.find({"workspace_id": workspace_id}, {"_id": 0}))
         if not suppliers:
             return "Supplier catalog is currently empty."
-            
         lines = ["Active Live Supplier Database (includes unit prices, MOQ, lead times, and reliability):"]
         for s in suppliers:
-            catalog_lines = []
-            for item in s.get("catalog", []):
-                catalog_lines.append(
-                    f"Product: {item['product_id']} | Price: Rs. {item['unit_price']} | MOQ: {item['min_order_qty']} | Lead Time: {item['lead_time_days']} days"
-                )
-            catalog_str = " | ".join(catalog_lines)
+            catalog_lines = [
+                f"Product: {item['product_id']} | Price: Rs. {item['unit_price']} | MOQ: {item['min_order_qty']} | Lead Time: {item['lead_time_days']} days"
+                for item in s.get("catalog", [])
+            ]
             lines.append(
                 f"- Supplier: {s['name']} (ID: {s['id']}) | Reliability: {s['reliability']}% | "
-                f"Terms: {s['payment_terms']} | Catalog: [{catalog_str}]"
+                f"Terms: {s['payment_terms']} | Catalog: [{' | '.join(catalog_lines)}]"
             )
         return "\n".join(lines)
     except Exception as e:
@@ -330,23 +323,19 @@ def coordinate_agents(query: str, context: str, provider: str = "gemini", worksp
                     pass
             
             if not profile:
-                onboarding_file = os.path.join(workspace_dir, "onboarding.json")
-                if os.path.exists(onboarding_file):
-                    try:
-                        with open(onboarding_file, "r", encoding="utf-8") as f:
-                            biz = json.load(f)
-                            profile = {
-                                "businessName": biz.get("businessName", "Small Business"),
-                                "businessType": biz.get("businessCategory", "Small Business"),
-                                "businessSector": biz.get("businessCategory", "Retail"),
-                                "enterpriseCategory": "Micro",
-                                "state": "Local",
-                                "district": biz.get("businessLocation", "Region"),
-                                "annualTurnover": "Undisclosed",
-                                "employeeCount": "N/A"
-                            }
-                    except Exception:
-                        pass
+                from database import db as _db
+                onb_doc = _db.onboarding.find_one({"workspace_id": os.path.basename(workspace_dir)}, {"_id": 0})
+                if onb_doc:
+                    profile = {
+                        "businessName": onb_doc.get("businessName", "Small Business"),
+                        "businessType": onb_doc.get("businessCategory", "Small Business"),
+                        "businessSector": onb_doc.get("businessCategory", "Retail"),
+                        "enterpriseCategory": "Micro",
+                        "state": "Local",
+                        "district": onb_doc.get("businessLocation", "Region"),
+                        "annualTurnover": "Undisclosed",
+                        "employeeCount": "N/A"
+                    }
         
         if not profile:
             profile = {

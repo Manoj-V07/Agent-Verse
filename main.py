@@ -1777,9 +1777,10 @@ async def check_inventory_and_alert_loop():
     while True:
         print(f"[BG LOOP] Running check at {datetime.now()}...")
         try:
-            users = load_users()
+            users = list(db.users.find({}, {"_id": 0}))
             print(f"[BG LOOP] Loaded {len(users)} users.")
-            for email, user_record in users.items():
+            for user_record in users:
+                email = user_record.get("email", "unknown")
                 workspace_id = user_record.get("workspace_id")
                 if not workspace_id:
                     print(f"[BG LOOP] No workspace ID for user {email}")
@@ -1792,15 +1793,10 @@ async def check_inventory_and_alert_loop():
                 print(f"[BG LOOP] Processing workspace {workspace_id} for user {email}")
                 
                 # Check onboarding to retrieve target number
-                onboarding_file = os.path.join(workspace_dir, "onboarding.json")
                 recipient = None
-                if os.path.exists(onboarding_file):
-                    try:
-                        with open(onboarding_file, "r", encoding="utf-8") as f:
-                            biz = json.load(f)
-                            recipient = biz.get("merchantWhatsapp")
-                    except Exception:
-                        pass
+                onb_doc = db.onboarding.find_one({"workspace_id": workspace_id}, {"_id": 0})
+                if onb_doc:
+                    recipient = onb_doc.get("merchantWhatsapp")
                 
                 # Fallback path prioritizing configured USER_WHATSAPP_NUMBER
                 recipient = config.USER_WHATSAPP_NUMBER or recipient or user_record.get("mobile")
@@ -1817,23 +1813,24 @@ async def check_inventory_and_alert_loop():
                 
                 low_stock_items = [item for item in depletion if item["Status"] == "Low Stock"]
                 print(f"[BG LOOP] Found {len(low_stock_items)} low stock items.")
+                if not low_stock_items:
+                    continue
+                # Build one combined alert message locally — no LLM calls
+                lines = [f"🚨 *Low Stock Alert* — {user_record.get('full_name', 'Merchant')}\n"]
                 for item in low_stock_items:
-                    alert_query = (
-                        f"Draft a short, urgent low stock WhatsApp alert notification for this product: "
-                        f"{item['ProductName']} (ID: {item['ProductID']}). "
-                        f"Current Stock: {item['CurrentStock']} units. Reorder limit: {item['ReorderLevel']}. "
-                        f"We are selling {item['DailyVelocity']} units per day, and will run out in {item['DaysRemaining']} days. "
-                        f"Supplier is {item['Supplier']}. Recommend restocking {item['ReorderRecommendation']} units."
+                    lines.append(
+                        f"📦 *{item['ProductName']}* (ID: {item['ProductID']})\n"
+                        f"   Stock: {item['CurrentStock']} units | Reorder at: {item['ReorderLevel']}\n"
+                        f"   Velocity: {item['DailyVelocity']} u/day | Runs out in: {item['DaysRemaining']} days\n"
+                        f"   Supplier: {item['Supplier']} | Restock: {item['ReorderRecommendation']} units"
                     )
-                    context = f"Product details: {str(item)}"
-                    try:
-                        agent_result = coordinate_agents(alert_query, context, provider="gemini", workspace_dir=workspace_dir)
-                        alert_draft = agent_result["response"]
-                        
-                        send_whatsapp_message(alert_draft, to_number=recipient, workspace_dir=workspace_dir)
-                        print(f"Periodic low stock alert dispatched for {item['ProductName']} in workspace {workspace_id} to {recipient}")
-                    except Exception as ae:
-                        print(f"Failed to generate/send background alert: {ae}")
+                alert_draft = "\n\n".join(lines)
+                try:
+                    send_whatsapp_message(alert_draft, to_number=recipient, workspace_dir=workspace_dir)
+                    print(f"[BG LOOP] Alert sent for {len(low_stock_items)} items in workspace {workspace_id}")
+                except Exception as ae:
+                    print(f"Failed to send background alert: {ae}")
+                await asyncio.sleep(10)  # gap between workspaces
         except Exception as e:
             print(f"Error in background alert scheduler loop: {e}")
             
@@ -1841,7 +1838,7 @@ async def check_inventory_and_alert_loop():
 
 @app.on_event("startup")
 async def startup_event():
-    asyncio.create_task(check_inventory_and_alert_loop())
+    pass  # Background alert loop disabled — alerts are sent manually via UI button
 
 # Run Uvicorn if file is executed directly
 if __name__ == "__main__":
