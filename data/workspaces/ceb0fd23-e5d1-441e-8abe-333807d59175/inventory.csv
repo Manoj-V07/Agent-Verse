@@ -1,3 +1,5 @@
 ProductID,ProductName,Category,StockLevel,ReorderLevel,UnitPrice,RetailPrice,Supplier
 P101,Premium Basmati Rice,Grains,33,15,350.0,420.0,Sri Balaji Traders
-P107,Maggi,Food,10,12,20.0,25.0,Tirupur Distributors
+P107,Maggi Noodles,Food,5,12,20.0,25.0,Tirupur Distributors
+P102,Sunflower Oil 1L,Oils,7,15,110.0,140.0,Vignesh Wholesalers
+P103,Tata Salt 1kg,Condiments,4,10,20.0,28.0,Tirupur Distributors

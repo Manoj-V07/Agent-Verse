@@ -947,6 +947,34 @@ export default function App() {
     }
   };
 
+  const handleSendStockAlert = async () => {
+    setIsAlertSending(true);
+    setSuccessMessage("");
+    setErrorMessage("");
+    try {
+      const res = await fetch(`${API_BASE}/api/alerts/trigger-low-stock`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body: JSON.stringify({ provider })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        if (data.alert_sent) {
+          setSuccessMessage(`Stock report sent to WhatsApp! ${data.count} alert(s) dispatched.`);
+          fetchWhatsappLogs(token);
+        } else {
+          setSuccessMessage("All stock levels are healthy. No alerts needed.");
+        }
+      } else {
+        setErrorMessage(data.detail || "Failed to send stock alert.");
+      }
+    } catch (e) {
+      setErrorMessage("Could not send stock alert.");
+    } finally {
+      setIsAlertSending(false);
+    }
+  };
+
   const handleTriggerAlerts = async () => {
     setIsAlertSending(true);
     setSuccessMessage("");
@@ -1106,11 +1134,7 @@ export default function App() {
         setUploadResult({ success: true, message: data.message });
         setSelectedFile(null);
         
-        if (selectedFile.name.toLowerCase().includes("invoice") || selectedFile.name.toLowerCase().includes("receipt")) {
-          setFilePreview(`--- PARSED INVOICE DATA: ${selectedFile.name} ---\nVendor: Sri Balaji Traders\nInvoice Date: ${new Date().toISOString().split('T')[0]}\nGrand Total: Rs. 12,154\nItems parsed and stored in Vector database successfully.`);
-        } else {
-          setFilePreview(`Successfully processed '${selectedFile.name}'. File vectorized into isolated RAG context chunks.`);
-        }
+        setFilePreview(data.message);
       } else {
         setUploadResult({ success: false, message: data.detail || "Upload execution failed." });
       }
@@ -2790,6 +2814,9 @@ export default function App() {
                     <h3 style={{ color: 'var(--color-primary)', fontSize: '1.15rem', display:'flex', alignItems:'center', gap:8 }}><Package size={18}/>Stock Depletion Velocity</h3>
                     <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>Daily velocities and safety warnings calculated from CSV databases.</p>
                   </div>
+                  <button className="btn btn-primary" onClick={handleSendStockAlert} disabled={isAlertSending || inventory.length === 0} style={{ fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                    {isAlertSending ? <><div className="animate-spin" style={{ width:13, height:13, border:'2px solid rgba(255,255,255,0.3)', borderTopColor:'#fff', borderRadius:'50%' }} /> Sending...</> : <><Send size={14}/> Send Stock Report</>}
+                  </button>
                 </div>
 
                 {inventory.length === 0 ? (
@@ -3382,27 +3409,58 @@ export default function App() {
                   </button>
                 </form>
 
-                {uploadResult && (
-                  <div style={{ color: uploadResult.success ? 'var(--color-success)' : 'var(--color-danger)', fontSize: '0.8rem', padding: '10px', background: uploadResult.success ? 'var(--color-success-glow)' : 'var(--color-danger-glow)', border: '1px solid rgba(16,185,129,0.15)', borderRadius: '6px' }}>
+                {uploadResult && !uploadResult.success && (
+                  <div style={{ color: 'var(--color-danger)', fontSize: '0.8rem', padding: '10px', background: 'var(--color-danger-glow)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '6px' }}>
                     {uploadResult.message}
                   </div>
                 )}
               </div>
 
               <div className="glass-card flex-column-full" style={{ gap: '15px' }}>
-                <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.2rem' }}>
-                  <FileCheck size={20} color="var(--color-primary)" /> AI Extracted OCR & Transcription
-                </h3>
-                <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-                  Extracted key-value records mapped from files using Gemini Multimodal models.
-                </p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.2rem' }}>
+                      <FileCheck size={20} color="var(--color-primary)" /> Extracted Document Content
+                    </h3>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                      Text extracted from your uploaded file, indexed for AI queries.
+                    </p>
+                  </div>
+                  {filePreview && (
+                    <button className="btn btn-secondary" style={{ fontSize: '0.75rem', padding: '4px 10px' }}
+                      onClick={() => { navigator.clipboard.writeText(filePreview); setSuccessMessage('Content copied to clipboard!'); }}>
+                      <Copy size={12} /> Copy
+                    </button>
+                  )}
+                </div>
 
-                <textarea 
-                  className="input-field" 
-                  value={filePreview || "No files parsed in this session yet. Upload invoices or voice notes to inspect raw metadata logs."}
-                  readOnly
-                  style={{ flex: 1, height: '100%', fontFamily: 'monospace', fontSize: '0.8rem', resize: 'none', background: 'rgba(5,8,15,0.9)' }}
-                />
+                <div style={{ flex: 1, overflowY: 'auto', background: '#0f172a', borderRadius: '8px', border: '1px solid var(--color-card-border)', padding: '16px', minHeight: '300px' }}>
+                  {filePreview ? (() => {
+                    const parts = filePreview.split('--- EXTRACTED CONTENT ---');
+                    const statusLine = parts[0].replace(/Successfully processed.*?\n/, '').trim();
+                    const content = parts[1]?.trim() || parts[0].trim();
+                    return (
+                      <>
+                        {parts.length > 1 && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px', padding: '6px 10px', background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: '6px' }}>
+                            <CheckCircle size={13} color="#10b981" />
+                            <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 600 }}>
+                              {filePreview.match(/Successfully processed '(.+?)'/)?.[1] || 'Document'} — {filePreview.match(/(\d+) text chunks/)?.[1] || '?'} chunks indexed
+                            </span>
+                          </div>
+                        )}
+                        <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.8rem', color: '#e2e8f0', whiteSpace: 'pre-wrap', wordBreak: 'break-word', lineHeight: 1.7 }}>{content}</pre>
+                      </>
+                    );
+                  })() : (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '260px', gap: '10px', opacity: 0.5 }}>
+                      <FileCheck size={36} color="#64748b" />
+                      <p style={{ fontSize: '0.8rem', color: '#94a3b8', textAlign: 'center', maxWidth: '260px', lineHeight: 1.5 }}>Upload an invoice, PDF, or spreadsheet to see extracted content here</p>
+                    </div>
+                  )}
+                </div>
+
+
               </div>
             </div>
           </div>
@@ -3416,56 +3474,88 @@ export default function App() {
                 <div>
                   <h3 style={{ color: 'var(--color-primary)', marginBottom: '4px', fontSize: '1.15rem', display:'flex', alignItems:'center', gap:8 }}><Smartphone size={18}/>Twilio Sandbox Simulator</h3>
                   <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
-                    This simulator logs WhatsApp alerts sent to <strong>{business?.merchantWhatsapp || user?.mobile}</strong> and tests incoming query webhooks.
+                    Sending to <strong>{business?.merchantWhatsapp || user?.mobile}</strong>. Logs sync automatically every 8 seconds.
                   </p>
                 </div>
 
-                <div style={{ background: 'rgba(255, 255, 255, 0.01)', padding: '14px', borderRadius: '10px', border: '1px solid var(--color-card-border)' }}>
-                  <h4 style={{ fontSize: '0.9rem', marginBottom: '6px' }}>Sandbox Controls</h4>
-                  <div style={{ display: 'flex', gap: '10px', marginTop: '6px' }}>
-                    <button className="btn btn-secondary" onClick={handleClearLogs} style={{ flex: 1 }}>
+                <div style={{ background: '#f8fafc', padding: '14px', borderRadius: '10px', border: '1px solid var(--color-card-border)' }}>
+                  <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '8px', color: 'var(--color-text-main)' }}>Sandbox Controls</h4>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <button className="btn btn-secondary" onClick={handleClearLogs} style={{ flex: 1, fontSize: '0.82rem' }}>
                       <Trash2 size={14} /> Clear Logs
                     </button>
-                    <button className="btn btn-success" onClick={() => fetchWhatsappLogs(token)} style={{ flex: 1 }}>
+                    <button className="btn btn-primary" onClick={() => fetchWhatsappLogs(token)} style={{ flex: 1, fontSize: '0.82rem' }}>
                       <RefreshCw size={14} /> Sync Logs
                     </button>
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '14px', borderRadius: '10px', border: '1px solid var(--color-card-border)' }}>
-                  <h4 style={{ fontSize: '0.9rem', marginBottom: '8px' }}>Test Inbound Message</h4>
+                <div style={{ background: '#f8fafc', padding: '14px', borderRadius: '10px', border: '1px solid var(--color-card-border)' }}>
+                  <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '8px', color: 'var(--color-text-main)' }}>Test Inbound Message</h4>
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("How is my stock level for oils?")} style={{ fontSize: '0.7rem', padding: '4px 8px' }}>Check Oils</button>
-                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Am I profitable this month?")} style={{ fontSize: '0.7rem', padding: '4px 8px' }}>Check Profits</button>
-                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Who is my best supplier for Basmati Rice?")} style={{ fontSize: '0.7rem', padding: '4px 8px' }}>Best Supplier</button>
-                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Create PO recommendation for Basmati Rice")} style={{ fontSize: '0.7rem', padding: '4px 8px' }}>Draft PO Advice</button>
+                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("How is my stock level for oils?")} style={{ fontSize: '0.72rem', padding: '5px 10px' }}>Check Oils</button>
+                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Am I profitable this month?")} style={{ fontSize: '0.72rem', padding: '5px 10px' }}>Check Profits</button>
+                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Who is my best supplier for Basmati Rice?")} style={{ fontSize: '0.72rem', padding: '5px 10px' }}>Best Supplier</button>
+                    <button className="btn btn-secondary" onClick={() => handleSimulateInbound("Create PO recommendation for Basmati Rice")} style={{ fontSize: '0.72rem', padding: '5px 10px' }}>Draft PO Advice</button>
+                  </div>
+                </div>
+
+                {/* CHAT LOG HISTORY */}
+                <div style={{ background: '#f8fafc', borderRadius: '10px', border: '1px solid var(--color-card-border)', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
+                  <div style={{ padding: '10px 14px', borderBottom: '1px solid var(--color-card-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-main)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <MessageSquare size={14} color="var(--color-primary)" /> Chat History ({whatsappLogs.length} messages)
+                    </h4>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--color-text-dim)' }}>Auto-syncs every 8s</span>
+                  </div>
+                  <div style={{ flex: 1, overflowY: 'auto', padding: '10px 14px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {whatsappLogs.length === 0 ? (
+                      <div style={{ textAlign: 'center', color: 'var(--color-text-dim)', fontSize: '0.78rem', padding: '20px 0' }}>No messages yet. Use the test buttons above or trigger stock alerts.</div>
+                    ) : (
+                      whatsappLogs.map((log, idx) => {
+                        const isOut = log.body?.startsWith('Merchant asked');
+                        return (
+                          <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: isOut ? 'flex-end' : 'flex-start' }}>
+                            <div style={{ maxWidth: '85%', padding: '8px 12px', borderRadius: isOut ? '12px 12px 2px 12px' : '12px 12px 12px 2px', background: isOut ? 'var(--color-primary)' : '#fff', color: isOut ? '#fff' : 'var(--color-text-main)', fontSize: '0.78rem', lineHeight: 1.45, border: isOut ? 'none' : '1px solid var(--color-card-border)', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', whiteSpace: 'pre-wrap' }}>
+                              {log.body?.replace('Merchant asked: ', '')}
+                            </div>
+                            <span style={{ fontSize: '0.62rem', color: 'var(--color-text-dim)', marginTop: '2px', padding: '0 4px' }}>
+                              {log.timestamp} {log.status ? `· ${log.status}` : ''}
+                            </span>
+                          </div>
+                        );
+                      })
+                    )}
                   </div>
                 </div>
               </div>
 
               <div className="phone-shell">
                 <div style={{ padding: '12px 16px', background: '#075e54', color: 'white', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-                  <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justify: 'center', fontWeight: 'bold', fontSize: '0.85rem' }}>A</div>
-                  <div>
+                  <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '0.85rem' }}>A</div>
+                  <div style={{ flex: 1 }}>
                     <h4 style={{ fontSize: '0.85rem' }}>AegisAI Gateway</h4>
                     <p style={{ fontSize: '0.6rem', color: '#a3e635' }}>Active (Simulated sandbox)</p>
                   </div>
+                  <button onClick={() => fetchWhatsappLogs(token)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a3e635', display: 'flex', alignItems: 'center' }} title="Sync">
+                    <RefreshCw size={13} />
+                  </button>
                 </div>
 
                 <div className="phone-screen">
                   {whatsappLogs.length === 0 ? (
                     <div style={{ margin: 'auto', textAlign: 'center', color: '#64748b', fontSize: '0.72rem', padding: '10px', background: 'rgba(255,255,255,0.7)', borderRadius: '6px' }}>
-                      No alerts logged in the sandbox. Audit stock levels or trigger manual messages above to begin.
+                      No alerts yet. Trigger stock alerts or use test buttons.
                     </div>
                   ) : (
                     whatsappLogs.map((log, idx) => {
-                      const isMerchant = log.body.startsWith("Merchant asked");
-                      const cleanBody = log.body.replace("Merchant asked: ", "");
+                      const isMerchant = log.body?.startsWith('Merchant asked');
+                      const cleanBody = log.body?.replace('Merchant asked: ', '') || '';
                       return (
                         <div key={idx} className={`phone-msg-bubble ${isMerchant ? 'out' : 'in'}`} style={{ whiteSpace: 'pre-line' }}>
                           <div>{cleanBody}</div>
                           <div style={{ fontSize: '0.52rem', color: '#94a3b8', textAlign: 'right', marginTop: '3px' }}>
-                            {log.timestamp} {log.status && `(${log.status})`}
+                            {log.timestamp}{log.status ? ` · ${log.status}` : ''}
                           </div>
                         </div>
                       );

@@ -1149,7 +1149,7 @@ def trigger_low_stock_alerts(req: AlertRequest = None, user_info: dict = Depends
             return {"success": True, "alert_sent": False, "message": "All stock levels are currently healthy. No alerts triggered."}
             
         alerts_sent = []
-        recipient = (req.custom_recipient if req else None) or config.USER_WHATSAPP_NUMBER or (user_info["business"]["merchantWhatsapp"] if user_info["business"] else None)
+        recipient = (req.custom_recipient if req else None) or (user_info["business"]["merchantWhatsapp"] if user_info["business"] else None) or config.USER_WHATSAPP_NUMBER
         provider = req.provider if req else "gemini"
         
         for item in low_stock_items:
