@@ -1,120 +1,65 @@
 import os
 import pandas as pd
-import google.generativeai as genai
 import config
 from rag.embeddings import get_embedding
 from rag.vector_store import VectorStore
 
-# Path to save the vector store pickle
 VECTOR_STORE_PATH = os.path.join(config.DATA_DIR, 'vector_store.pkl')
 
 def get_vector_store(workspace_dir: str = None) -> VectorStore:
-    """Helper to initialize and load the vector store."""
     path = os.path.join(workspace_dir, 'vector_store.pkl') if workspace_dir else VECTOR_STORE_PATH
     store = VectorStore(path)
     store.load()
     return store
 
 def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> list:
-    """Splits a long text string into smaller overlapping chunks."""
     chunks = []
     start = 0
     while start < len(text):
-        end = start + chunk_size
-        chunks.append(text[start:end])
+        chunks.append(text[start:start + chunk_size])
         start += chunk_size - overlap
     return chunks
 
 def extract_text_from_file(file_path: str) -> tuple[str, str]:
-    """
-    Parses files (spreadsheets, PDFs, images, audio) to extract text content.
-    Returns:
-        tuple (extracted_text, file_type)
-    """
     _, ext = os.path.splitext(file_path.lower())
-    api_key = config.get_gemini_key()
-    
+
     # 1. Spreadsheets & CSVs
     if ext in ['.csv', '.xlsx', '.xls']:
         try:
-            if ext == '.csv':
-                df = pd.read_csv(file_path)
-            else:
-                df = pd.read_excel(file_path)
-            # Convert dataframe to a readable text dump
-            text_lines = [f"File: {os.path.basename(file_path)} (SME Tabular Data)"]
-            text_lines.append(f"Columns: {', '.join(df.columns)}")
-            text_lines.append("Rows sample:")
+            df = pd.read_csv(file_path) if ext == '.csv' else pd.read_excel(file_path)
+            lines = [f"File: {os.path.basename(file_path)}", f"Columns: {', '.join(df.columns)}", "Rows:"]
             for i, row in df.head(50).iterrows():
-                row_str = " | ".join([f"{col}: {val}" for col, val in row.items()])
-                text_lines.append(f"Row {i+1}: {row_str}")
-            return "\n".join(text_lines), "tabular"
+                lines.append("Row {}: {}".format(i + 1, " | ".join(f"{c}: {v}" for c, v in row.items())))
+            return "\n".join(lines), "tabular"
         except Exception as e:
-            return f"Failed to parse spreadsheet: {str(e)}", "text"
+            return f"Failed to parse spreadsheet: {e}", "text"
 
-    # 2. Images & PDFs (using Gemini multimodal OCR, fallback to basic extraction)
-    elif ext in ['.pdf', '.png', '.jpg', '.jpeg']:
-        api_key = config.get_gemini_key()
-        if api_key:
-            try:
-                genai.configure(api_key=api_key)
-                with open(file_path, 'rb') as f:
-                    file_data = f.read()
-                mime_type = "application/pdf" if ext == ".pdf" else f"image/{ext[1:]}"
-                if mime_type == "image/jpg": mime_type = "image/jpeg"
-                model = genai.GenerativeModel('gemini-2.0-flash')
-                prompt = (
-                    "You are an expert OCR and invoice-parsing assistant. Extract all text, tables, "
-                    "invoice details, vendor name, dates, item descriptions, and totals from this file. "
-                    "Format the output in a clean, human-readable structure with markdown headers."
-                )
-                response = model.generate_content([{"mime_type": mime_type, "data": file_data}, prompt])
-                return response.text, "document"
-            except Exception as e:
-                err_str = str(e)
-                if "429" in err_str or "quota" in err_str.lower():
-                    print(f"Gemini OCR quota exceeded, skipping to pdfplumber fallback.")
-                else:
-                    print(f"Gemini OCR failed ({err_str[:100]}), falling back to text extraction.")
-        # Fallback: try reading PDF as text directly
+    # 2. PDFs — pdfplumber text extraction
+    elif ext == '.pdf':
         try:
             import pdfplumber
             with pdfplumber.open(file_path) as pdf:
                 text = "\n".join(page.extract_text() or "" for page in pdf.pages)
             if text.strip():
                 return text, "document"
-        except Exception:
-            pass
-        return f"Could not extract text from {os.path.basename(file_path)}. Gemini OCR unavailable and no text layer found in PDF.", "document"
-
-    # 3. Audio Voice Notes (Speech-to-Text via Gemini only)
-    elif ext in ['.wav', '.mp3', '.m4a', '.ogg']:
-        api_key = config.get_gemini_key()
-        if not api_key:
-            return "Audio transcription requires Gemini API key.", "audio"
-        try:
-            genai.configure(api_key=api_key)
-            with open(file_path, 'rb') as f:
-                file_data = f.read()
-            mime_type = f"audio/{ext[1:]}"
-            if ext == '.m4a': mime_type = "audio/mp4"
-            model = genai.GenerativeModel('gemini-2.0-flash')
-            prompt = (
-                "Transcribe this voice note exactly. If it is in Tamil or another Indian language, "
-                "transcribe the text in that language and also provide a translation in English."
-            )
-            response = model.generate_content([{"mime_type": mime_type, "data": file_data}, prompt])
-            return response.text, "audio"
         except Exception as e:
-            return f"Audio transcription failed: {str(e)}", "audio"
-            
-    # Default text/unsupported files
+            print(f"pdfplumber failed: {e}")
+        return f"Could not extract text from {os.path.basename(file_path)}.", "document"
+
+    # 3. Images — basic metadata only (no multimodal without Gemini)
+    elif ext in ['.png', '.jpg', '.jpeg']:
+        return f"Image file: {os.path.basename(file_path)}. OCR not available without Gemini API.", "image"
+
+    # 4. Audio — not supported without Gemini
+    elif ext in ['.wav', '.mp3', '.m4a', '.ogg']:
+        return "Audio transcription requires Gemini API which has been disabled. Please upload a text or PDF file instead.", "audio"
+
+    # 5. Plain text / unknown
     try:
         with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-            content = f.read()
-        return content, "text"
+            return f.read(), "text"
     except Exception as e:
-        return f"Unsupported file or unable to read: {str(e)}", "unknown"
+        return f"Unsupported file: {e}", "unknown"
 
 def index_file(file_path: str, workspace_dir: str = None) -> str:
     """

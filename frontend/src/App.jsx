@@ -12,7 +12,7 @@ import {
 
 
 
-const API_BASE = window.location.hostname === "localhost" ? "http://localhost:8000" : (import.meta.env.VITE_API_BASE || "https://aegisai-r1e9.onrender.com");
+const API_BASE = window.location.hostname === "localhost" ? "http://localhost:8000" : (import.meta.env.VITE_API_BASE || "https://agent-verse-858q.onrender.com");
 
 export default function App() {
   // Navigation & Session States
@@ -1253,7 +1253,7 @@ export default function App() {
             <div>
               <div style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:20, padding:'6px 14px', marginBottom:24 }}>
                 <Sparkles size={14} color="#a5b4fc" />
-                <span style={{ fontSize:'0.8rem', color:'#c7d2fe', fontWeight:500 }}>Powered by Gemini & Groq AI</span>
+                <span style={{ fontSize:'0.8rem', color:'#c7d2fe', fontWeight:500 }}>Powered by Groq AI</span>
               </div>
               <h1 style={{ fontSize:'3.5rem', fontWeight:800, color:'#fff', lineHeight:1.15, marginBottom:20, fontFamily:'Outfit,sans-serif' }}>
                 Your Smart Business<br/>
@@ -1801,7 +1801,6 @@ export default function App() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
           <label style={{ fontSize: '0.68rem', fontWeight: '700', color: 'var(--color-text-dim)', textTransform:'uppercase', letterSpacing:'0.06em' }}>LLM Provider</label>
           <select className="select-input" value={provider} onChange={(e) => setProvider(e.target.value)}>
-            <option value="gemini">Gemini 1.5 Flash</option>
             <option value="groq">Llama 3.3 (Groq)</option>
           </select>
         </div>

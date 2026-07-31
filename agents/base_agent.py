@@ -2,21 +2,13 @@ import os
 import re
 import requests
 import pandas as pd
-import google.generativeai as genai
 import config
 
-def call_groq_llm(system_instruction: str, prompt: str, temperature: float = 0.2) -> str:
-    """Invokes the Groq API with system instruction and user prompt."""
-    api_key = config.get_groq_key()
-    if not api_key:
-        raise ValueError("Groq API key is empty.")
-    
+
+def _call_groq_with_key(api_key: str, system_instruction: str, prompt: str, temperature: float) -> str:
+    """Raw Groq API call using a specific key."""
     url = "https://api.groq.com/openai/v1/chat/completions"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    # Using Llama 3.3 70B on Groq
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     payload = {
         "model": "llama-3.3-70b-versatile",
         "messages": [
@@ -25,45 +17,39 @@ def call_groq_llm(system_instruction: str, prompt: str, temperature: float = 0.2
         ],
         "temperature": temperature
     }
-    
-    response = requests.post(url, headers=headers, json=payload, timeout=15)
+    response = requests.post(url, headers=headers, json=payload, timeout=30)
     response.raise_for_status()
-    res_json = response.json()
-    return res_json["choices"][0]["message"]["content"]
-
-def call_gemini_llm(system_instruction: str, prompt: str, temperature: float = 0.2) -> str:
-    """Invokes the Gemini 1.5 Flash API."""
-    api_key = config.get_gemini_key()
-    if not api_key:
-        raise ValueError("Gemini API key is empty.")
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(
-        model_name="gemini-1.5-flash",
-        system_instruction=system_instruction
-    )
-    response = model.generate_content(prompt)
-    return response.text
+    return response.json()["choices"][0]["message"]["content"]
 
 
-def call_llm(system_instruction: str, prompt: str, temperature: float = 0.2, provider: str = "gemini") -> str:
-    """
-    Invokes Gemini (primary) or Groq (fallback) based on provider param.
-    Auto-falls back to the other if the chosen one fails.
-    """
-    if provider == "gemini" and config.is_gemini_available():
+def call_groq_llm(system_instruction: str, prompt: str, temperature: float = 0.2) -> str:
+    """Calls Groq with primary key, falls back to backup key on rate limit (429)."""
+    primary = config.get_groq_key()
+    backup = config.get_groq_backup_key()
+
+    if not primary and not backup:
+        raise ValueError("No Groq API key configured. Set GROQ_API_KEY in .env")
+
+    if primary:
         try:
-            return call_gemini_llm(system_instruction, prompt, temperature)
-        except Exception as e:
-            print(f"Gemini failed ({e}), falling back to Groq.")
-            return call_groq_llm(system_instruction, prompt, temperature)
-    elif config.is_groq_available():
-        try:
-            return call_groq_llm(system_instruction, prompt, temperature)
-        except Exception as e:
-            print(f"Groq failed ({e}), falling back to Gemini.")
-            return call_gemini_llm(system_instruction, prompt, temperature)
-    else:
-        raise ValueError("No LLM API key configured. Set GEMINI_API_KEY or GROQ_API_KEY in .env")
+            return _call_groq_with_key(primary, system_instruction, prompt, temperature)
+        except requests.exceptions.HTTPError as e:
+            if e.response is not None and e.response.status_code == 429:
+                print("[LLM] Primary Groq key rate limited (429). Switching to backup key.")
+            else:
+                raise
+
+    if backup:
+        print("[LLM] Using backup Groq key.")
+        return _call_groq_with_key(backup, system_instruction, prompt, temperature)
+
+    raise ValueError("Both Groq keys exhausted or unavailable.")
+
+
+def call_llm(system_instruction: str, prompt: str, temperature: float = 0.2, provider: str = "groq") -> str:
+    """Unified LLM call — always uses Groq with primary/backup key fallback."""
+    return call_groq_llm(system_instruction, prompt, temperature)
+
 
 
 def fallback_local_agent(system_instruction: str, prompt: str) -> str:
