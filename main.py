@@ -1403,6 +1403,8 @@ def approve_recommendation(req: POApproveRequest, user_info: dict = Depends(get_
             "fulfillment_score": None
         }
         db.purchase_orders.insert_one(new_po)
+        # Remove MongoDB-injected _id before returning
+        new_po.pop("_id", None)
 
         # Generate WhatsApp draft via agent
         alert_query = (
@@ -1411,7 +1413,7 @@ def approve_recommendation(req: POApproveRequest, user_info: dict = Depends(get_
             f"Total amount is Rs. {total_amount}. Delivery requested by {expected_delivery}. "
             f"Our business is {user_info['business']['businessName']}."
         )
-        context = f"Supplier Contact Details: {str(supplier)}"
+        context = f"Supplier: {supplier['name']}, Phone: {supplier['phone']}, Terms: {supplier['payment_terms']}"
         agent_result = coordinate_agents(alert_query, context, provider="gemini", workspace_dir=workspace_dir)
         whatsapp_draft = agent_result["response"]
 

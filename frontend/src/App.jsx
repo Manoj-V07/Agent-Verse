@@ -167,6 +167,80 @@ export default function App() {
   const [addStatus, setAddStatus] = useState({ type: "", message: "" });
   const [isAddingProduct, setIsAddingProduct] = useState(false);
 
+  // Lightweight markdown renderer for chat messages
+  const renderMarkdown = (text) => {
+    if (!text) return null;
+    const lines = text.split('\n');
+    const elements = [];
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Table detection
+      if (line.trim().startsWith('|') && lines[i+1]?.trim().startsWith('|---')) {
+        const headers = line.split('|').filter(c => c.trim()).map(c => c.trim());
+        i += 2; // skip header and separator
+        const rows = [];
+        while (i < lines.length && lines[i].trim().startsWith('|')) {
+          rows.push(lines[i].split('|').filter(c => c.trim()).map(c => c.trim()));
+          i++;
+        }
+        elements.push(
+          <div key={i} style={{ overflowX: 'auto', margin: '10px 0' }}>
+            <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.82rem' }}>
+              <thead>
+                <tr>{headers.map((h, j) => <th key={j} style={{ padding: '6px 12px', borderBottom: '2px solid rgba(99,102,241,0.3)', textAlign: 'left', color: 'var(--color-primary)', fontWeight: 600 }}>{h}</th>)}</tr>
+              </thead>
+              <tbody>
+                {rows.map((row, ri) => (
+                  <tr key={ri} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                    {row.map((cell, ci) => <td key={ci} style={{ padding: '6px 12px', color: 'var(--color-text-light)' }}>{cell}</td>)}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+        continue;
+      }
+
+      // Heading ### or ##
+      if (line.startsWith('### ')) {
+        elements.push(<p key={i} style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-primary)', margin: '10px 0 4px' }}>{inlineFormat(line.slice(4))}</p>);
+      } else if (line.startsWith('## ')) {
+        elements.push(<p key={i} style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--color-primary)', margin: '10px 0 4px' }}>{inlineFormat(line.slice(3))}</p>);
+      // Bullet list
+      } else if (line.match(/^[-*] /)) {
+        elements.push(
+          <div key={i} style={{ display: 'flex', gap: '8px', margin: '3px 0', paddingLeft: '4px' }}>
+            <span style={{ color: 'var(--color-primary)', flexShrink: 0, marginTop: '1px' }}>•</span>
+            <span>{inlineFormat(line.slice(2))}</span>
+          </div>
+        );
+      // Empty line
+      } else if (line.trim() === '') {
+        elements.push(<div key={i} style={{ height: '6px' }} />);
+      // Normal paragraph
+      } else {
+        elements.push(<p key={i} style={{ margin: '3px 0', lineHeight: 1.6 }}>{inlineFormat(line)}</p>);
+      }
+      i++;
+    }
+    return <div style={{ fontSize: '0.85rem', color: 'var(--color-text-light)' }}>{elements}</div>;
+  };
+
+  const inlineFormat = (text) => {
+    // Split on **bold**, *italic*, and `code`
+    const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) return <strong key={i} style={{ fontWeight: 700, color: 'var(--color-text-main)' }}>{part.slice(2, -2)}</strong>;
+      if (part.startsWith('*') && part.endsWith('*')) return <em key={i}>{part.slice(1, -1)}</em>;
+      if (part.startsWith('`') && part.endsWith('`')) return <code key={i} style={{ background: 'rgba(99,102,241,0.12)', padding: '1px 5px', borderRadius: '3px', fontSize: '0.8rem', fontFamily: 'monospace' }}>{part.slice(1, -1)}</code>;
+      return part;
+    });
+  };
+
   const chatEndRef = useRef(null);
 
   // Auto-scroll chat window
@@ -1896,10 +1970,10 @@ export default function App() {
                 <div className="chat-window" style={{ flex: 1, padding: '16px', overflowY: 'auto' }}>
                   {chatHistory.map((msg, idx) => (
                     <div key={idx} className={`chat-message ${msg.role === 'user' ? 'user' : 'assistant'}`}>
-                      <div className="message-content" style={{ whiteSpace: 'pre-line' }}>
-                        {msg.content}
+                      <div className="message-content">
+                        {msg.role === 'user' ? msg.content : renderMarkdown(msg.content)}
                         {msg.agent && (
-                          <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px dashed #e2e8f0', fontSize: '0.68rem', color: 'var(--color-text-dim)', display: 'flex', gap: '8px' }}>
+                          <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px dashed rgba(255,255,255,0.1)', fontSize: '0.68rem', color: 'var(--color-text-dim)', display: 'flex', gap: '8px' }}>
                             <span><strong>Agent:</strong> {msg.agent}</span>
                             {msg.reasoning && <span>| <strong>Reason:</strong> {msg.reasoning}</span>}
                           </div>

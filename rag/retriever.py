@@ -71,7 +71,11 @@ def extract_text_from_file(file_path: str) -> tuple[str, str]:
                 response = model.generate_content([{"mime_type": mime_type, "data": file_data}, prompt])
                 return response.text, "document"
             except Exception as e:
-                print(f"Gemini OCR failed ({e}), falling back to text extraction.")
+                err_str = str(e)
+                if "429" in err_str or "quota" in err_str.lower():
+                    print(f"Gemini OCR quota exceeded, skipping to pdfplumber fallback.")
+                else:
+                    print(f"Gemini OCR failed ({err_str[:100]}), falling back to text extraction.")
         # Fallback: try reading PDF as text directly
         try:
             import pdfplumber

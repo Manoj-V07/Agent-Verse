@@ -85,12 +85,28 @@ def _workspace_id_from_dir(workspace_dir: str | None) -> str | None:
     return os.path.basename(workspace_dir.rstrip("/\\"))
 
 
+def _strip_markdown(text: str) -> str:
+    """Remove markdown markers so WhatsApp messages are plain readable text."""
+    import re
+    text = re.sub(r'\*\*(.+?)\*\*', r'\1', text)   # **bold**
+    text = re.sub(r'\*(.+?)\*', r'\1', text)         # *italic*
+    text = re.sub(r'`(.+?)`', r'\1', text)            # `code`
+    text = re.sub(r'^#{1,3}\s+', '', text, flags=re.MULTILINE)  # ### headings
+    text = re.sub(r'^[-*]\s+', '• ', text, flags=re.MULTILINE)  # - bullets → •
+    text = re.sub(r'\|[-:]+\|[-:\s|]+\n?', '', text)  # table separator rows
+    text = re.sub(r'\|', ' ', text)                    # table pipes
+    text = re.sub(r'[ \t]+', ' ', text)                # collapse extra spaces
+    text = re.sub(r'\n{3,}', '\n\n', text)            # max 2 blank lines
+    return text.strip()
+
+
 def send_whatsapp_message(body: str, to_number: str = None, workspace_dir: str = None) -> dict:
     """
     Sends a WhatsApp message using Twilio.
     Does NOT fall back to simulation if credentials exist or fail.
     """
     target_number = to_number or config.USER_WHATSAPP_NUMBER or "+919876543210"
+    body = _strip_markdown(body)
 
     is_whatsapp_prefixed = target_number.startswith("whatsapp:")
     phone_part = target_number[9:] if is_whatsapp_prefixed else target_number
