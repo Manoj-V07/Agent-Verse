@@ -100,15 +100,9 @@ def get_collection(name: str):
     """Return a named collection from the aegisai database."""
     database = get_db()
     if database is None:
-        # Import here to avoid circular import
-        from fastapi import HTTPException as _HTTPException
-        raise _HTTPException(
-            status_code=503,
-            detail=(
-                "Database connection failed. "
-                "Please whitelist your IP (103.183.240.250) in MongoDB Atlas "
-                "at: https://cloud.mongodb.com → Network Access → Add IP Address."
-            )
+        raise RuntimeError(
+            "Database connection failed. "
+            "Set MONGO_URI in environment variables and whitelist 0.0.0.0/0 in MongoDB Atlas."
         )
     return database[name]
 
